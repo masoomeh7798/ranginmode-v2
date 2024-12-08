@@ -7,10 +7,10 @@ export default function Products() {
   
     return (
         <Stack
-            direction={{xs:'column',xl:'row'}}
+            direction={'row'}
             width={{ lg: '85%', sm: '90%', xs: "95%" }} mx={'auto'}
             gap={'2%'}
-            mt={'20px'}
+            mt={{lg:'20px'}}
         >
             {/* start products filters part */}
             <FilterBoxes />

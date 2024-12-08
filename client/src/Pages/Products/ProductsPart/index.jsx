@@ -1,47 +1,51 @@
 import { Box, IconButton, Pagination, Stack } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { GiHamburgerMenu } from "react-icons/gi";
-import { TfiLayoutGrid4Alt } from "react-icons/tfi";
-import { BiSolidGrid } from "react-icons/bi";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import ProductCard from '../../Home/Products/ProductCard';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { getCat, getBrand } from "../../../Store/Slices/FiltersSlice"
+import { isString } from 'formik';
+
 
 // const cardWidth = { xs: '100%', sm: '48%', md: '32%', xl: '23.5%' }
 
 export default function ProductsPart() {
   const [products, setProducts] = useState([]);
-  const [dynamicWidth, setDynamicWidth] = useState('23.5%');
-  const [activeGridIndex, setActiveGridIndex] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [count, setCount] = useState(1);
   const [showItem, setShowItem] = useState('');
+  const [showCatItem, setShowCatItem] = useState('');
+  const [showBrandItem, setShowBrandItem] = useState('');
   const [sort, setSort] = useState('');
 
-  const { price, cat, brand } = useSelector((state) => state.filters)
-  const { id } = useParams()
-  const catId = cat ? cat : id
-
+  const dispatch = useDispatch()
 
   const handleShowItem = (e) => {
     setShowItem(e.target.value);
     setSort(e.target.value)
   };
-
-  const handleChangeGrid = (width, index) => {
-    setDynamicWidth(width)
-    setActiveGridIndex(index)
+  const handleShowCatItem = (e) => {
+    setShowCatItem(e.target.value);
+    dispatch(getCat(e.target.value))
   };
-  // &filters[categoryId][$in]=${cat.toString()}
+  const handleShowBrandItem = (e) => {
+    setShowBrandItem(e.target.value);
+    dispatch(getBrand(e.target.value))
+  };
+
+  const { cat, brand } = useSelector((state) => state.filters)
+  const { id } = useParams()
+  const catId = cat ? cat : id
+
 
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(import.meta.env.VITE_BASE_API + `product?limit=8&page=${currentPage}&sort=${sort}&filters[price][$gte]=${price[0]}&filters[price][$lte]=${price[1]}${catId == "all" ? "" : `&filters[categoryId][$in]=${catId}`}${brand ? `&filters[brandId][$eq]=${brand.toString()}` : ""}`)
+        const res = await fetch(import.meta.env.VITE_BASE_API + `product?limit=8&page=${currentPage}&sort=${sort}${catId == "all" ? "" : `&filters[categoryId][$in]=${catId}`}${brand == "all" || !brand ? "" : `&filters[brandId][$eq]=${brand.toString()}`}`)
         const data = await res.json()
         setProducts(data?.data?.products)
         setCount(data?.count || 1)
@@ -50,16 +54,38 @@ export default function ProductsPart() {
       }
     })()
 
-  }, [currentPage, price, cat, brand, sort]);
+  }, [currentPage, cat, brand, sort]);
 
-  console.log(sort);
+  // get brands and categories for aside
+  const [brands, setBrands] = useState([]);
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch(import.meta.env.VITE_BASE_API + 'category')
+        const data = await res.json()
+        setCategories(data?.data?.categories)
+
+        const resB = await fetch(import.meta.env.VITE_BASE_API + 'brand')
+        const dataB = await resB.json()
+        setBrands(dataB?.data?.brands)
+
+      } catch (error) {
+        console.log(error);
+      }
+    })()
+
+  }, []);
+
+
 
   const items = products?.map((e, index) => (
     <Box
-    height={'470px'}
+      key={index}
+      height={{ xs: '450px', xxs: '450px', sm: '450px' }}
     >
       <ProductCard
-        key={index}
+
         id={e._id}
         name={e?.name}
         description={e?.description}
@@ -70,7 +96,7 @@ export default function ProductsPart() {
         finalPrice={e?.finalPrice}
         discount={e?.discount}
         img={e.images}
-        dynamicWidth={dynamicWidth} />
+      />
     </Box>
   ))
 
@@ -94,7 +120,7 @@ export default function ProductsPart() {
         width={'100%'}
         overflow={'hidden'}
       >
-        <img src="/Leonardo_Phoenix_Create_a_horizontal_image_with_a_luxurious_bl_0.jpg" alt="" />
+        <img src="/Leonardo_Phoenix_Create_a_horizontal_image_with_a_luxurious_bl_0.jpg" alt="banner" />
 
       </Box>
       {/* end banner */}
@@ -110,10 +136,11 @@ export default function ProductsPart() {
           borderRadius={'16px'}
           mt={'10px'}
           justifyContent={'space-between'}
-          display={{ xs: 'none', xl: 'flex' }}
+
         >
 
           {/* start select part */}
+          {/* start select sort type */}
           <Stack>
             <FormControl sx={{ m: 1, minWidth: 120, maxWidth: 120 }} size="small">
               <InputLabel id="demo-select-small-label">مرتب سازي</InputLabel>
@@ -133,6 +160,52 @@ export default function ProductsPart() {
               </Select>
             </FormControl>
           </Stack>
+          {/* end select sort type */}
+
+          {/* start select cat */}
+          <Stack>
+            <FormControl sx={{ m: 1, minWidth: 120, maxWidth: 120 }} size="small">
+              <InputLabel id="demo-select-small-label">دسته بندي</InputLabel>
+              <Select
+                labelId="demo-select-small-label"
+                id="demo-select-small"
+                value={showCatItem}
+                label="دسته بندي"
+                onChange={handleShowCatItem}
+              >
+                <MenuItem value="">
+                  <em>هيچكدام</em>
+                </MenuItem>
+                {categories?.map(e => (
+                  <MenuItem key={e?._id} value={e?.title == 'همه دسته ها' ? 'all' : e?._id}>{e?.title}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Stack>
+          {/* end select cat */}
+
+          {/* start select brand */}
+          <Stack>
+            <FormControl sx={{ m: 1, minWidth: 120, maxWidth: 120 }} size="small">
+              <InputLabel id="demo-select-small-label">برند</InputLabel>
+              <Select
+                labelId="demo-select-small-label"
+                id="demo-select-small"
+                value={showBrandItem}
+                label="برند"
+                onChange={handleShowBrandItem}
+              >
+                <MenuItem value="">
+                  <em>هيچكدام</em>
+                </MenuItem>
+                {brands?.map(e => (
+                  <MenuItem key={e?._id} value={e?.title == 'همه برند ها' ? 'all' : e?._id}>{e?.title}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Stack>
+          {/* end select brand */}
+
           {/* end select part */}
 
         </Stack>
@@ -142,7 +215,7 @@ export default function ProductsPart() {
         <Stack
           sx={{
             '& > div': {
-              width: { xs: '100%', xxs: '75%', sm: '47%', md: '30%', xl: '23.5%' },
+              width: { xs: '100%', sm: '48%', md: '31.5%', lg: '23.5%' },
               mb: '10px'
             }
           }}
@@ -150,7 +223,7 @@ export default function ProductsPart() {
           flexWrap={'wrap !important'}
           justifyContent={{ xs: 'center', lg: 'start' }}
           width={'100%'}
-          gap={{ sm: '10px', lg: '20px' }}
+          gap={{ xxs: '5px', sm: '10px', lg: '20px' }}
           mt={'10px'}
         >
           {items}

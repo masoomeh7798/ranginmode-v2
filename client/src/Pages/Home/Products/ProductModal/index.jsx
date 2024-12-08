@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import ProductSlider from '../ProductSlider';
-import { Box, Rating, Stack, Typography } from '@mui/material';
+import { Box,Stack, Typography } from '@mui/material';
 import { IoMdCart } from "react-icons/io";
 import { IoMdHeartEmpty } from "react-icons/io";
 import QuantityBox from '../../../../Components/QuantityBox'
@@ -27,7 +27,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 
-export default function ProductModal({ handleClose, open, img, discount, finalPrice, price, name, description, brand, rating, variants, id }) {
+export default function ProductModal({ handleClose, open, img, discount, finalPrice, price, name, description, brand, variants, id }) {
     const [addProductBtns, setAddProductBtns] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
     const { token, user } = useSelector(state => state.auth)
@@ -105,7 +105,6 @@ export default function ProductModal({ handleClose, open, img, discount, finalPr
 
                 <Stack direction={'row'} alignItems={'center'} gap={3} >
                     <Typography variant='body2'>برند: {brand}</Typography>
-                    <Rating size='small' value={rating} />
                 </Stack>
             </DialogTitle>
             <IconButton
