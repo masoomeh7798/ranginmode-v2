@@ -132,17 +132,22 @@ export default function ProductsPart() {
           direction={'row'}
           bgcolor={'#F1F1F1'}
           border={'1px solid rgba(0,0,0,.2)'}
-          p={'8px 16px'}
-          borderRadius={'16px'}
+          p={{xs:'8px',sm:'8px 16px'}}
+          borderRadius={{xs:'4px',sm:2,md:3}}
           mt={'10px'}
-          justifyContent={'space-between'}
-
-        >
-
-          {/* start select part */}
+          alignItems={'center'}
+          justifyContent={'start'}
+          gap={'1.5%'}
+          sx={{
+            overflowX:'scroll',
+            '&::-webkit-scrollbar':{
+              display:'none'
+            }
+          }}
+        >  
           {/* start select sort type */}
           <Stack>
-            <FormControl sx={{ m: 1, minWidth: 120, maxWidth: 120 }} size="small">
+            <FormControl sx={{  minWidth: 120, maxWidth: 120 }} size="small">
               <InputLabel id="demo-select-small-label">مرتب سازي</InputLabel>
               <Select
                 labelId="demo-select-small-label"
@@ -150,6 +155,13 @@ export default function ProductsPart() {
                 value={showItem}
                 label="مرتب سازي"
                 onChange={handleShowItem}
+                MenuProps={{
+                  sx:{
+                    '& .MuiMenu-paper':{
+                      maxHeight:'200px'
+                    }
+                  }
+                }}
               >
                 <MenuItem value="">
                   <em>هيچكدام</em>
@@ -163,8 +175,10 @@ export default function ProductsPart() {
           {/* end select sort type */}
 
           {/* start select cat */}
-          <Stack>
-            <FormControl sx={{ m: 1, minWidth: 120, maxWidth: 120 }} size="small">
+          <Stack 
+          display={{xl:'none'}}
+          >
+            <FormControl sx={{minWidth: 120, maxWidth: 120 }} size="small">
               <InputLabel id="demo-select-small-label">دسته بندي</InputLabel>
               <Select
                 labelId="demo-select-small-label"
@@ -172,6 +186,13 @@ export default function ProductsPart() {
                 value={showCatItem}
                 label="دسته بندي"
                 onChange={handleShowCatItem}
+                MenuProps={{
+                  sx:{
+                    '& .MuiMenu-paper':{
+                      maxHeight:'200px'
+                    }
+                  }
+                }}
               >
                 <MenuItem value="">
                   <em>هيچكدام</em>
@@ -185,8 +206,10 @@ export default function ProductsPart() {
           {/* end select cat */}
 
           {/* start select brand */}
-          <Stack>
-            <FormControl sx={{ m: 1, minWidth: 120, maxWidth: 120 }} size="small">
+          <Stack 
+          display={{lg:'none'}}
+          >
+            <FormControl sx={{  minWidth: 120, maxWidth: 120 }} size="small">
               <InputLabel id="demo-select-small-label">برند</InputLabel>
               <Select
                 labelId="demo-select-small-label"
@@ -194,6 +217,13 @@ export default function ProductsPart() {
                 value={showBrandItem}
                 label="برند"
                 onChange={handleShowBrandItem}
+                MenuProps={{
+                  sx:{
+                    '& .MuiMenu-paper':{
+                      maxHeight:'200px'
+                    }
+                  }
+                }}
               >
                 <MenuItem value="">
                   <em>هيچكدام</em>
@@ -205,9 +235,6 @@ export default function ProductsPart() {
             </FormControl>
           </Stack>
           {/* end select brand */}
-
-          {/* end select part */}
-
         </Stack>
         {/* end top select part */}
 
@@ -215,7 +242,7 @@ export default function ProductsPart() {
         <Stack
           sx={{
             '& > div': {
-              width: { xs: '100%', sm: '48%', md: '31.5%', lg: '23.5%' },
+              width: { xs: '100%', sm: '49%', md: '32.5%', lg: '23.5%' },
               mb: '10px'
             }
           }}

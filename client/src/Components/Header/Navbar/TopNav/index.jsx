@@ -1,16 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Badge, Box, Button, Stack, Typography } from '@mui/material';
+import { Badge, Box, Button, List, Stack, SwipeableDrawer, Typography } from '@mui/material';
 import { HiOutlineMenu } from "react-icons/hi";
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Person } from '@mui/icons-material';
 import notify from "../../../../Utils/notify"
 import { IoMdLogOut } from "react-icons/io";
-import {logout} from "../../../../Store/Slices/AuthSlice"
+import { logout } from "../../../../Store/Slices/AuthSlice"
+import Drawer from '@mui/material/Drawer';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+import Backdrop from '@mui/material/Backdrop';
+
+const drawerWidth = 240;
 
 export default function TopNav() {
   const { token, user } = useSelector(state => state.auth)
@@ -20,28 +31,42 @@ export default function TopNav() {
   const [searchContent, setSearchContent] = useState(null);
   const [isLogout, setIsLogout] = useState(false);
 
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
 
-  const handleLogout=()=>{
+  const handleLogout = () => {
     isLogout && dispatch(logout())
   }
 
+  // start drawer
+  const drawerRef = useRef(null)
+  const [open, setOpen] = useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+  // end drawer
+
+
   const handleSearch = async (e) => {
-   setSearchContent(e.target.value)
-      try {
-        const res = await fetch(import.meta.env.VITE_BASE_API + 'search', {
-          method: 'POST',
-          headers: {
-            "content-type": "application/json"
-          },
-          body: JSON.stringify({ query: e?.target?.value?.trim() })
-        })
-        const data = await res.json()
-        setSearchData(data)
-      } catch (error) {
-        console.log(error);
-      }
-    
+    setSearchContent(e.target.value)
+    try {
+      const res = await fetch(import.meta.env.VITE_BASE_API + 'search', {
+        method: 'POST',
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({ query: e?.target?.value?.trim() })
+      })
+      const data = await res.json()
+      setSearchData(data)
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 
 
@@ -69,11 +94,68 @@ export default function TopNav() {
 
   return (
     <Stack alignItems={'center'} direction={'row'} my={{ xs: 2, md: 3 }} gap={1}>
+
+      <Backdrop
+        sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer - 1 })}
+        open={open}
+        onClick={handleDrawerClose}
+      >
+      </Backdrop>
+
       <Stack flex={1} display={{ xs: 'inline-block', sm: 'none' }}>
-        <IconButton>
+        <IconButton onClick={handleDrawerOpen}>
           <HiOutlineMenu color='var(--primary-clr)' opacity={'.7'} />
         </IconButton>
       </Stack>
+
+      {/* start aside drawer */}
+      <Drawer
+        disableSwipeToOpen={false}
+        ref={drawerRef}
+        onOpen={handleDrawerOpen}
+        sx={{
+          width: drawerWidth,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+          },
+          display: !open && 'none',
+          '&.MuiDrawer-root': {
+            width: 0
+          }
+        }}
+        variant="persistent"
+        anchor="right"
+        open={open}
+      >
+
+        <List>
+          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <List>
+          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+      {/* end aside drawer */}
+
 
       {/* start logo section */}
       <Link style={{ flex: 1 }} to='/'><Stack alignItems={'center'} gap={{ xs: 1, md: 2 }} direction={'row'} >
@@ -126,7 +208,7 @@ export default function TopNav() {
                   color='secondary'
                   sx={{
                     opacity: .8,
-                    textWrap:'nowrap'
+                    textWrap: 'nowrap'
                   }}
                 >در محصولات:</Typography>
                 {searchData?.data?.product?.map((e, index) => (
@@ -187,7 +269,7 @@ export default function TopNav() {
             onClick={handleLogout}
             sx={{
               width: { xs: '40px', md: '50px' },
-               height: { xs: '40px', md: "50px" },
+              height: { xs: '40px', md: "50px" },
               transition: 'all .5s',
               boxShadow: 'inset 0 0 5px 2px rgba(0,0,0,.2)',
               display: { xs: 'none', sm: 'inline-flex' },
