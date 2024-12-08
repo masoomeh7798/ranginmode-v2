@@ -11,7 +11,7 @@ import DiscountBanner from './DiscountsBanner';
 export default function Products() {
 
     return (
-        <Stack width={{xs:'100%',lg:'79%'}}>
+        <Stack width={'100%'}>
             {/* start newest products */}
             <NewestProducts/>
             {/* end newest products */}

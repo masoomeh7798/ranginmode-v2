@@ -20,9 +20,6 @@ export default function Home() {
             {/* start products  */}
             <Products />
             {/* end products  */}
-            {/* start aside banner  */}
-            <AsideBanner />
-            {/* end aside banner  */}
           </Stack>
         </Box>
       </main>
