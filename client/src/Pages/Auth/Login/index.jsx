@@ -178,34 +178,6 @@ export default function Login({ handlePageType }) {
                   }}
 
                 >ثبت نام</Button></span></Typography>
-            {/* start social */}
-            <Typography
-              fontWeight={500}
-              mt={2}
-            >ورود با روش ها ديگر</Typography>
-            <Button
-              sx={{
-                width: '100%',
-                border: '1px solid rgba(0,0,0,.2)'
-              }}
-            >
-              <Stack
-                direction={'row'}
-                alignItems={'center'}
-                gap={2}
-                sx={{
-                  '& img': {
-                    width: '30px',
-                    height: '30px'
-                  }
-                }}>
-                <img src="src/assets/klipartz.com.png" alt="" />
-                <Typography>ورود با حساب گوگل</Typography>
-
-              </Stack>
-            </Button>
-
-            {/* end social */}
           </Stack>
         </FormControl>
       </form>

@@ -21,10 +21,10 @@ export default function ProductsPart() {
   const [count, setCount] = useState(1);
   const [showItem, setShowItem] = useState('');
   const [sort, setSort] = useState('');
-  
-  const {price,cat,brand}=useSelector((state)=>state.filters)
-  const {id}=useParams()
-  const catId=cat?cat:id
+
+  const { price, cat, brand } = useSelector((state) => state.filters)
+  const { id } = useParams()
+  const catId = cat ? cat : id
 
 
   const handleShowItem = (e) => {
@@ -41,7 +41,7 @@ export default function ProductsPart() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(import.meta.env.VITE_BASE_API + `product?limit=8&page=${currentPage}&sort=${sort}&filters[price][$gte]=${price[0]}&filters[price][$lte]=${price[1]}${catId=="all" ? "":`&filters[categoryId][$in]=${catId}`}${brand ? `&filters[brandId][$eq]=${brand.toString()}`:""}`)
+        const res = await fetch(import.meta.env.VITE_BASE_API + `product?limit=8&page=${currentPage}&sort=${sort}&filters[price][$gte]=${price[0]}&filters[price][$lte]=${price[1]}${catId == "all" ? "" : `&filters[categoryId][$in]=${catId}`}${brand ? `&filters[brandId][$eq]=${brand.toString()}` : ""}`)
         const data = await res.json()
         setProducts(data?.data?.products)
         setCount(data?.count || 1)
@@ -50,24 +50,28 @@ export default function ProductsPart() {
       }
     })()
 
-  }, [currentPage,price,cat,brand,sort]);
+  }, [currentPage, price, cat, brand, sort]);
 
   console.log(sort);
 
   const items = products?.map((e, index) => (
-    <ProductCard
-      key={index}
-      id={e._id}
-      name={e?.name}
-      description={e?.description}
-      variants={e?.variants}
-      brand={e?.brandId?.title}
-      rating={e?.rating}
-      price={e?.price}
-      finalPrice={e?.finalPrice}
-      discount={e?.discount}
-      img={e.images}
-      dynamicWidth={dynamicWidth} />
+    <Box
+    height={'470px'}
+    >
+      <ProductCard
+        key={index}
+        id={e._id}
+        name={e?.name}
+        description={e?.description}
+        variants={e?.variants}
+        brand={e?.brandId?.title}
+        rating={e?.rating}
+        price={e?.price}
+        finalPrice={e?.finalPrice}
+        discount={e?.discount}
+        img={e.images}
+        dynamicWidth={dynamicWidth} />
+    </Box>
   ))
 
   return (
@@ -130,47 +134,7 @@ export default function ProductsPart() {
             </FormControl>
           </Stack>
           {/* end select part */}
-          {/* start grid part */}
-          <Stack
-            sx={{
-              '& button:hover': {
-                bgcolor: 'transparent'
-              },
-              '& button': {
 
-              },
-              '& svg': {
-                fontSize: '1.2em',
-                opacity: '.7',
-                '&:hover': {
-                  opacity: 1
-                }
-              }
-            }}
-            direction={'row'}
-          >
-            <IconButton onClick={() => handleChangeGrid('23.5% !important', 1)} sx={{
-              '& svg': {
-                transform: "scale(.8)",
-                color: activeGridIndex == 1 && 'var(--secondary-clr)',
-                opacity: activeGridIndex == 1 && 1
-
-              }
-            }}><TfiLayoutGrid4Alt /></IconButton>
-            <IconButton sx={{
-              '& svg': {
-                color: activeGridIndex == 2 && 'var(--secondary-clr)',
-                opacity: activeGridIndex == 2 && 1
-              }
-            }} onClick={() => handleChangeGrid('32% !important', 2)}><BiSolidGrid /></IconButton>
-            <IconButton sx={{
-              '& svg': {
-                color: activeGridIndex == 3 && 'var(--secondary-clr)',
-                opacity: activeGridIndex == 3 && 1
-              }
-            }} onClick={() => handleChangeGrid('100% !important', 3)} ><GiHamburgerMenu /></IconButton>
-          </Stack>
-          {/* end grid part */}
         </Stack>
         {/* end top select part */}
 
@@ -178,7 +142,7 @@ export default function ProductsPart() {
         <Stack
           sx={{
             '& > div': {
-              width: { xs: '100%',xxs:'75%' , sm: '47%', md: '30%', xl: '23.5%' },
+              width: { xs: '100%', xxs: '75%', sm: '47%', md: '30%', xl: '23.5%' },
               mb: '10px'
             }
           }}

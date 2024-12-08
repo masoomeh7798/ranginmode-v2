@@ -18,7 +18,7 @@ import { setCheckFavorite } from '../../../../Store/Slices/FavoriteSlice';
 import notify from "../../../../Utils/notify"
 
 
-export default function ProductCard({ img, discount, finalPrice, price, name, description, brand, rating, variants, dynamicWidth, id }) {
+export default function ProductCard({ img, discount, finalPrice, price, name, description, brand, rating, variants, id }) {
     const [open, setOpen] = useState(false);
     const { token, user } = useSelector(state => state.auth)
     const [isFavorite, setIsFavorite] = useState(false);
@@ -109,9 +109,9 @@ export default function ProductCard({ img, discount, finalPrice, price, name, de
 
 
     return (
-        <> <Card sx={{ height: `${dynamicWidth == '100% !important' ? '240px' : '450px'}`, width: `${dynamicWidth ? dynamicWidth : '250px'}`, position: 'relative', '&:hover .screen-heart': { visibility: 'visible', opacity: '1', right: '10px' }, '&:hover': { boxShadow: '0 0 5px 2px rgba(0,0,0,0.2)' } }}>
-            <Box className={`${dynamicWidth == '100% !important' && 'card-product-full'}`} sx={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'start', overflow: 'hidden', alignItems: 'start' }}>
-                <Box width={'100%'} height={`${dynamicWidth == '100% !important' ? '100%' : '48%'}`} overflow={'hidden'}>
+        <> <Card sx={{ cursor: 'pointer', height: '100%', width: '100%', position: 'relative', '&:hover .screen-heart': { visibility: 'visible', opacity: '1', right: '10px' }, '&:hover': { boxShadow: '0 0 5px 2px rgba(0,0,0,0.2)' } }}>
+            <Box sx={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'start', overflow: 'hidden', alignItems: 'start' }}>
+                <Box width={'100%'} height={'50%'} overflow={'hidden'}>
                     <CardMedia sx={{ '&:hover': { transform: 'scale(1.1)' }, transition: ' all .5s ease-in-out', cursor: 'pointer' }}
                         component="img"
                         image={import.meta.env.VITE_BASE_URL + `${img[0]}`}
@@ -120,8 +120,17 @@ export default function ProductCard({ img, discount, finalPrice, price, name, de
 
                     />
                 </Box>
-                <CardContent className='card-content' sx={{ width: '100%' }}>
-                    <Box height={'90px'} width={'100%'}>
+                <CardContent
+                    sx={{
+                        width: '100%',
+                        height: '50%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'start',
+                        gap: .5
+                    }}>
+                    <Box width={'100%'}>
                         <Typography fontSize={'1.5em'} gutterBottom variant="h5" component="div">
                             {name?.split(' ').slice(0, 3).join(' ')}
                         </Typography>
@@ -130,10 +139,11 @@ export default function ProductCard({ img, discount, finalPrice, price, name, de
                         </Typography>
                     </Box>
                     <Rating
+
                         readOnly
                         value={rating}
                         precision={0.5}
-                        sx={{ direction: 'ltr' }}
+                        sx={{ direction: 'ltr', mt: 3 }}
                     />
 
 
@@ -141,7 +151,13 @@ export default function ProductCard({ img, discount, finalPrice, price, name, de
                         <Typography fontSize={{ xs: '16px', lg: '12px', xl: '14px' }} sx={{ textDecoration: 'line-through' }}>{price} تومان</Typography>
                         <Typography color='secondary' fontSize={{ xs: '18px', lg: '16px', xl: '16px' }}>{finalPrice} تومان</Typography>
                     </Stack>
-                    <Stack mt={'16px'} direction={'row'} justifyContent={'center'} alignItems={'center'}>
+                    <Stack
+                        mt={'16px'}
+                        direction={'row'}
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                        alignSelf={'center'}
+                    >
                         <Button onClick={handleAddToRecentProduct} href={`/product-details/${id}/${name?.replaceAll(' ', '-')}`} target='_blank' sx={{ bgcolor: 'var(--third-clr)', px: '16px' }} >مشاهده محصول</Button>
                     </Stack>
                 </CardContent>

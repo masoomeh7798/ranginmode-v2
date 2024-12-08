@@ -82,9 +82,7 @@ background-color: var(--secondary-clr) !important;
 }
 
 .product-slider.swiper{
-background-color: var(--text-clr);
-border-radius: 8px;
-box-shadow: 0 0 5px 1px rgba(0,0,0,.2);
+  padding: 5px ;
 }
 .product-slider.swiper,
 .product-slider .swiper-wrapper,

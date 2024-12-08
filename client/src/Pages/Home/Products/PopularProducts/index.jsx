@@ -40,15 +40,12 @@ export default function PopularProducts() {
            finalPrice={e?.finalPrice}
            discount={e?.discount}
            img={e.images}
-           dynamicWidth={'99.5%'}/>
+           />
         </SwiperSlide>
     ))
     return (
         <Stack width={'100%'} height={{xs:'95vh',sm:'85vh'}} my={3}>
-            <Stack direction='row' alignItems={'center'} justifyContent={'space-between'} mb={3}>
-                <Typography fontSize={'2em'} component={'h3'}>محبوبترين ها</Typography>
-                <Button sx={{ borderRadius: '24px', bgcolor: 'var(--third-clr)', transition: 'all .3s', '&:hover': { opacity: .7 } }}><Link style={{ display: 'flex', alignItems: 'center', justifyContent: "space-between"}} to='/products/all/all-products' target='_blank'><Typography p={'0 8px'} color='primary' variant='body2'>مشاهده همه محصولات</Typography><FaAngleLeft /></Link></Button>
-            </Stack>
+                <Typography  mb={{xs:1,md:2,lg:2.2}} fontSize={{xs:24,md:32,lg:36}} component={'h3'}> <Link style={{color:'var(--primary-clr)'}} to='/products/all/all-products' target='_blank'>محبوبترين ها</Link></Typography>
             <Swiper
                 slidesPerView={1}
                 spaceBetween={'12px'}
