@@ -1,0 +1,567 @@
+[{
+  "_id": {
+    "$oid": "6733655b10e193058fc1b46e"
+  },
+  "name": "دستبند چرمي",
+  "description": "دستبند هاي چرمي نازك در رنگبندي متنوع.",
+  "information": [
+    {
+      "name": "رنگ",
+      "value": "قرمز، سبز، آبي، نارنجي، قهوه اي",
+      "_id": {
+        "$oid": "6733655b10e193058fc1b46f"
+      }
+    },
+    {
+      "name": "سايز",
+      "value": "18",
+      "_id": {
+        "$oid": "6733655b10e193058fc1b470"
+      }
+    },
+    {
+      "name": "جنس",
+      "value": "چرمي",
+      "_id": {
+        "$oid": "6733655b10e193058fc1b471"
+      }
+    }
+  ],
+  "images": [
+    "file_1731419219405.jpg"
+  ],
+  "categoryId": [
+    {
+      "$oid": "67323bcf45bc3dab3fb89629"
+    },
+    {
+      "$oid": "67323bef45bc3dab3fb8962b"
+    },
+    {
+      "$oid": "67323bf445bc3dab3fb8962d"
+    }
+  ],
+  "brandId": {
+    "$oid": "67336189bea1cee46976997e"
+  },
+  "rating": 4.5,
+  "ratingCount": 2,
+  "quantity": 2,
+  "price": 60000,
+  "finalPrice": 54000,
+  "discount": 10,
+  "createdAt": {
+    "$date": "2024-11-12T14:25:31.525Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-18T22:19:18.184Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6733668f10e193058fc1b474"
+  },
+  "name": "النگو هندي",
+  "description": "النگوي طلا هندي، رنگ ثابت",
+  "information": [
+    {
+      "name": "رنگ",
+      "value": "طلايي",
+      "_id": {
+        "$oid": "6733668f10e193058fc1b475"
+      }
+    },
+    {
+      "name": "سايز",
+      "value": "1",
+      "_id": {
+        "$oid": "6733668f10e193058fc1b476"
+      }
+    },
+    {
+      "name": "جنس",
+      "value": "طلا هندي",
+      "_id": {
+        "$oid": "6733668f10e193058fc1b477"
+      }
+    }
+  ],
+  "images": [
+    "file_1731419265120.jpg"
+  ],
+  "categoryId": [
+    {
+      "$oid": "67323bef45bc3dab3fb8962b"
+    },
+    {
+      "$oid": "67323bcf45bc3dab3fb89629"
+    }
+  ],
+  "brandId": {
+    "$oid": "67336189bea1cee46976997e"
+  },
+  "rating": 3,
+  "ratingCount": 5,
+  "quantity": 3,
+  "price": 80000,
+  "finalPrice": 60000,
+  "discount": 9,
+  "createdAt": {
+    "$date": "2024-11-12T14:30:39.706Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-12T14:30:39.706Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6733677210e193058fc1b47a"
+  },
+  "name": "گوشواره دانه اناري",
+  "description": "گوشواره دانه اناري ژوپينگ، رنگ ثابت",
+  "information": [
+    {
+      "name": "رنگ",
+      "value": "قرمز",
+      "_id": {
+        "$oid": "6733677210e193058fc1b47b"
+      }
+    },
+    {
+      "name": "سايز",
+      "value": "3 cm",
+      "_id": {
+        "$oid": "6733677210e193058fc1b47c"
+      }
+    },
+    {
+      "name": "جنس",
+      "value": "مسي آبكاري طلا",
+      "_id": {
+        "$oid": "6733677210e193058fc1b47d"
+      }
+    }
+  ],
+  "images": [
+    "file_1731419273147.jpg"
+  ],
+  "categoryId": [
+    {
+      "$oid": "6732399045bc3dab3fb8961b"
+    }
+  ],
+  "brandId": {
+    "$oid": "6733612bbea1cee46976997a"
+  },
+  "rating": 4,
+  "ratingCount": 7,
+  "quantity": 1,
+  "price": 125000,
+  "finalPrice": 110000,
+  "discount": 15,
+  "createdAt": {
+    "$date": "2024-11-12T14:34:26.999Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-12T14:34:26.999Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6733686610e193058fc1b480"
+  },
+  "name": "سرويس ژوپينگ",
+  "description": "سرويس مجلسي ژوپينگ، رنگ ثابت",
+  "information": [
+    {
+      "name": "رنگ",
+      "value": "بنفش",
+      "_id": {
+        "$oid": "6733686610e193058fc1b481"
+      }
+    },
+    {
+      "name": "سايز",
+      "value": "متغير",
+      "_id": {
+        "$oid": "6733686610e193058fc1b482"
+      }
+    },
+    {
+      "name": "جنس",
+      "value": "مسي آبكاري طلا",
+      "_id": {
+        "$oid": "6733686610e193058fc1b483"
+      }
+    }
+  ],
+  "images": [
+    "file_1731419297727.jpg"
+  ],
+  "categoryId": [
+    {
+      "$oid": "67323c8645bc3dab3fb89635"
+    },
+    {
+      "$oid": "67323c6c45bc3dab3fb89631"
+    }
+  ],
+  "brandId": {
+    "$oid": "6733612bbea1cee46976997a"
+  },
+  "rating": 3.5,
+  "ratingCount": 10,
+  "quantity": 5,
+  "price": 500000,
+  "finalPrice": 480000,
+  "discount": 5,
+  "createdAt": {
+    "$date": "2024-11-12T14:38:30.519Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-12T14:38:30.519Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6733692410e193058fc1b486"
+  },
+  "name": "گردنبند استيل",
+  "description": "گردنبند قلب دولاين مجلسي با زنجير كارتير، رنگ ثابت",
+  "information": [
+    {
+      "name": "رنگ",
+      "value": "قرمز",
+      "_id": {
+        "$oid": "6733692410e193058fc1b487"
+      }
+    },
+    {
+      "name": "سايز",
+      "value": "60 سانتي متر",
+      "_id": {
+        "$oid": "6733692410e193058fc1b488"
+      }
+    },
+    {
+      "name": "جنس",
+      "value": "استيل",
+      "_id": {
+        "$oid": "6733692410e193058fc1b489"
+      }
+    }
+  ],
+  "images": [
+    "file_1731419329693.jpg"
+  ],
+  "categoryId": [
+    {
+      "$oid": "673238a345bc3dab3fb89617"
+    },
+    {
+      "$oid": "673238094de61261366ed5e5"
+    }
+  ],
+  "brandId": {
+    "$oid": "67336189bea1cee46976997e"
+  },
+  "rating": 3.13,
+  "ratingCount": 16,
+  "quantity": 4,
+  "price": 90000,
+  "finalPrice": 56000,
+  "discount": 30,
+  "createdAt": {
+    "$date": "2024-11-12T14:41:40.017Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-20T17:28:15.735Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67336a1010e193058fc1b48e"
+  },
+  "name": "دستبند چرمي پهن",
+  "description": "دستبند چرمي طرح فشن اويزدار",
+  "information": [
+    {
+      "name": "رنگ",
+      "value": "مشكي",
+      "_id": {
+        "$oid": "67336a1010e193058fc1b48f"
+      }
+    },
+    {
+      "name": "سايز",
+      "value": "2",
+      "_id": {
+        "$oid": "67336a1010e193058fc1b490"
+      }
+    },
+    {
+      "name": "جنس",
+      "value": "چرمي",
+      "_id": {
+        "$oid": "67336a1010e193058fc1b491"
+      }
+    }
+  ],
+  "images": [
+    "file_1731419317396.jpg"
+  ],
+  "categoryId": [
+    {
+      "$oid": "67323bcf45bc3dab3fb89629"
+    },
+    {
+      "$oid": "67323bf445bc3dab3fb8962d"
+    }
+  ],
+  "brandId": {
+    "$oid": "67336189bea1cee46976997e"
+  },
+  "rating": 2,
+  "ratingCount": 10,
+  "quantity": 5,
+  "price": 160000,
+  "finalPrice": 144000,
+  "discount": 18,
+  "createdAt": {
+    "$date": "2024-11-12T14:45:36.882Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-12T14:45:36.882Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67336b0c10e193058fc1b494"
+  },
+  "name": "دستبند طلا هندي",
+  "description": "دستبند طلا هندي، رنگ ثابت، طرح تراش",
+  "information": [
+    {
+      "name": "رنگ",
+      "value": "طلايي",
+      "_id": {
+        "$oid": "67336b0c10e193058fc1b495"
+      }
+    },
+    {
+      "name": "سايز",
+      "value": "1,2",
+      "_id": {
+        "$oid": "67336b0c10e193058fc1b496"
+      }
+    },
+    {
+      "name": "جنس",
+      "value": "طلا هندي",
+      "_id": {
+        "$oid": "67336b0c10e193058fc1b497"
+      }
+    }
+  ],
+  "images": [
+    "file_1731419291018.jpg"
+  ],
+  "categoryId": [
+    {
+      "$oid": "67323bcf45bc3dab3fb89629"
+    },
+    {
+      "$oid": "67323bef45bc3dab3fb8962b"
+    }
+  ],
+  "brandId": {
+    "$oid": "67336189bea1cee46976997e"
+  },
+  "rating": 3.5,
+  "ratingCount": 23,
+  "quantity": 35,
+  "price": 167000,
+  "finalPrice": 167000,
+  "discount": 0,
+  "createdAt": {
+    "$date": "2024-11-12T14:49:48.315Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-20T16:55:16.021Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67336bc410e193058fc1b49a"
+  },
+  "name": "انگشتر ورشو",
+  "description": "انگشتر ورشو طرح بال فرشته، رنگ ثابت",
+  "information": [
+    {
+      "name": "رنگ",
+      "value": "نقره اي",
+      "_id": {
+        "$oid": "67336bc410e193058fc1b49b"
+      }
+    },
+    {
+      "name": "سايز",
+      "value": "فري سايز",
+      "_id": {
+        "$oid": "67336bc410e193058fc1b49c"
+      }
+    },
+    {
+      "name": "جنس",
+      "value": "ورشو",
+      "_id": {
+        "$oid": "67336bc410e193058fc1b49d"
+      }
+    }
+  ],
+  "images": [
+    "file_1731419322994.jpg"
+  ],
+  "categoryId": [
+    {
+      "$oid": "67323b0145bc3dab3fb89621"
+    },
+    {
+      "$oid": "67323b1545bc3dab3fb89623"
+    },
+    {
+      "$oid": "67323b1b45bc3dab3fb89625"
+    }
+  ],
+  "brandId": {
+    "$oid": "6733695b10e193058fc1b48c"
+  },
+  "rating": 3.5,
+  "ratingCount": 23,
+  "quantity": 54,
+  "price": 150000,
+  "finalPrice": 120000,
+  "discount": 40,
+  "createdAt": {
+    "$date": "2024-11-12T14:52:52.581Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-12T14:52:52.581Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67336d2a2840a0c65cbe92bc"
+  },
+  "name": "جاكليدي طرح ستاره",
+  "description": "جاكليدي آكواريومي طرح ستاره در طرح هاي متنوع",
+  "information": [
+    {
+      "name": "طرح",
+      "value": "متغير",
+      "_id": {
+        "$oid": "67336d2a2840a0c65cbe92bd"
+      }
+    },
+    {
+      "name": "سايز",
+      "value": "10 سانتي متر",
+      "_id": {
+        "$oid": "67336d2a2840a0c65cbe92be"
+      }
+    },
+    {
+      "name": "جنس",
+      "value": "پلاستيك",
+      "_id": {
+        "$oid": "67336d2a2840a0c65cbe92bf"
+      }
+    }
+  ],
+  "images": [
+    "file_1731419310554.jpg"
+  ],
+  "categoryId": [
+    {
+      "$oid": "673237a64de61261366ed5e3"
+    }
+  ],
+  "brandId": {
+    "$oid": "67336189bea1cee46976997e"
+  },
+  "rating": 2.06,
+  "ratingCount": 22,
+  "quantity": 52,
+  "price": 155000,
+  "finalPrice": 120000,
+  "discount": 13,
+  "createdAt": {
+    "$date": "2024-11-12T14:58:50.679Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-20T17:26:42.475Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67336da42840a0c65cbe92c2"
+  },
+  "name": "جاكليدي خرسي",
+  "description": "جاكليدي آكواريومي طرح خرسي",
+  "information": [
+    {
+      "name": "طرح",
+      "value": "خرسي",
+      "_id": {
+        "$oid": "67336da42840a0c65cbe92c3"
+      }
+    },
+    {
+      "name": "سايز",
+      "value": "10 سانتي متر",
+      "_id": {
+        "$oid": "67336da42840a0c65cbe92c4"
+      }
+    },
+    {
+      "name": "جنس",
+      "value": "پلاستيك",
+      "_id": {
+        "$oid": "67336da42840a0c65cbe92c5"
+      }
+    }
+  ],
+  "images": [
+    "file_1731419304944.jpg"
+  ],
+  "categoryId": [
+    {
+      "$oid": "673237a64de61261366ed5e3"
+    }
+  ],
+  "brandId": {
+    "$oid": "67336189bea1cee46976997e"
+  },
+  "rating": 2,
+  "ratingCount": 20,
+  "quantity": 54,
+  "price": 155000,
+  "finalPrice": 120000,
+  "discount": 13,
+  "createdAt": {
+    "$date": "2024-11-12T15:00:52.941Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-12T15:00:52.941Z"
+  },
+  "__v": 0
+}]

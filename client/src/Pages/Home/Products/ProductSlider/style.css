@@ -1,0 +1,84 @@
+.product-slider-2.swiper {
+  width: 100%;
+  height: 300px;
+}
+
+.product-slider-2 .swiper-slide {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  height: 100%;
+}
+
+.product-slider-2 .swiper-slide figure {
+  height: 100%;
+  width: 100%;
+  position: relative;
+
+}
+
+.product-slider-2 .swiper-slide figure div {
+  width: 100%;
+  height: 100%;
+}
+
+.product-slider-2 .swiper-slide figure img {
+  max-width: 100%;
+  height: 100%;
+  width: 100%;
+  border-radius: 16px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.product-slider-2 .swiper-slide figure:hover img {
+  height: auto;
+  object-fit: contain;
+}
+
+
+.product-slider-3.swiper {
+  width: 100%;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.product-slider-3 .swiper-slide {
+  background-size: cover;
+  background-position: center;
+  border-radius: 16px;
+}
+
+.product-slider-3.mySwiper2 {
+  height: 80%;
+  width: 100%;
+}
+
+.product-slider-3 {
+  height: 20%;
+  box-sizing: border-box;
+  padding-top: 10px;
+}
+
+.product-slider-3 .swiper-slide {
+  width: 25%;
+  height: 100%;
+  opacity: 0.4;
+}
+
+.product-slider-3 .swiper-slide-thumb-active {
+  opacity: 1;
+}
+
+.product-slider-3 .swiper-slide img {
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.iiz__btn {
+  background-color: transparent !important;
+}

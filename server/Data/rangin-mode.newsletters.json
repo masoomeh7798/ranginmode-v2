@@ -1,0 +1,39 @@
+[{
+  "_id": {
+    "$oid": "673cf74a49446c97f15e3088"
+  },
+  "email": "masoume@gmail.com",
+  "createdAt": {
+    "$date": "2024-11-19T20:38:34.305Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-19T20:38:34.305Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673cf75a49446c97f15e34e8"
+  },
+  "email": "lili@gm.com",
+  "createdAt": {
+    "$date": "2024-11-19T20:38:50.111Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-19T20:38:50.111Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673cf8fd49446c97f15e3db7"
+  },
+  "email": "zeinab@gmail.com",
+  "createdAt": {
+    "$date": "2024-11-19T20:45:49.765Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-19T20:45:49.765Z"
+  },
+  "__v": 0
+}]

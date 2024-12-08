@@ -1,0 +1,75 @@
+[{
+  "_id": {
+    "$oid": "673415cfb493d58e44370d16"
+  },
+  "title": "banner1",
+  "image": "file_1731466347289.png",
+  "position": "home-main-slider",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673415efb493d58e44370d18"
+  },
+  "title": "banner2",
+  "image": "file_1731466675212.png",
+  "position": "home-main-slider",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67341a76b493d58e443713d3"
+  },
+  "title": "banner aside 1",
+  "image": "file_1731468851432.png",
+  "position": "home-aside-slider",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67341a9cb493d58e443713d5"
+  },
+  "title": "banner aside 2",
+  "image": "file_1731467863089.jpg",
+  "position": "home-aside-slider",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67342382b493d58e44371efe"
+  },
+  "title": "discount1",
+  "image": "file_1731470147339.png",
+  "position": "home-discount-slider",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67342734b493d58e443720d9"
+  },
+  "title": "discount1",
+  "image": "file_1731470973615.png",
+  "href": "/products/all/all-products",
+  "position": "home-discount-slider",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67342887b493d58e44372526"
+  },
+  "title": "discount3",
+  "image": "file_1731471435501.png",
+  "href": "/products/67323bcf45bc3dab3fb89629/دستبند",
+  "position": "home-discount-slider",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67342901b493d58e44372620"
+  },
+  "title": "discount3",
+  "image": "file_1731471555341.png",
+  "href": "/products/673238094de61261366ed5e5/گردنبند",
+  "position": "home-discount-slider",
+  "__v": 0
+}]

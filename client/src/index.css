@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400..800&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lustria&display=swap');
+
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box !important;
+  text-decoration: none;
+  list-style: none;
+  font-family: 'Baloo Bhaijaan 2', sans-serif;
+
+}
+body{
+  overflow-x: hidden !important;
+}
+
+
+
+::-webkit-scrollbar {
+  width: 8px; 
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary-clr-dark);
+  border-radius: 10px; 
+}
+
+
+:root {
+  --primary-clr: #2A363B;
+  --secondary-clr: #CF4647;
+  --secondary-clr-dark: #cf4646c0;
+  --secondary-clr-light: #cf46462b;
+  --third-clr: #F5D061;
+  --text-clr: #F8F6F6;
+}
+
+
+
+.home-slider.swiper {
+  width: 100%;
+  height: 55vh;
+}
+
+.home-slider .swiper-wrapper,
+.home-slider .swiper-slide {
+  width: 100%;
+  height: 100%;
+}
+.home-slider.swiper{
+  overflow: visible !important;
+}
+.home-slider .swiper-slide{
+  overflow: hidden;
+}
+.home-slider .swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.swiper-pagination-bullet{
+background-color: var(--secondary-clr) !important;
+}
+.swiper-button-prev,
+ .swiper-button-next{
+  padding: 24px;
+  margin:0 8px;
+  background-color: var(--secondary-clr-dark);
+  border-radius: 50%;
+  border: 1px solid var(--secondary-clr);
+  text-align: center;
+}
+.swiper-button-prev::after,
+.swiper-button-next::after{
+  color: var(--text-clr);
+  font-weight: 900;
+  font-size: 24px !important;
+}
+
+.product-slider.swiper{
+background-color: var(--text-clr);
+border-radius: 8px;
+box-shadow: 0 0 5px 1px rgba(0,0,0,.2);
+}
+.product-slider.swiper,
+.product-slider .swiper-wrapper,
+.product-slider .swiper-slide{
+  width: 100%;
+  height: 100%;
+}
+
+
+.css-cokf1l-MuiListItemIcon-root{
+  min-width: 24px !important;
+}
+
+
+@media screen and (max-width:600px){
+  .home-slider.swiper {
+    height: 50vh;
+  }
+ .swiper-button-prev,
+.swiper-button-next{
+  padding:8px 20px;
+
+}
+ .swiper-button-prev::after,
+ .swiper-button-next::after{
+  font-size: 16px;
+}
+}

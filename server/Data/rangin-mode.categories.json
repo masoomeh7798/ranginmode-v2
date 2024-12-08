@@ -1,0 +1,460 @@
+[{
+  "_id": {
+    "$oid": "6732357d4de61261366ed5d3"
+  },
+  "title": "پابند",
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T16:49:01.303Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T16:49:01.303Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673235934de61261366ed5d5"
+  },
+  "title": "گلسر",
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T16:49:23.751Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T16:49:23.751Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673235d24de61261366ed5d7"
+  },
+  "title": "گلسر زنانه",
+  "subCategory": {
+    "$oid": "673235934de61261366ed5d5"
+  },
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T16:50:26.351Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T16:50:26.351Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6732360f4de61261366ed5d9"
+  },
+  "title": "گلسر دخترانه",
+  "subCategory": {
+    "$oid": "673235934de61261366ed5d5"
+  },
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T16:51:27.342Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T16:51:27.342Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673236384de61261366ed5db"
+  },
+  "title": "باكس و جعبه",
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T16:52:08.433Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T16:52:08.433Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6732365b4de61261366ed5dd"
+  },
+  "title": "باكس هديه",
+  "subCategory": {
+    "$oid": "673236384de61261366ed5db"
+  },
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T16:52:43.770Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T16:52:43.770Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673236674de61261366ed5df"
+  },
+  "title": "جعبه بدليجات",
+  "subCategory": {
+    "$oid": "673236384de61261366ed5db"
+  },
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T16:52:55.042Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T16:52:55.042Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6732372f4de61261366ed5e1"
+  },
+  "title": "بند عينك",
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T16:56:15.942Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T16:56:15.942Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673237a64de61261366ed5e3"
+  },
+  "title": "آويز و جاكليدي",
+  "image": "file_1731344243469.jpg",
+  "isActive": true,
+  "isMain": true,
+  "createdAt": {
+    "$date": "2024-11-11T16:58:14.219Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T16:58:14.219Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673238094de61261366ed5e5"
+  },
+  "title": "گردنبند",
+  "image": "file_1731344366532.jpg",
+  "isActive": true,
+  "isMain": true,
+  "createdAt": {
+    "$date": "2024-11-11T16:59:53.947Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T16:59:53.947Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673238a345bc3dab3fb89617"
+  },
+  "title": "گردنبند زنانه",
+  "subCategory": {
+    "$oid": "673238094de61261366ed5e5"
+  },
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T17:02:27.413Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T17:02:27.413Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673238aa45bc3dab3fb89619"
+  },
+  "title": "گردنبند مردانه",
+  "subCategory": {
+    "$oid": "673238094de61261366ed5e5"
+  },
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T17:02:34.198Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T17:02:34.198Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6732399045bc3dab3fb8961b"
+  },
+  "title": "گوشواره",
+  "image": "file_1731344767058.jpg",
+  "isActive": true,
+  "isMain": true,
+  "createdAt": {
+    "$date": "2024-11-11T17:06:24.773Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T17:06:24.773Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67323a7d45bc3dab3fb8961d"
+  },
+  "title": "ساعت مردانه",
+  "subCategory": {
+    "$oid": "673283d7291f097a31cf0350"
+  },
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T17:10:21.887Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T17:10:21.887Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67323a8545bc3dab3fb8961f"
+  },
+  "title": "ساعت زنانه",
+  "subCategory": {
+    "$oid": "673283d7291f097a31cf0350"
+  },
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T17:10:29.301Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T17:10:29.301Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67323b0145bc3dab3fb89621"
+  },
+  "title": "انگشتر",
+  "image": "file_1731345132939.jpg",
+  "isActive": true,
+  "isMain": true,
+  "createdAt": {
+    "$date": "2024-11-11T17:12:33.512Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T17:12:33.512Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67323b1545bc3dab3fb89623"
+  },
+  "title": "انگشتر زنانه",
+  "subCategory": {
+    "$oid": "67323b0145bc3dab3fb89621"
+  },
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T17:12:53.936Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T17:12:53.936Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67323b1b45bc3dab3fb89625"
+  },
+  "title": "انگشتر مردانه",
+  "subCategory": {
+    "$oid": "67323b0145bc3dab3fb89621"
+  },
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T17:12:59.183Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T17:12:59.183Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67323b2845bc3dab3fb89627"
+  },
+  "title": "ست انگشتر",
+  "subCategory": {
+    "$oid": "67323b0145bc3dab3fb89621"
+  },
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T17:13:12.642Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T17:13:12.642Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67323bcf45bc3dab3fb89629"
+  },
+  "title": "دستبند",
+  "image": "file_1731345339829.jpg",
+  "isActive": true,
+  "isMain": true,
+  "createdAt": {
+    "$date": "2024-11-11T17:15:59.011Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T17:15:59.011Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67323bef45bc3dab3fb8962b"
+  },
+  "title": "دستبند زنانه",
+  "subCategory": {
+    "$oid": "67323bcf45bc3dab3fb89629"
+  },
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T17:16:31.886Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T17:16:31.886Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67323bf445bc3dab3fb8962d"
+  },
+  "title": "دستبند مردانه",
+  "subCategory": {
+    "$oid": "67323bcf45bc3dab3fb89629"
+  },
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T17:16:36.661Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T17:16:36.661Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67323bfb45bc3dab3fb8962f"
+  },
+  "title": "دستبند دخترانه",
+  "subCategory": {
+    "$oid": "67323bcf45bc3dab3fb89629"
+  },
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T17:16:43.781Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T17:16:43.781Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67323c6c45bc3dab3fb89631"
+  },
+  "title": "سرويس",
+  "image": "file_1731345498236.jpg",
+  "isActive": true,
+  "isMain": true,
+  "createdAt": {
+    "$date": "2024-11-11T17:18:36.762Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T17:18:36.762Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67323c8245bc3dab3fb89633"
+  },
+  "title": "سرويس دخترانه",
+  "subCategory": {
+    "$oid": "67323c6c45bc3dab3fb89631"
+  },
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T17:18:58.318Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T17:18:58.318Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67323c8645bc3dab3fb89635"
+  },
+  "title": "سرويس زنانه",
+  "subCategory": {
+    "$oid": "67323c6c45bc3dab3fb89631"
+  },
+  "isActive": true,
+  "isMain": false,
+  "createdAt": {
+    "$date": "2024-11-11T17:19:02.303Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T17:19:02.303Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673283d7291f097a31cf0350"
+  },
+  "title": "ساعت",
+  "image": "file_1731344981651.jpg",
+  "isActive": true,
+  "isMain": true,
+  "createdAt": {
+    "$date": "2024-11-11T22:23:19.145Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T22:23:19.145Z"
+  },
+  "__v": 0
+}]

@@ -1,0 +1,3 @@
+.MuiSlider-thumb,.MuiSlider-track{
+    color: var(--secondary-clr) !important;
+} 

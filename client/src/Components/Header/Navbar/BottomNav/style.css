@@ -1,0 +1,21 @@
+.isCatOpen {
+    opacity: 1 !important;
+    visibility: visible !important;
+    top: 27.8vh !important;
+  }
+  
+.catTabNav .MuiTabScrollButton-horizontal{
+    display: none !important;
+}
+.catTabNav{
+    overflow-x: hidden;
+
+}
+
+.catTabNav .MuiTabs-flexContainer{
+    gap:8px;
+}
+
+.catTabNav::-webkit-scrollbar {
+    display: none;
+  }
