@@ -13,7 +13,9 @@
 body{
   overflow-x: hidden !important;
 }
-
+body.no-scroll{
+  overflow: hidden;
+}
 
 
 ::-webkit-scrollbar {

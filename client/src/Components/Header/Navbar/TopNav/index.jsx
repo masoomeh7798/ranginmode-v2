@@ -11,17 +11,9 @@ import { Person } from '@mui/icons-material';
 import notify from "../../../../Utils/notify"
 import { IoMdLogOut } from "react-icons/io";
 import { logout } from "../../../../Store/Slices/AuthSlice"
-import Drawer from '@mui/material/Drawer';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import Backdrop from '@mui/material/Backdrop';
+import { IoArrowBackCircleOutline } from 'react-icons/io5';
 
-const drawerWidth = 240;
 
 export default function TopNav() {
   const { token, user } = useSelector(state => state.auth)
@@ -38,7 +30,7 @@ export default function TopNav() {
   }
 
   // start drawer
-  const drawerRef = useRef(null)
+  const body = useRef(document.body)
   const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
@@ -48,6 +40,10 @@ export default function TopNav() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    open ? body.current.classList.add('no-scroll') : body.current.classList.remove('no-scroll')
+  }, [open])
   // end drawer
 
 
@@ -96,7 +92,8 @@ export default function TopNav() {
     <Stack alignItems={'center'} direction={'row'} my={{ xs: 2, md: 3 }} gap={1}>
 
       <Backdrop
-        sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer - 1 })}
+      
+        sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer - 1 ,display:{sm:'none'}})}
         open={open}
         onClick={handleDrawerClose}
       >
@@ -109,51 +106,58 @@ export default function TopNav() {
       </Stack>
 
       {/* start aside drawer */}
-      <Drawer
-        disableSwipeToOpen={false}
-        ref={drawerRef}
-        onOpen={handleDrawerOpen}
+      <Box
+        display={{ sm: 'none' }}
+        position={'fixed'}
+        top={0}
+        right={open ? 0 : '-300px'}
+        bottom={0}
+        width={200}
+        zIndex={3000}
+        boxShadow={'0 0 5px 2px rgba(0,0,0,.2)'}
+        bgcolor={'white'}
         sx={{
-          width: drawerWidth,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-          },
-          display: !open && 'none',
-          '&.MuiDrawer-root': {
-            width: 0
-          }
+          transition: 'all 1s'
         }}
-        variant="persistent"
-        anchor="right"
-        open={open}
       >
+        <Box
+          position={'realtive'}
+        >
+          <Box
+            position={'absolute'}
+            top={10}
+            left={10}
+            lineHeight={0}
+            sx={{
+              cursor: 'pointer'
+            }}
+          >
+            <IoArrowBackCircleOutline onClick={handleDrawerClose} fontSize={28} />
+          </Box>
+          <Box
+            mt={6}
+            width={'100%'}
+            sx={{
+              '& button': {
+                width: '100%',
+                borderRadius: 0,
+                '&:active': {
+                  bgcolor: 'var(--secondary-clr-light)'
+                },
+                justifyContent: 'start !important',
+                px: 2
 
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
+              }
+            }}
+          >
+            {token ?
+              <Button disableTouchRipple>حساب كاربري من</Button>
+              :
+              <Button href='/auth' disableTouchRipple>ورود/ ثبت نام</Button>
+            }
+          </Box>
+        </Box>
+      </Box>
       {/* end aside drawer */}
 
 
