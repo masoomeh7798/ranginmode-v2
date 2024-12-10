@@ -1,7 +1,7 @@
 import React from 'react'
 import "./style.scss"
 
-export default function Login() {
+export default function Single() {
     return (
        <div></div>
     )
