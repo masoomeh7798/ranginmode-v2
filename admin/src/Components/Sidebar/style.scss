@@ -1,0 +1,82 @@
+.sidebar {
+    flex: 1;
+    border-left: .5px solid rgba(211, 211, 211, 0.489);
+    min-height: 100vh;
+    background-color: var(--text-clr);
+
+    .top {
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--secondary-clr);
+        }
+    }
+
+    hr {
+        height: 0;
+        border: .5px solid rgba(211, 211, 211, 0.489);
+    }
+
+    .center {
+        padding-right: 10px;
+
+        .title {
+            font-size: 10px;
+            font-weight: bold;
+            color: #999;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: var(--secondary-clr-light);
+            }
+
+            .icon {
+                font-size: 18px;
+                color: var(--secondary-clr);
+            }
+
+            span {
+                font-size: 13px;
+                font-weight: 600;
+                color: #888;
+                margin-right: 10px;
+            }
+        }
+    }
+
+    .bottom {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px;
+
+        .colorOption {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            border: 1px solid var(--primary-clr);
+            &:nth-child(1) {
+                background-color: white;
+            }
+
+            &:nth-child(2) {
+                background-color: var(--primary-clr);
+            }
+        }
+    }
+}
