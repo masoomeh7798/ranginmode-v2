@@ -2,6 +2,7 @@ import React from 'react'
 import "./style.scss"
 import Sidebar from '../../Components/Sidebar'
 import Navbar from '../../Components/Navbar'
+import Widget from '../../Components/Widget'
 
 export default function Home() {
     return (
@@ -9,7 +10,12 @@ export default function Home() {
         <Sidebar/>
         <div className="homeContainer">
             <Navbar/>
-            home container
+            <div className="widgets">
+                <Widget/>
+                <Widget/>
+                <Widget/>
+                <Widget/>
+            </div>
         </div>
        </div>
     )
