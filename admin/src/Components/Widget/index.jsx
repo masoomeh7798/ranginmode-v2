@@ -43,7 +43,7 @@ export default function Widget({ type }) {
         default: break;
     }
     return (
-        <div className='widget'>
+        <div className='widget box-shadow'>
             <div className="right">
                 <span className="title">{data.title}</span>
                 <span className="counter">{amount} {data.isMoney && 'ت'}</span>

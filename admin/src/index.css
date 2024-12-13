@@ -19,3 +19,9 @@
   --third-clr: #F5D061;
   --text-clr: #F8F6F6;
 }
+
+.box-shadow{
+  -webkit-box-shadow: 0px 5px 5px 0px rgba(199, 199, 199, 0.56);
+  -moz-box-shadow: 0px 5px 5px 0px rgba(199, 199, 199, 0.56);
+  box-shadow: 0px 5px 5px 0px rgba(199, 199, 199, 0.56);
+}
