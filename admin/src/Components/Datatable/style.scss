@@ -1,3 +1,82 @@
-.datatable{
-    
+.datatable {
+    padding: 20px;
+    width: 100%;
+
+    .MuiDataGrid-cell--textLeft {
+        text-align: start !important;
+    }
+
+    .MuiTablePagination-actions {
+        direction: ltr;
+    }
+
+    .cellWithImg {
+        display: flex;
+        align-items: center;
+
+        .cellImg {
+            width: 32px;
+            height: 32px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-left: 20px;
+        }
+    }
+
+    .cellWithStatus {
+        padding: 5px;
+        border-radius: 5px;
+
+
+        &.active {
+            color: green;
+            background-color: rgba(0, 128, 0, 0.276);
+        }
+
+        &.passive {
+            color: red;
+            background-color: rgba(174, 46, 46, 0.276);
+        }
+    }
+
+    .actionButtons {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 100%;
+
+        span {
+            line-height: 0;
+            height: fit-content;
+            cursor: pointer;
+        }
+
+        .viewBtn {
+            border-radius: 5px;
+            padding: 2px 5px;
+            color: goldenrod;
+            background-color: rgba(218, 165, 32, 0.185);
+        }
+
+        .editBtn {
+            border-radius: 5px;
+            padding: 2px 5px;
+            color: green;
+            background-color: rgba(0, 128, 0, 0.276);
+        }
+
+        .deleteBtn {
+            border-radius: 5px;
+            padding: 2px 5px;
+            color: red;
+            background-color: rgba(174, 46, 46, 0.276);
+        }
+    }
+    .MuiToolbar-root{
+        direction: ltr;
+        justify-content: start;
+    }
+    .MuiTablePagination-selectLabel{
+        display: none !important;
+    }
 }
