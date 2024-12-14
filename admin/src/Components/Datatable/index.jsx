@@ -13,14 +13,11 @@ const actionColumn = [
         field: "action",
         headerName: "گزينه ها",
         width: 200,
-        renderCell: (params) => {
+        renderCell: () => {
             return (
                 <div className="actionButtons">
                     <span className="viewBtn">
                         <VisibilityIcon />
-                    </span>
-                    <span className="editBtn">
-                        <ModeEditOutlineIcon />
                     </span>
                     <span className="deleteBtn">
                         <CloseIcon />

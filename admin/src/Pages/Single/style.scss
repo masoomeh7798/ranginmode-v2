@@ -1,0 +1,66 @@
+.single {
+    display: flex;
+
+    .singleContainer {
+        flex: 6;
+    }
+
+    .content {
+        padding: 20px;
+        margin: 20px;
+        border-radius: 20px;
+        border: .5px solid rgba(0, 0, 0, 0.059);
+        position: relative;
+
+        .item {
+            display: flex;
+            gap: 20px;
+
+            .itemImg {
+                width: 100px;
+                height: 100px;
+                object-fit: cover;
+                border-radius: 50%;
+            }
+        }
+
+        .editButton {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 20px 0 20px 0;
+            padding: 20px;
+            color: green;
+            line-height: 0;
+            background-color: rgba(0, 128, 0, 0.235);
+            cursor: pointer;
+            box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.059);
+            svg{
+                font-size: 24px;
+            }
+        }
+        .title{
+            color: gray;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .details{
+            color: var(--primary-clr);
+            .itemTitle{
+                margin-bottom: 10px;
+            }
+            .itemInfo{
+                display: flex;
+                gap: 20px;
+                .itemKey{
+                    font-weight: bold;
+                    color: gray;
+                }
+                .itemValue{
+                    color: rgb(77, 76, 76);
+                    font-weight: 400;
+                }
+            }
+        }
+    }
+}

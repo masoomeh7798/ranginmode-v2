@@ -30,7 +30,7 @@ export default function Navbar() {
             <ListOutlined className='icon'/>
           </div>
           <div className="item">
-            <img src="87-512.webp" alt="avatar" className="avatar" />
+            <img src="/public/87-512.webp" alt="avatar" className="avatar" />
           </div>
         </div>
       </div>
