@@ -1,6 +1,10 @@
 .datatable {
     padding: 20px;
     width: 100%;
+    .dataTableTitle{
+        margin-bottom: 20px;
+       
+    }
 
     .MuiDataGrid-cell--textLeft {
         text-align: start !important;
@@ -30,12 +34,10 @@
 
         &.active {
             color: green;
-            background-color: rgba(0, 128, 0, 0.276);
         }
 
         &.passive {
             color: red;
-            background-color: rgba(174, 46, 46, 0.276);
         }
     }
 
@@ -45,11 +47,19 @@
         gap: 10px;
         height: 100%;
 
+        a{
+            line-height: 0;
+            height: fit-content;
+            cursor: pointer;
+           
+            
+        }
         span {
             line-height: 0;
             height: fit-content;
             cursor: pointer;
         }
+
 
         .viewBtn {
             border-radius: 5px;
@@ -60,8 +70,8 @@
         .deleteBtn {
             border-radius: 5px;
             padding: 2px 5px;
-            color: red;
-            background-color: rgba(174, 46, 46, 0.276);
+            color: rgb(255, 0, 111);
+            background-color: rgba(174, 46, 95, 0.167);
         }
     }
     .MuiToolbar-root{

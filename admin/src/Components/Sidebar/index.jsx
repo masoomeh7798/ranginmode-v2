@@ -10,29 +10,40 @@ import SettingsSuggestOutlinedIcon from '@mui/icons-material/SettingsSuggestOutl
 import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
+import { Link } from 'react-router-dom';
 
 
 export default function Sidebar() {
   return (
     <div className='sidebar'>
-        <div className="top"><span className="logo">پنل ادمين</span></div>
+        <div className="top">
+            <Link to='/'>
+            <span className="logo">مدير سايت</span>
+            </Link>
+            </div>
         <hr/>
         <div className="center">
             <ul>
                 <p className="title">اصلي</p>
+                <Link to='/'>
                 <li>
                     <DashboardIcon className='icon'/>
                     <span>داشبورد</span>
                 </li>
+                </Link>
                 <p className="title">ليست ها</p>
+                <Link to='/users'>
                 <li>
                     <PersonOutlineOutlinedIcon className='icon'/>
                     <span>كاربران</span>
                 </li>
+                </Link>
+                <Link to='/products'>
                 <li>
                     <StorefrontOutlinedIcon className='icon'/>
                     <span>محصولات</span>
                 </li>
+                </Link>
                 <li>
                     <CreditCardOutlinedIcon className='icon'/>
                     <span>سفارشات</span>

@@ -64,6 +64,7 @@ export default function List() {
     ];
 
     return (
+        <div className="box-shadow">
         <TableContainer component={Paper} className='table'>
             <Table sx={{
                 minWidth: 650,
@@ -106,5 +107,6 @@ export default function List() {
                 </TableBody>
             </Table>
         </TableContainer>
+        </div>
     )
 }

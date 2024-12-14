@@ -1,0 +1,84 @@
+.app.dark {
+    background-color: #111;
+    color: rgb(156, 156, 156);
+
+    .table {
+        background-color: #111;
+
+        .tableCell {
+            color: rgb(156, 156, 156);
+        }
+    }
+
+    .navbar {
+        color: #999;
+        background-color: #111;
+        border-color: #333;
+
+        .search {
+            border-color: gray;
+            background-color: transparent;
+        }
+    }
+
+    .sidebar {
+        color: #999;
+        background-color: #111;
+        border-color: #333;
+
+        .top {
+            .logo {
+                color: gray;
+            }
+        }
+
+        hr {
+            border-color: #333;
+        }
+
+        ul {
+            li {
+                .icon {
+                    color: gray;
+                }
+            }
+        }
+
+    }
+
+    .datatable {
+        
+        .MuiDataGrid-columnHeaders {
+            &>div {
+
+                background-color: #111;
+            }
+        }
+
+        .MuiToolbar-root  {
+            color: gray !important;
+        }
+
+        .datagrid {
+            border: none;
+            background-color: #111;
+            color: gray;
+            .MuiDataGrid-row{
+                --rowBorderColor:gray;
+                svg{
+                    color: gray;
+                }
+            }
+            .MuiDataGrid-withBorderColor{
+                border-color: gray;
+            }
+            .MuiDataGrid-withBorderColor svg{
+                color: gray !important;
+            }
+
+        }
+    }
+    input{
+        background-color: transparent;
+    }
+}
