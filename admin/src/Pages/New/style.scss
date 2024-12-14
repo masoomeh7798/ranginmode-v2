@@ -1,0 +1,101 @@
+ .new {
+     display: flex;
+     width: 100%;
+
+     .newContainer {
+         flex: 6;
+
+         h1 {
+             font-size: 20px;
+             color: gray;
+             font-weight: 600;
+         }
+
+         .top,
+         .bottom {
+             display: flex;
+             border-radius: 10px;
+             padding: 20px;
+             margin: 20px;
+             border: .5px solid rgba(0, 0, 0, .059);
+
+             .left {
+                 flex: 2;
+
+                 form {
+                     display: flex;
+                     flex-wrap: wrap;
+                     justify-content: space-between;
+
+                     .formInput {
+                         width: 48%;
+                         margin-bottom: 20px;
+
+                         &.last-input {
+                             width: 100% ;
+                         }
+
+                         label {
+                             display: inline-block;
+                             margin-bottom: 5px;
+                         }
+
+                         input {
+                             width: 100%;
+                             border: none;
+                             outline: none;
+                             border-bottom: 1px solid gray;
+                             padding: 5px;
+
+                         }
+                     }
+
+                     button {
+                         width: 100px;
+                         height: fit-content;
+                         background-color: teal;
+                         color: white;
+                         padding: 5px 0;
+                         border-radius: 5px;
+                         border: none;
+                         font-size: 20px;
+                         cursor: pointer;
+                        
+                     }
+                 }
+             }
+
+             .right {
+                 flex: 1;
+                 display: flex;
+                 align-items: center;
+                 justify-content: center;
+
+                 .uploadFile {
+                     position: relative;
+
+                     img {
+                         width: 100px;
+                         height: 100px;
+                         object-fit: cover;
+                         border-radius: 50%;
+                         cursor: pointer;
+                     }
+
+                     .fileIcon {
+                         cursor: pointer;
+                         position: absolute;
+                         left: 0;
+                         bottom: 0;
+                         color: gray;
+
+                         svg {
+                             font-size: 30px;
+                         }
+                     }
+
+                 }
+             }
+         }
+     }
+ }
