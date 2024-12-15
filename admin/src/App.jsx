@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Route, Routes } from "react-router-dom"
 import Home from './Pages/Home/index.jsx';
 import Login from './Pages/Login/index.jsx';
@@ -9,6 +9,7 @@ import New from './Pages/New/index.jsx';
 import { productInputs, userInputs } from './formSource.js';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import './Style/dark.scss'
+import { DarkModeContext } from './Context/DarkModeContext.jsx';
 
 
 const theme = createTheme({
@@ -18,8 +19,9 @@ const theme = createTheme({
 });
 
 export default function App() {
+  const {darkMode}=useContext(DarkModeContext)
   return (
-    <div className="app dark">
+    <div className={darkMode ? "app dark" : "app"}>
     <ThemeProvider theme={theme}>
       <Routes>
         <Route exact path='/' element={<Home />} />
