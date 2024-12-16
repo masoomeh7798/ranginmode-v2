@@ -42,7 +42,7 @@ export default function Sidebar() {
                         </li>
                     </Link>
                     <p className="title">ليست ها</p>
-                    <Link to='/users'>
+                    <Link to='/users' >
                         <li>
                             <PersonOutlineOutlinedIcon className='icon' />
                             <span>كاربران</span>

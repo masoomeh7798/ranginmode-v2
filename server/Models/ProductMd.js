@@ -30,15 +30,7 @@ const productSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Brand'
   },
-  rating: {
-    type: Number,
-    min: 0,
-    max: 5
-  },
-  ratingCount: {
-    type: Number,
-    default: 0
-  },
+
   quantity: {
     type: Number,
     required: [true, 'price is required'],

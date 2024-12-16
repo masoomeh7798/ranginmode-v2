@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./style.scss"
 import { DataGrid } from '@mui/x-data-grid';
-import { userColumns, userRows } from '../../datatableSource.jsx';
+import { userColumns } from '../../datatableSource.jsx';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
@@ -9,13 +9,18 @@ import { Button } from '@mui/material';
 
 const paginationModel = { page: 0, pageSize: 8 };
 
+export default function Datatable({ rows,columns,rowType }) {
 
+    const [rowsData, setRowsData] = useState(rows);
+    const [columnsData, setColumnsData] = useState(rows);
+    
+    useEffect(() => {
+        setRowsData(rows);
+        setColumnsData(columns);
+    }, [rows,columns]);
 
-
-export default function Datatable() {
-    const [data, setData] = useState(userRows);
     const handleDeleteRow = (id) => {
-        setData(data?.filter(row => row.id !== id))
+        setRowsData(rowsData?.filter(row => row._id !== id))
     }
 
     const actionColumn = [
@@ -26,10 +31,10 @@ export default function Datatable() {
             renderCell: (params) => {
                 return (
                     <div className="actionButtons">
-                        <Link to='/users/test' className='viewBtn'>
+                        <Link to={`/${rowType}/test`} className='viewBtn'>
                             <VisibilityIcon />
                         </Link>
-                        <span onClick={() => handleDeleteRow(params.row.id)} className="deleteBtn">
+                        <span onClick={() => handleDeleteRow(params.row._id)} className="deleteBtn">
                             <CloseIcon />
                         </span>
                     </div>
@@ -50,8 +55,8 @@ export default function Datatable() {
             </div>
             <DataGrid
                 className='datagrid'
-                rows={data}
-                columns={userColumns.concat(actionColumn)}
+                rows={rowsData}
+                columns={columnsData.concat(actionColumn)}
                 initialState={{ pagination: { paginationModel } }}
                 checkboxSelection
             />
