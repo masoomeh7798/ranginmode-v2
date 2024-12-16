@@ -10,6 +10,7 @@ import { productInputs, userInputs } from './formSource.js';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import './Style/dark.scss'
 import { DarkModeContext } from './Context/DarkModeContext.jsx';
+import { AuthContext } from './Context/AuthContext.jsx';
 
 
 const theme = createTheme({
@@ -20,12 +21,13 @@ const theme = createTheme({
 
 export default function App() {
   const {darkMode}=useContext(DarkModeContext)
+  const {token}=useContext(AuthContext)
   return (
     <div className={darkMode ? "app dark" : "app"}>
     <ThemeProvider theme={theme}>
       <Routes>
-        <Route exact path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
+        <Route exact path='/' element={token ? <Home/>:<Login />} />
+        <Route path='/login' element={token ? <Home/>:<Login />} />
         <Route path='*' element={<NotFound />} />
         <Route path='users' element={<List />} />
         <Route path='users/:userId' element={<Single />} />
