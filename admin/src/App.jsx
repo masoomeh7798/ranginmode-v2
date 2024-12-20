@@ -31,10 +31,10 @@ export default function App() {
           <Route path='/login' element={token ? <Home /> : <Login />} />
           <Route path='*' element={<NotFound />} />
           <Route path='/users' element={<List rowType={'users'} />} />
-          <Route path='/users/:userId' element={<Single />} />
+          <Route path='/users/:userId' element={<Single rowType={'users'} />} />
           <Route path='/users/new' element={<New inputs={userInputs} title="افزودن كاربر" />} />
           <Route path='/products' element={<List rowType={'products'} />} />
-          <Route path='/products/:productId' element={<Single />} />
+          <Route path='/products/:productId' element={<Single rowType={'products'}/>} />
           <Route path='/products/new' element={<New inputs={productInputs} title="افزودن محصول" />} />
         </Routes>
       </ThemeProvider>

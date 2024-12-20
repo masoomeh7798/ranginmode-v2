@@ -13,7 +13,7 @@ export default function Datatable({ rows,columns,rowType }) {
 
     const [rowsData, setRowsData] = useState(rows);
     const [columnsData, setColumnsData] = useState(rows);
-    
+
     useEffect(() => {
         setRowsData(rows);
         setColumnsData(columns);
@@ -31,7 +31,7 @@ export default function Datatable({ rows,columns,rowType }) {
             renderCell: (params) => {
                 return (
                     <div className="actionButtons">
-                        <Link to={`/${rowType}/test`} className='viewBtn'>
+                        <Link to={`/${rowType}/${params?.row?._id}`} className='viewBtn'>
                             <VisibilityIcon />
                         </Link>
                         <span onClick={() => handleDeleteRow(params.row._id)} className="deleteBtn">
@@ -51,7 +51,7 @@ export default function Datatable({ rows,columns,rowType }) {
                         borderColor: "purple",
                         fontSize: 20
                     }}
-                    variant="outlined">+ افزودن كاربر جديد</Button>
+                    variant="outlined">{rowType=='users' ?'+ افزودن كاربر جديد' :'+ افزودن محصول جديد'}</Button>
             </div>
             <DataGrid
                 className='datagrid'

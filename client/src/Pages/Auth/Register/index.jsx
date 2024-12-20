@@ -219,20 +219,6 @@ export default function Register({ handlePageType }) {
               </Box>
             </Stack>
             {/* end text field part */}
-            <Typography
-              alignSelf={'start'}
-              fontSize={'13px'}
-              fontWeight={500}
-              sx={{
-                '& a': {
-                  color: 'var(--secondary-clr)'
-                },
-                '& a:hover': {
-                  color: 'var(--third-clr)'
-                }
-              }}
-            >
-              <Link to='/'>پسورد يادت رفته؟</Link></Typography>
 
             {/* Photo Upload Section */}
             <Stack width={'100%'} gap={1}>
