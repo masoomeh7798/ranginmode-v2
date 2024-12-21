@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-
-
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -14,42 +12,33 @@ const productSchema = new mongoose.Schema({
     type: [{ name: String, value: String }],
     default: []
   },
-  // variants: {
-  //   type: [{ name: String, value:[String],varQuantity:Number}],
-  //   default: []
-  // },
   images: {
     type: [String],
     default: []
   },
+  isActive: {
+    type: Boolean,
+    default: true
+  },
   categoryId: {
-    type:[{type: mongoose.Schema.Types.ObjectId,
-    ref: 'Category'}]
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category'
   },
   brandId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Brand'
   },
-
-  quantity: {
-    type: Number,
-    required: [true, 'price is required'],
-    min: 0,
+  productVariantIds: {
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ProductVariant'
+    }],
+    default: []
   },
-  price: {
+  defaultVariantIndex: {
     type: Number,
-    required: [true, 'price is required']
-  },
-  finalPrice: {
-    type: Number,
-    required: [true, 'final Price is required']
-  },
-  discount: {
-    type: Number,
-    required: [true, 'discount is required'],
-    min: 0,
-    max: 100
-  },
+    default: 0
+  }
 }, { timestamps: true });
 
 
