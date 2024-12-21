@@ -1,10 +1,12 @@
 import catchAsync from "../Utils/catchAsync.js";
 import Product from "../Models/ProductMd.js";
 import ProductVariant from "../Models/ProductVariantMd.js";
+
+
 export const create=catchAsync(async (req,res,next) => {
-    const {id}=req.params
-    const productVariant=await ProductVariant.create(req.body)
-    await Product.findByIdAndUpdate(id,{$push:productVariant._id})
+    const {id}=req.params    // product id
+    const productVariant=await ProductVariant.create(req?.body)
+    await Product.findByIdAndUpdate(id,{$push: {productVariantIds: productVariant._id}})
     return res.status(201).json({
         data:{productVariant},
         success:true,

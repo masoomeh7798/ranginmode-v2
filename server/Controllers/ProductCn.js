@@ -6,79 +6,109 @@ import Product from "../Models/ProductMd.js";
 import User from "../Models/UserMd.js";
 
 export const getAll = catchAsync(async (req, res, next) => {
-  const features = new ApiFeatures(Product, req?.query)
+    let role;
+    if(req?.headers?.authorization){
+        role = jwt.verify(
+            req.headers.authorization.split(" ")[1],
+            process.env.JWT_SECRET
+          ).role
+    }
+
+  let queryString = {
+    ...req.query,
+    populate: {
+      path: "productVariantIds",
+      populate: {
+        path: "variantIds",
+        model: "Variant",
+      },
+    },
+  };
+  if (role == "user" || !role) {
+    queryString = {
+      ...queryString,
+      filters: { ...queryString?.filters, isActive: true },
+    };
+  }
+  const features = new ApiFeatures(Product, queryString)
     .filters()
     .sort()
     .paginate()
     .limitFields()
-    .populate()
-    .secondPopulate('categoryId').secondPopulate('brandId')
-  const products = await features.model
-  const count = await Product.countDocuments(req?.query.filters)
-  return res.status(200).json({
-    success: true,
-    data: { products },
-    count
-  })
+    .secondPopulate(req?.query?.populate || "")
+    .secondPopulate('categoryId')
+
+    const products=await features.model
+    const count=await Product.countDocuments(queryString?.filters)
+    return res.status(200).json({
+        success:true,
+        data:{products},
+        count
+    })
 });
+
 
 export const get = catchAsync(async (req, res, next) => {
-  const { id } = req.params
-  let isFavorite = false
-  let isCustomer = false
-  let userId;
-  if (req?.headers?.authorization) {
-    userId = jwt.verify(
-      req.headers.authorization.split(" ")[1],
-      process.env.JWT_SECRET
-    ).id
+    const {id}=req.params
+    let isFavorite=false
+    let isCustomer=false
+    let userId;
+    if(req?.headers?.authorization){
+        userId = jwt.verify(
+            req.headers.authorization.split(" ")[1],
+            process.env.JWT_SECRET
+          ).id
 
-    const user = await User.findById(userId)
-    if (user.favoriteProductIds.includes(id)) {
-      isFavorite = true
-    }
-    if (user.boughtProduct.includes(id)) {
-      isCustomer = true
-    }
-    let recentlyProductIds = user?.recentlyProductIds || []
-    if (!recentlyProductIds.includes(id)) {
-      if (recentlyProductIds?.length == 10) {
-        recentlyProductIds.shift()
-        recentlyProductIds.push(id)
-      } else {
-        recentlyProductIds.push(id)
-      }
-    }
+        const user=await User.findById(userId)
+        if(user.favoriteProductIds.includes(id)){
+            isFavorite=true
+        }
+        if(user.boughtProduct.includes(id)){
+            isCustomer=true
+        }
+        let recentlyProductIds=user?.recentlyProductIds
+        if(recentlyProductIds?.length==10){
+            recentlyProductIds.shift()
+            recentlyProductIds.push(id)
+        }else{
+            recentlyProductIds.push(id)
 
-    user.recentlyProductIds = recentlyProductIds
-    user.save()
-  }
-  const product = await Product.findById(id).populate('categoryId').populate('brandId')
-  return res.status(200).json({
-    success: true,
-    data: { product },
-    isFavorite,
-    isCustomer
-  })
+        }
+        user.recentlyProductIds=recentlyProductIds
+        await user.save()
+    }
+    const product=await Product.findById(id).populate({
+        path: "productVariantIds",
+        populate: {
+          path: "variantIds",
+          model: "Variant",
+        },
+      }).populate('categoryId')
+    return res.status(200).json({
+        success:true,
+        data:{product},
+        isFavorite,
+        isCustomer
+    })
 });
 
-export const create = catchAsync(async (req, res, next) => {
-  const product = await Product.create(req.body)
+export const create=catchAsync(async(req,res,next)=>{ 
+  const product=await Product.create(req.body)
   return res.status(201).json({
-    message: 'product created successfully',
-    success: true,
-    data: { product }
+    success:true,
+    data:{product},
+    message:'محصول جديد افزوده شد.',
   })
 })
 
 
-export const update = catchAsync(async (req, res, next) => {
-  const { id } = req.params
-  const product = await Product.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
+export const update=catchAsync(async(req,res,next)=>{
+  const {id}=req.params
+  const product=await Product.findByIdAndUpdate(id,req.body,{new:true,runValidators:true})
   return res.status(201).json({
-    message: 'product update successfully',
-    success: true,
-    data: { product }
+    message:'محصول به روز شد',
+    success:true,
+    data:{product}
   })
 })
 
@@ -104,7 +134,3 @@ export const favoriteProduct = catchAsync(async (req, res, next) => {
     message: newFav ? 'محصول به علاقه مندي ها اضافه شد.' : 'محصول از علاقه مندي ها حذف شد.'
   })
 })
-
-
-
-
