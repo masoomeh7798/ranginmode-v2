@@ -4,16 +4,16 @@ import fs from 'fs'
 import { __dirname } from "../app.js";
 
 export const uploadFile=catchAsync(async(req,res,next)=>{
-    const file=req.file;
-    if(!file){
+    const files=req.files;
+    if(!files){
     return next(new HandleError('ارسال فایل الزامی است',400))
     }
     return res.status(200).json({
         success:true,
         message:'فایل با موفقیت بارگذاری شد',
-        data:{
-            name:file
-        }
+        data:files?.map(file=>({
+            name:file.filename
+        }))
     })
 })
 

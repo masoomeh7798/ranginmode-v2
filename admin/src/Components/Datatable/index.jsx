@@ -45,7 +45,7 @@ export default function Datatable({ rows,columns,rowType }) {
     return (
         <div className='datatable'>
             <div className="dataTableTitle">
-                <Button href='/users/new'
+                <Button href={`/${rowType}/new`}
                     sx={{
                         color: "purple",
                         borderColor: "purple",

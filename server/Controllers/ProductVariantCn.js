@@ -15,7 +15,7 @@ export const create=catchAsync(async (req,res,next) => {
 })
 export const getAll=catchAsync(async (req,res,next) => {
     const {id}=req.params
-    const productVariant=await ProductVariant.find({productId:id})
+    const productVariant=await ProductVariant.find({productId:id}).populate('Variant')
     return res.status(201).json({
         data:{productVariant},
         success:true,
