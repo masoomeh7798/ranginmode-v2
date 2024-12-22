@@ -7,19 +7,24 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import useFormFields from '../../../Utils/useFormFields';
+import notify from '../../../Utils/notify.js';
 
 
 
 export default function NewProduct() {
     const [files, setFiles] = useState();
+    const [fields, handleChange,setFields] = useFormFields({name:'',description:'',information:''})
     const { token } = useContext(AuthContext)
 
+
     // start toggle is active
-    const [isActive, setIsActive] = useState(false);
+    const [isActive, setIsActive] = useState(true);
 
     const handleToggle = () => {
         setIsActive(prev => !prev);
     };
+
 
     // start select category
     const [selectedCat, setSelectedCat] = useState('');
@@ -28,8 +33,6 @@ export default function NewProduct() {
     const handleChangeSelectCat = (event) => {
         setSelectedCat(event.target.value);
     };
-
-
     useEffect(() => {
         (async () => {
             try {
@@ -49,36 +52,71 @@ export default function NewProduct() {
             }
         })()
     }, []);
-    
 
-    // start add product http request
-    const handleSubmit=async(e)=>{
-        e.preventDefault()
-        const formData=new FormData()
-        if(files){
-            files?.map(file=>{
-                formData.append('files',file)
+
+    // start upload images
+    const handleChangeImages = async (e) => {
+        const formData = new FormData()
+        if (e.target.files) {
+            Array.from(e.target.files)?.map(file => {
+                formData.append('files', file)
             })
         }
         try {
-            // category
-            const res = await fetch(import.meta.env.VITE_BASE_API + 'category', {
-                method: 'GET',
+            const res = await fetch(import.meta.env.VITE_BASE_API + 'upload', {
+                method: 'POST',
                 headers: {
                     authorization: `Bearer ${token}`,
                 },
+                body: formData
             })
             const data = await res.json()
             if (data?.success) {
-                setCategories(data?.data?.categories)
+                setFiles(data?.data)
             }
 
-           
+            console.log(data);
 
         } catch (error) {
             console.log(error);
         }
     }
+
+    // start add product
+
+    const handleReset = () => {
+        setFields({
+            name: '',
+            description: '',
+            information: '',
+          });
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const information = fields?.information?.split('+').map(e => e.split(':')).map(e => ({ name: e[0], value: e[1] }))
+        try {
+            const res = await fetch(import.meta.env.VITE_BASE_API + 'product', {
+                method: 'POST',
+                headers: {
+                    authorization: `Bearer ${token}`,
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({ ...fields, information, images: files?.map(e => e?.name), isActive, categoryId: selectedCat })
+            })
+            const data = await res.json()
+            if (data?.success) {
+                notify("success", data?.message)
+
+            } else {
+                notify("error", "همه فيلد ها الزامي هستند.")
+            }
+            handleReset()
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     return (
         <>
@@ -89,12 +127,12 @@ export default function NewProduct() {
                 <div className="right">
                     <div className="uploadFile">
                         <label htmlFor="file">
-                            <img src={files ? URL.createObjectURL(files[0]) : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"} alt="avatar" />
+                            <img src={(files && files.length != 0) ? import.meta.env.VITE_BASE_URL + files[0]?.name : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"} alt="avatar" />
                             <div className="fileIcon">
                                 <AddOutlinedIcon />
                             </div>
                         </label>
-                        <input multiple onChange={e => setFiles(Array.from(e.target.files))} type="file" id='file' style={{ display: 'none' }} />
+                        <input multiple onChange={handleChangeImages} type="file" id='file' style={{ display: 'none' }} />
                     </div>
                 </div>
                 <div className="left">
@@ -102,24 +140,25 @@ export default function NewProduct() {
                         <div
                             className={`formInput`}>
                             <label>نام محصول</label>
-                            <input type='text' placeholder='گردنبند' />
+                            <input value={fields.name} onChange={handleChange} name='name' type='text' placeholder='گردنبند' />
                         </div>
                         <div
                             className={`formInput`}>
                             <label>توضيحات</label>
-                            <input type='text' placeholder='اين محصول ضد آب مي باشد.' />
+                            <input value={fields.description} onChange={handleChange} name='description' type='text' placeholder='اين محصول ضد آب مي باشد.' />
                         </div>
                         <div
                             className={`formInput`}>
                             <label>مشخصات فني</label>
-                            <input type='text' placeholder='جنس:استيل، رنگ:طلايي-مسي' />
+                            <input value={fields.information} onChange={handleChange} name='information' type='text'
+                                placeholder='جنس:استيل+ رنگ:طلايي-مسي' />
                         </div>
 
                         <Box width={'48%'}
-                        display={'flex'}
-                        alignItems={'center'}
-                        justifyContent={'space-around'}
-                        gap={'5%'}
+                            display={'flex'}
+                            alignItems={'center'}
+                            justifyContent={'space-around'}
+                            gap={'5%'}
                         >
                             {/* start set isActive */}
                             <FormControlLabel

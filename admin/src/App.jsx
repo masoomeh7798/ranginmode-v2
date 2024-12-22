@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import './Style/dark.scss'
 import { DarkModeContext } from './Context/DarkModeContext.jsx';
 import { AuthContext } from './Context/AuthContext.jsx';
+import { Toaster } from 'react-hot-toast';
 
 
 const theme = createTheme({
@@ -36,6 +37,7 @@ export default function App() {
           <Route path='/products/:productId' element={<Single rowType={'products'}/>} />
           <Route path='/products/new' element={<New title="افزودن محصول" />} />
         </Routes>
+        <Toaster/>
       </ThemeProvider>
     </div>
   )
