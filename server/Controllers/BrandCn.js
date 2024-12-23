@@ -1,7 +1,7 @@
 import catchAsync from "../Utils/catchAsync.js";
-import jwt from 'jsonwebtoken'
 import ApiFeatures from "../Utils/apiFeatures.js";
 import Brand from "../Models/BrandMd.js";
+
 export const create=catchAsync(async(req,res,next)=>{
     const brand= await Brand.create(req.body)
     return res.status(201).json({

@@ -10,7 +10,7 @@ export const create=catchAsync(async (req,res,next) => {
     return res.status(201).json({
         data:{productVariant},
         success:true,
-        message:'product variant created'
+        message:'زير شاخه جديد اضافه شد.'
     })
 })
 export const getAll=catchAsync(async (req,res,next) => {

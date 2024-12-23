@@ -11,6 +11,7 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 import { Link, useNavigate } from 'react-router-dom';
 import { DarkModeContext } from '../../Context/DarkModeContext.jsx';
 import { AuthContext } from '../../Context/AuthContext.jsx';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 
 
 export default function Sidebar() {
@@ -52,6 +53,12 @@ export default function Sidebar() {
                         <li>
                             <StorefrontOutlinedIcon className='icon' />
                             <span>محصولات</span>
+                        </li>
+                    </Link>
+                    <Link to='/new'>
+                        <li>
+                            <AddOutlinedIcon className='icon' />
+                            <span>افزودن موارد جديد</span>
                         </li>
                     </Link>
                     <li>

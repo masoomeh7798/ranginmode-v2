@@ -32,10 +32,9 @@ export default function App() {
           <Route path='*' element={<NotFound />} />
           <Route path='/users' element={<List rowType={'users'} />} />
           <Route path='/users/:userId' element={<Single rowType={'users'} />} />
-          <Route path='/users/new' element={<New title="افزودن كاربر" />} />
           <Route path='/products' element={<List rowType={'products'} />} />
           <Route path='/products/:productId' element={<Single rowType={'products'}/>} />
-          <Route path='/products/new' element={<New title="افزودن محصول" />} />
+          <Route path='/new' element={<New />} />
         </Routes>
         <Toaster/>
       </ThemeProvider>

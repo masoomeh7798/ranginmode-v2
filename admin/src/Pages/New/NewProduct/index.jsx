@@ -14,7 +14,7 @@ import notify from '../../../Utils/notify.js';
 
 export default function NewProduct() {
     const [files, setFiles] = useState();
-    const [fields, handleChange,setFields] = useFormFields({name:'',description:'',information:''})
+    const [fields, handleChange, setFields] = useFormFields({ name: '', description: '', information: '' })
     const { token } = useContext(AuthContext)
 
 
@@ -33,6 +33,14 @@ export default function NewProduct() {
     const handleChangeSelectCat = (event) => {
         setSelectedCat(event.target.value);
     };
+
+    // brand
+    const [selectedBrand, setSelectedBrand] = useState('');
+    const [brands, setBrands] = useState();
+
+    const handleChangeSelectBrand = (event) => {
+        setSelectedBrand(event.target.value);
+    };
     useEffect(() => {
         (async () => {
             try {
@@ -46,6 +54,17 @@ export default function NewProduct() {
                 const data = await res.json()
                 if (data?.success) {
                     setCategories(data?.data?.categories)
+                }
+                // brand
+                const resB = await fetch(import.meta.env.VITE_BASE_API + 'brand', {
+                    method: 'GET',
+                    headers: {
+                        authorization: `Bearer ${token}`,
+                    },
+                })
+                const dataB = await resB.json()
+                if (data?.success) {
+                    setBrands(dataB?.data?.brands)
                 }
             } catch (error) {
                 console.log(error);
@@ -75,7 +94,6 @@ export default function NewProduct() {
                 setFiles(data?.data)
             }
 
-            console.log(data);
 
         } catch (error) {
             console.log(error);
@@ -89,7 +107,7 @@ export default function NewProduct() {
             name: '',
             description: '',
             information: '',
-          });
+        });
     }
 
     const handleSubmit = async (e) => {
@@ -102,7 +120,7 @@ export default function NewProduct() {
                     authorization: `Bearer ${token}`,
                     "content-type": "application/json"
                 },
-                body: JSON.stringify({ ...fields, information, images: files?.map(e => e?.name), isActive, categoryId: selectedCat })
+                body: JSON.stringify({ ...fields, information, images: files?.map(e => e?.name), isActive, categoryId: selectedCat, brandId: selectedBrand })
             })
             const data = await res.json()
             if (data?.success) {
@@ -120,9 +138,7 @@ export default function NewProduct() {
 
     return (
         <>
-            <div className="top box-shadow">
-                <h1>افزودن محصول</h1>
-            </div>
+           
             <div className="bottom box-shadow">
                 <div className="right">
                     <div className="uploadFile">
@@ -222,90 +238,51 @@ export default function NewProduct() {
                                     </Select>
                                 </FormControl>
                             </Box>
+                            {/* end select category */}
+
+                            {/* start select brand */}
+                            <Box sx={{
+                                minWidth: 120,
+                                ' .MuiInputLabel-root.Mui-focused': {
+                                    color: 'red'
+                                },
+                                ' .MuiOutlinedInput-root.Mui-focused': {
+                                    outlineColor: 'red'
+                                },
+                            }}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">برند</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={selectedBrand}
+                                        label="برند"
+                                        onChange={handleChangeSelectBrand}
+                                        MenuProps={{
+                                            PaperProps: {
+                                                style: {
+                                                    maxHeight: 200,
+                                                },
+                                            },
+                                        }}
+                                        sx={{
+                                            '&.MuiOutlinedInput-root': {
+                                                '&.Mui-focused fieldset': {
+                                                    borderColor: 'red',  // Change the border color when focused
+                                                },
+                                            },
+                                        }}
+                                    >
+                                        {brands?.map(e => (
+                                            <MenuItem key={e?._id} value={e?._id}>{e?.title}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Box>
+
+                            {/* end select brand */}
                         </Box>
-                        {/* end select category */}
 
-                        {/* start select brand */}
-                        {/* <Box sx={{
-                            minWidth: 120,
-                            ' .MuiInputLabel-root.Mui-focused': {
-                                color: 'red'
-                            },
-                            ' .MuiOutlinedInput-root.Mui-focused': {
-                                outlineColor: 'red'
-                            },
-                        }}>
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">برند</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={selectedBrand}
-                                    label="برند"
-                                    onChange={handleChangeSelectBrand}
-                                    MenuProps={{
-                                        PaperProps: {
-                                            style: {
-                                                maxHeight: 200,
-                                            },
-                                        },
-                                    }}
-                                    sx={{
-                                        '&.MuiOutlinedInput-root': {
-                                            '&.Mui-focused fieldset': {
-                                                borderColor: 'red',  // Change the border color when focused
-                                            },
-                                        },
-                                    }}
-                                >
-                                    {brands?.map(e => (
-                                        <MenuItem key={e?._id} value={e?._id}>{e?.title}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Box> */}
-                        {/* end select brand */}
-
-                        {/* start select product variant */}
-                        {/* <Box sx={{
-                            minWidth: 120,
-                            ' .MuiInputLabel-root.Mui-focused': {
-                                color: 'red'
-                            },
-                            ' .MuiOutlinedInput-root.Mui-focused': {
-                                outlineColor: 'red'
-                            },
-                        }}>
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">زيرشاخه</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={selectedBrand}
-                                    label="زيرشاخه"
-                                    onChange={handleChangeSelectBrand}
-                                    MenuProps={{
-                                        PaperProps: {
-                                            style: {
-                                                maxHeight: 200,
-                                            },
-                                        },
-                                    }}
-                                    sx={{
-                                        '&.MuiOutlinedInput-root': {
-                                            '&.Mui-focused fieldset': {
-                                                borderColor: 'red',  // Change the border color when focused
-                                            },
-                                        },
-                                    }}
-                                >
-                                    {brands?.map(e => (
-                                        <MenuItem key={e?._id} value={e?._id}>{e?.title}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Box> */}
-                        {/* end select product variant */}
 
                         <br />
                         <button type='submit'>افزودن</button>

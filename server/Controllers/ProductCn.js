@@ -18,10 +18,6 @@ export const getAll = catchAsync(async (req, res, next) => {
     ...req.query,
     populate: {
       path: "productVariantIds",
-      populate: {
-        path: "variantIds",
-        model: "Variant",
-      },
     },
   };
   if (role == "user" || !role) {
@@ -37,6 +33,7 @@ export const getAll = catchAsync(async (req, res, next) => {
     .limitFields()
     .secondPopulate(req?.query?.populate || "")
     .secondPopulate('categoryId')
+    .secondPopulate('brandId')
 
     const products=await features.model
     const count=await Product.countDocuments(queryString?.filters)
@@ -77,13 +74,7 @@ export const get = catchAsync(async (req, res, next) => {
         user.recentlyProductIds=recentlyProductIds
         await user.save()
     }
-    const product=await Product.findById(id).populate({
-        path: "productVariantIds",
-        populate: {
-          path: "variantIds",
-          model: "Variant",
-        },
-      }).populate('categoryId')
+    const product=await Product.findById(id).populate({path: "productVariantIds" }).populate('categoryId')
     return res.status(200).json({
         success:true,
         data:{product},

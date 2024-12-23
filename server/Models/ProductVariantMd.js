@@ -23,21 +23,11 @@ const productVariantSchema = new mongoose.Schema({
     min: 0,
     max: 100
   },
-  variantIds: {
-    type: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Variant'
-    }],
-    default: []
-  },
   productId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Product'
   },
-  brandId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Brand'
-  },
+
 
 }, { timestamps: true });
 

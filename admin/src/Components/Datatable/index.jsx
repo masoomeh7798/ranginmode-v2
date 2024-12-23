@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import "./style.scss"
 import { DataGrid } from '@mui/x-data-grid';
-import { userColumns } from '../../datatableSource.jsx';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 const paginationModel = { page: 0, pageSize: 8 };
 
@@ -44,14 +43,11 @@ export default function Datatable({ rows,columns,rowType }) {
     ]
     return (
         <div className='datatable'>
-            <div className="dataTableTitle">
-                <Button href={`/${rowType}/new`}
-                    sx={{
-                        color: "purple",
-                        borderColor: "purple",
-                        fontSize: 20
-                    }}
-                    variant="outlined">{rowType=='users' ?'+ افزودن كاربر جديد' :'+ افزودن محصول جديد'}</Button>
+            <div className="dataTableTitle box-shadow">
+                <Typography
+                component={'h1'}
+                fontSize={24}
+                >{rowType=='users' ?'كاربران' :'محصولات'}</Typography>
             </div>
             <DataGrid
                 className='datagrid'

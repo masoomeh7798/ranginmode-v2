@@ -34,7 +34,11 @@ const productSchema = new mongoose.Schema({
   defaultVariantIndex: {
     type: Number,
     default: 0
-  }
+  },
+  brandId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Brand'
+  },
 }, { timestamps: true });
 
 

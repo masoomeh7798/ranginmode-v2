@@ -16,7 +16,6 @@ import commentRouter from "./Routes/Comment.js";
 import cartRouter from "./Routes/Cart.js";
 import searchRouter from "./Routes/search.js";
 import orderRouter from "./Routes/OrderHistory.js";
-import variantRouter from "./Routes/Variant.js";
 import productVariantRouter from "./Routes/ProductVariant.js";
 
 
@@ -40,7 +39,6 @@ app.use('/api/comment',commentRouter)
 app.use('/api/cart',cartRouter)
 app.use('/api/search',searchRouter)
 app.use('/api/order',orderRouter)
-app.use('/api/variant',variantRouter)
 app.use('/api/product-variant',productVariantRouter)
 
 
