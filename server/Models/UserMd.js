@@ -29,20 +29,20 @@ const userSchema = new mongoose.Schema({
     type: String,
     match: [
       /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/g,
-      "phone number incorrect",
+      "شماره تلفن اشتباه است.",
     ],
-    required: [true, "phone number is required"],
-    unique: [true, "phone number is exist"],
+    required: [true, "شماره موبايل الزامي است"],
+    unique: [true, "شماره موبايل تكراري است"],
   },
   email: {
     type: String,
-    match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g, "email incorrect"],
-    unique: [true, "email is exist"],
-    required:[true,'email is required']
+    match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g, "ايميل نامعتبر است."],
+    unique: [true, "ايميل تكراري است."],
+    required:[true,'ايميل الزامي است.']
   },
   password: {
     type: String,
-    required: [true, 'password is required'],
+    required: [true, 'رمز عبور الزامي است.'],
   },
   img:{
     type:String

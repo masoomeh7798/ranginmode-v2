@@ -139,7 +139,7 @@ export default function NewProduct() {
     return (
         <>
            
-            <div className="bottom box-shadow">
+            <div className="bottom">
                 <div className="right">
                     <div className="uploadFile">
                         <label htmlFor="file">

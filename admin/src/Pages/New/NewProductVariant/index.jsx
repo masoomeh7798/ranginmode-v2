@@ -82,7 +82,7 @@ export default function NewProductVariant() {
     return (
         <>
 
-            <div className="bottom box-shadow">
+            <div className="bottom">
                 <div className="left">
                     <form onSubmit={handleSubmit}>
                         <div

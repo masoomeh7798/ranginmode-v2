@@ -5,14 +5,14 @@ import Navbar from '../../Components/Navbar'
 import NewUser from './NewUser';
 import NewProduct from './NewProduct';
 import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
 import NewProductVariant from './NewProductVariant';
 
 
 
 
 export default function New() {
-    const [itemType, setItemType] = useState('product');
+    const [itemType, setItemType] = useState('user');
+
     const handleChangeType = (item) => {
         setItemType(item)
     }
@@ -34,9 +34,19 @@ export default function New() {
                 )
 
             default:
-                break;
+                return (<></>)
         }
     }
+
+    // create list items
+    const listItems = [
+        { type: 'user', label: 'كاربر' },
+        { type: 'product', label: 'محصول' },
+        { type: 'productVariant', label: 'زيرشاخه' },
+        { type: 'brand', label: 'برند' },
+        { type: 'category', label: 'دسته بندي' },
+        { type: 'slider', label: 'اسلايدر' }
+    ]
 
     return (
         <div className="new">
@@ -53,12 +63,13 @@ export default function New() {
                     <div className="addItemsParts">
                         <div className="selectBar">
                             <ul>
-                                <li><button onClick={() => handleChangeType('user')}>كاربر</button></li>
-                                <li><button onClick={() => handleChangeType('product')}>محصول</button></li>
-                                <li><button onClick={() => handleChangeType('productVariant')}>زيرشاخه ي محصول</button></li>
-                                <li><button onClick={() => handleChangeType('brand')}>برند</button></li>
-                                <li><button onClick={() => handleChangeType('category')}>دسته بندي</button></li>
-                                <li><button onClick={() => handleChangeType('slider')}>اسلايدر</button></li>
+                                {listItems?.map((item, index) => (
+                                    <li className={itemType==item.type ? 'activeTab':''} data-name={item.type} key={index} onClick={e=>setActiveItem(e.target[data-name])}>
+                                        <button onClick={() => handleChangeType( item.type )}>{item.label}</button>
+                                    </li>
+
+                                ))}
+
                             </ul>
                         </div>
                         <div className="displayComponent">

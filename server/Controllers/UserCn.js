@@ -61,6 +61,10 @@ export const foregtPass = catchAsync(async (req, res, next) => {
     if (!phone) {
         return next(new HandleError('شماره تلفن الزامي است.', '400'))
     }
+    const user=await User.findOne({phone})
+    if(!user){
+        return next(new HandleError('كاربر پيدا نشد.', '400'))
+    }
     const sentCode = await sendAuthCode(phone)
     return res.status(200).json({
         success: sentCode.success,
@@ -76,7 +80,7 @@ export const checkCode = catchAsync(async (req, res, next) => {
         return next(new HandleError('كد تاييد الزامي است.', '400'))
     }
     if (!phone) {
-        return next(new HandleError('شماره تلفن و الزامي است.', '400'))
+        return next(new HandleError('شماره تلفن الزامي است.', '400'))
     }
     const checkedCode = await verifyCode(phone, code)
     return res.status(200).json({
