@@ -6,6 +6,7 @@ import NewUser from './NewUser';
 import NewProduct from './NewProduct';
 import Typography from '@mui/material/Typography'
 import NewProductVariant from './NewProductVariant';
+import NewBrand from './NewBrand';
 
 
 
@@ -31,6 +32,10 @@ export default function New() {
             case 'productVariant':
                 return (
                     <NewProductVariant />
+                )
+            case 'brand':
+                return (
+                    <NewBrand />
                 )
 
             default:
@@ -64,8 +69,8 @@ export default function New() {
                         <div className="selectBar">
                             <ul>
                                 {listItems?.map((item, index) => (
-                                    <li className={itemType==item.type ? 'activeTab':''} data-name={item.type} key={index} onClick={e=>setActiveItem(e.target[data-name])}>
-                                        <button onClick={() => handleChangeType( item.type )}>{item.label}</button>
+                                    <li className={itemType==item.type ? 'activeTab':''} data-name={item.type} key={index} onClick={e=>handleChangeType( item.type )}>
+                                        <button>{item.label}</button>
                                     </li>
 
                                 ))}

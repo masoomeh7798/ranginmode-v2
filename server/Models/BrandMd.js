@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const brandSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: [true, "title is required"],
+    required: [true, "نام برند الزامي است"],
   },
   isActive:{
     type:Boolean,

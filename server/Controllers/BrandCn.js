@@ -7,7 +7,7 @@ export const create=catchAsync(async(req,res,next)=>{
     return res.status(201).json({
         success:true,
         data:{brand},
-        message:'create brand successfully'
+        message:'برند با موفقيت افزوده شد.'
     })
 
 })

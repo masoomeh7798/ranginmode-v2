@@ -12,13 +12,14 @@
              font-weight: 600;
          }
 
-         .top{
-            display: flex;
+         .top {
+             display: flex;
              border-radius: 10px;
              padding: 20px;
              margin: 20px;
              border: .5px solid rgba(0, 0, 0, .059);
          }
+
          .bottom {
              display: flex;
              border-radius: 10px;
@@ -28,11 +29,14 @@
 
              .addItemsParts {
                  display: flex;
-                gap: 10px;
+                 gap: 10px;
+                 width: 100%;
+
                  .selectBar {
                      flex: 1;
                      display: flex;
                      border-left: 3px solid rgba(0, 0, 0, .1);
+
                      ul {
                          margin-left: 20px;
 
@@ -40,11 +44,13 @@
                              cursor: pointer;
                              border-radius: 4px;
 
-                             &.activeTab,&:hover{
-                                background-color: rgba(128, 128, 128, 0.1);
+                             &.activeTab,
+                             &:hover {
+                                 background-color: rgba(128, 128, 128, 0.1);
                              }
-                             &:not(:last-child){
-                                margin-bottom: 8px;
+
+                             &:not(:last-child) {
+                                 margin-bottom: 8px;
                              }
 
                              button {
@@ -74,9 +80,9 @@
                              flex: 4;
 
                              form {
+                                height: 100%;
                                  display: flex;
                                  flex-wrap: wrap;
-                                 justify-content: space-between;
 
                                  .formInput {
                                      width: 48%;
