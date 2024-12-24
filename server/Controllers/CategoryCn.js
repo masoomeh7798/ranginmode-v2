@@ -55,6 +55,7 @@ export const create = catchAsync(async (req, res, next) => {
     const category = await Category.create(req.body)
     return res.status(200).json({
         success: true,
-        data: { category }
+        data: { category },
+        message:'دسته بندي افزوده شد.'
     })
 })

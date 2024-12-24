@@ -7,6 +7,7 @@ import NewProduct from './NewProduct';
 import Typography from '@mui/material/Typography'
 import NewProductVariant from './NewProductVariant';
 import NewBrand from './NewBrand';
+import NewCategory from './NewCategory';
 
 
 
@@ -36,6 +37,10 @@ export default function New() {
             case 'brand':
                 return (
                     <NewBrand />
+                )
+            case 'category':
+                return (
+                    <NewCategory />
                 )
 
             default:
