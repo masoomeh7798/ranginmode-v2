@@ -13,7 +13,7 @@ export default function DiscountBanner() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(import.meta.env.VITE_BASE_API + 'slider?filters[position][$eq]=home-discount-slider')
+        const res = await fetch(import.meta.env.VITE_BASE_API + 'slider?filters[position][$eq]=discount')
         const data = await res.json()
         setBanners(data?.data?.slider)
       } catch (error) {

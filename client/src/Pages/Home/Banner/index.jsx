@@ -11,7 +11,7 @@ export default function Banner() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(import.meta.env.VITE_BASE_API+'slider?filters[position][$eq]=home-main-slider' )
+        const res = await fetch(import.meta.env.VITE_BASE_API+'slider?filters[position][$eq]=home' )
         const data = await res.json()
         setBanners(data?.data?.slider)
       } catch (error) {

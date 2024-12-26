@@ -10,7 +10,7 @@ export const create=catchAsync(async(req,res,next)=>{
     return res.status(201).json({
         success:true,
         data:{slider},
-        message:'create slider successfully'
+        message:'اسلايد با موفقيت افزوده شد.'
     })
 
 })
@@ -39,6 +39,6 @@ export const remove=catchAsync(async(req,res,next)=>{
     fs.unlinkSync(`${__dirname}/Public/${slider.image}`)
     return res.status(200).json({
         success:true,
-        message:'slider has been removed'
+        message:'اسلايد با موفقيت حذف شد.'
     })
 })

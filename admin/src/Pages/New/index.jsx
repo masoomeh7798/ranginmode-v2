@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography'
 import NewProductVariant from './NewProductVariant';
 import NewBrand from './NewBrand';
 import NewCategory from './NewCategory';
+import NewSlider from './NewSlider';
 
 
 
@@ -41,6 +42,10 @@ export default function New() {
             case 'category':
                 return (
                     <NewCategory />
+                )
+            case 'slider':
+                return (
+                    <NewSlider />
                 )
 
             default:
