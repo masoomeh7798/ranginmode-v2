@@ -169,8 +169,6 @@ export default function NewSlider() {
                             {/* end select position */}
                         </Box>
 
-
-
                         <button type='submit' style={{ marginTop: 'auto' }}>افزودن</button>
                     </form>
                 </div>

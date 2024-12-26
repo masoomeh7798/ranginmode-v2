@@ -23,7 +23,7 @@ export const getAll=catchAsync(async (req,res,next) => {
     })
 })
 export const getAllVariants=catchAsync(async (req,res,next) => {
-    const features = new ApiFeatures(ProductVariant, req.query).filters().sort().limitFields().paginate().populate()
+    const features = new ApiFeatures(ProductVariant, req.query).filters().sort().limitFields().paginate().populate().secondPopulate('productId')
     const productVariants = await features.model
     const count = await ProductVariant.countDocuments(req?.query?.filters)
     return res.status(201).json({

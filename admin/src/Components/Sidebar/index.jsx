@@ -70,25 +70,26 @@ export default function Sidebar() {
                             <CategoryOutlinedIcon className='icon' />
                             <span> زيرشاخه ي محصولات</span>
                         </li>
-                        <Link to='/brands'>
-                            <li>
-                                <Brightness7OutlinedIcon className='icon' />
-                                <span>برند ها</span>
-                            </li>
-                        </Link>
-                        <Link to='/categories'>
-                            <li>
-                                <ViewCompactOutlinedIcon className='icon' />
-                                <span>دسته بندي ها</span>
-                            </li>
-                        </Link>
-                        <Link to='/sliders'>
-                            <li>
-                                <ViewCarouselOutlinedIcon className='icon' />
-                                <span>اسلايد ها</span>
-                            </li>
-                        </Link>
                     </Link>
+                    <Link to='/brands'>
+                        <li>
+                            <Brightness7OutlinedIcon className='icon' />
+                            <span>برند ها</span>
+                        </li>
+                    </Link>
+                    <Link to='/categories'>
+                        <li>
+                            <ViewCompactOutlinedIcon className='icon' />
+                            <span>دسته بندي ها</span>
+                        </li>
+                    </Link>
+                    <Link to='/sliders'>
+                        <li>
+                            <ViewCarouselOutlinedIcon className='icon' />
+                            <span>اسلايد ها</span>
+                        </li>
+                    </Link>
+
                     <li>
                         <CreditCardOutlinedIcon className='icon' />
                         <span>سفارشات</span>

@@ -47,7 +47,12 @@ export default function Datatable({ rows,columns,rowType }) {
                 <Typography
                 component={'h1'}
                 fontSize={24}
-                >{rowType=='users' ?'كاربران' :'محصولات'}</Typography>
+                >{rowType=='user' ?'كاربران' :
+                rowType=='product' ?'محصولات':
+                rowType=='product-variant' ? 'زيرشاخه ي محصولات' :
+                rowType=='brand' ? 'برند ها':
+                rowType=='category' ? 'دسته بندي ها' : 'اسلايد ها'
+                }</Typography>
             </div>
             <DataGrid
                 className='datagrid'

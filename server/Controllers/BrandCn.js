@@ -17,7 +17,7 @@ export const getAll=catchAsync(async(req,res,next)=>{
     const count=await Brand.countDocuments(req?.query?.filters)
     return res.status(200).json({
         success:true,
-        data:{brands},
+        data:brands,
         count
     })
 })

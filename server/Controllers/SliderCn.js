@@ -20,7 +20,7 @@ export const getAll=catchAsync(async(req,res,next)=>{
     const slider=await features.model
     return res.status(200).json({
         success:true,
-        data:{slider},
+        data:slider,
         
     })
 })
