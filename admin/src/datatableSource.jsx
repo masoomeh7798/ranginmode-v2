@@ -1,11 +1,11 @@
 export const userColumns = [
-    { field: 'id', headerName: 'ID', width: 70},
+    { field: 'id', headerName: 'ID', width: 70 },
     {
         field: 'user', headerName: "كاربر", width: 230,
         renderCell: (params) => {
             return (
                 <div className="cellWithImg">
-                    <img className="cellImg" src={import.meta.env.VITE_BASE_URL+params.row.img} alt={params.row.fullName} />
+                    <img className="cellImg" src={import.meta.env.VITE_BASE_URL + params.row.img} alt={params.row.fullName} />
                     {params.row.fullName}
                 </div>
             )
@@ -13,16 +13,22 @@ export const userColumns = [
     },
     { field: "email", headerName: "ايميل", width: 230 },
     { field: "phone", headerName: "موبايل", width: 150 },
-    
+    {
+        field: "role", headerName: "نقش", width: 150,
+        renderCell: (params) => (
+            <p>{params?.row?.role == 'admin' ? 'ادمين' : 'كاربر'}</p>
+        )
+    },
+
 ]
 export const productColumns = [
-    { field: 'id', headerName: 'ID', width: 70},
+    { field: 'id', headerName: 'ID', width: 70 },
     {
         field: 'product', headerName: "محصول", width: 230,
         renderCell: (params) => {
             return (
                 <div className="cellWithImg">
-                    <img className="cellImg" src={import.meta.env.VITE_BASE_URL+params.row.images[0]} alt={params.row.name} />
+                    <img className="cellImg" src={import.meta.env.VITE_BASE_URL + params.row.images[0]} alt={params.row.name} />
                     {params.row.name}
                 </div>
             )
@@ -32,7 +38,7 @@ export const productColumns = [
     { field: "price", headerName: "قيمت", width: 230 },
     { field: "discount", headerName: "تخفيف", width: 150 },
     { field: "quantity", headerName: "تعداد", width: 150 },
-    
+
 ]
 
 

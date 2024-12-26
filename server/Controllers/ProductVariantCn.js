@@ -1,6 +1,7 @@
 import catchAsync from "../Utils/catchAsync.js";
 import Product from "../Models/ProductMd.js";
 import ProductVariant from "../Models/ProductVariantMd.js";
+import ApiFeatures from "../Utils/apiFeatures.js";
 
 
 export const create=catchAsync(async (req,res,next) => {
@@ -15,10 +16,20 @@ export const create=catchAsync(async (req,res,next) => {
 })
 export const getAll=catchAsync(async (req,res,next) => {
     const {id}=req.params
-    const productVariant=await ProductVariant.find({productId:id}).populate('Variant')
+    const productVariant=await ProductVariant.find({productId:id})
     return res.status(201).json({
         data:{productVariant},
         success:true,
+    })
+})
+export const getAllVariants=catchAsync(async (req,res,next) => {
+    const features = new ApiFeatures(ProductVariant, req.query).filters().sort().limitFields().paginate().populate()
+    const productVariants = await features.model
+    const count = await ProductVariant.countDocuments(req?.query?.filters)
+    return res.status(201).json({
+        data:productVariants,
+        success:true,
+        count
     })
 })
 export const get=catchAsync(async (req,res,next) => {

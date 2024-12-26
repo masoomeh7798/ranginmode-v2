@@ -12,11 +12,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { DarkModeContext } from '../../Context/DarkModeContext.jsx';
 import { AuthContext } from '../../Context/AuthContext.jsx';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
+import Brightness7OutlinedIcon from '@mui/icons-material/Brightness7Outlined';
+import ViewCompactOutlinedIcon from '@mui/icons-material/ViewCompactOutlined';
+import ViewCarouselOutlinedIcon from '@mui/icons-material/ViewCarouselOutlined';
 
 
 export default function Sidebar() {
     const { dispatch } = useContext(DarkModeContext)
-    const { dispatch:authDispatch } = useContext(AuthContext)
+    const { dispatch: authDispatch } = useContext(AuthContext)
     const navigate = useNavigate()
 
     const handleLogout = () => {
@@ -43,6 +47,12 @@ export default function Sidebar() {
                         </li>
                     </Link>
                     <p className="title">ليست ها</p>
+                    <Link to='/new'>
+                        <li>
+                            <AddOutlinedIcon className='icon' />
+                            <span>افزودن موارد جديد</span>
+                        </li>
+                    </Link>
                     <Link to='/users' >
                         <li>
                             <PersonOutlineOutlinedIcon className='icon' />
@@ -55,11 +65,29 @@ export default function Sidebar() {
                             <span>محصولات</span>
                         </li>
                     </Link>
-                    <Link to='/new'>
+                    <Link to='/variants'>
                         <li>
-                            <AddOutlinedIcon className='icon' />
-                            <span>افزودن موارد جديد</span>
+                            <CategoryOutlinedIcon className='icon' />
+                            <span> زيرشاخه ي محصولات</span>
                         </li>
+                        <Link to='/brands'>
+                            <li>
+                                <Brightness7OutlinedIcon className='icon' />
+                                <span>برند ها</span>
+                            </li>
+                        </Link>
+                        <Link to='/categories'>
+                            <li>
+                                <ViewCompactOutlinedIcon className='icon' />
+                                <span>دسته بندي ها</span>
+                            </li>
+                        </Link>
+                        <Link to='/sliders'>
+                            <li>
+                                <ViewCarouselOutlinedIcon className='icon' />
+                                <span>اسلايد ها</span>
+                            </li>
+                        </Link>
                     </Link>
                     <li>
                         <CreditCardOutlinedIcon className='icon' />
