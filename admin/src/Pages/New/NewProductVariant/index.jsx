@@ -34,7 +34,7 @@ export default function NewProductVariant() {
                 const res = await fetch(import.meta.env.VITE_BASE_API + 'product')
                 const data = await res.json()
                 if (data?.success) {
-                    setProducts(data?.data?.products)
+                    setProducts(data?.data)
                 }
 
             } catch (error) {

@@ -53,7 +53,7 @@ export default function NewProduct() {
                 })
                 const data = await res.json()
                 if (data?.success) {
-                    setCategories(data?.data?.categories)
+                    setCategories(data?.data)
                 }
                 // brand
                 const resB = await fetch(import.meta.env.VITE_BASE_API + 'brand', {
@@ -64,7 +64,7 @@ export default function NewProduct() {
                 })
                 const dataB = await resB.json()
                 if (data?.success) {
-                    setBrands(dataB?.data?.brands)
+                    setBrands(dataB?.data)
                 }
             } catch (error) {
                 console.log(error);

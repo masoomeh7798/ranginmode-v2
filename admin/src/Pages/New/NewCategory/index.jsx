@@ -77,7 +77,7 @@ export default function NewCategory() {
                 })
                 const data = await res.json()
                 if (data?.success) {
-                    setCategories(data?.data?.categories)
+                    setCategories(data?.data)
                 }      
             } catch (error) {
                 console.log(error);

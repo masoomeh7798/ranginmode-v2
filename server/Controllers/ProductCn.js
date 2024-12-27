@@ -74,10 +74,10 @@ export const get = catchAsync(async (req, res, next) => {
         user.recentlyProductIds=recentlyProductIds
         await user.save()
     }
-    const product=await Product.findById(id).populate({path: "productVariantIds" }).populate('categoryId')
+    const product=await Product.findById(id).populate({path: "productVariantIds" }).populate('categoryId').populate('brandId')
     return res.status(200).json({
         success:true,
-        data:{product},
+        data:product,
         isFavorite,
         isCustomer
     })

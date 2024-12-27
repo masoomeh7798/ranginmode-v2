@@ -25,7 +25,11 @@ export const getOneUser = catchAsync(async (req, res, next) => {
         return next(new HandleError("you don't have permission", 401))
     }
 
-    const user = await User.findById(id).populate('recentlyProductIds').populate({
+    const user = await User.findById(id)
+    .populate('recentlyProductIds')
+    .populate('favoriteProductIds')
+    .populate('boughtProduct')
+    .populate({
         path: 'cart',
         populate: {
             path: 'items.productId',
@@ -35,7 +39,7 @@ export const getOneUser = catchAsync(async (req, res, next) => {
 
     return res.status(200).json({
         success: true,
-        data: { user },
+        data:  user,
     })
 })
 

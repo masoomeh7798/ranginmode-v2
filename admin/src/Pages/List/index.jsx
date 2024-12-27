@@ -34,7 +34,6 @@ export default function List({ rowType }) {
 
         }
     }
-    console.log(rowType);
 
     useEffect(() => {
         fetchListData(rowType)

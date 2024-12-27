@@ -3,21 +3,26 @@ import "./style.scss"
 import Sidebar from '../../Components/Sidebar'
 import Navbar from '../../Components/Navbar'
 import EditIcon from '@mui/icons-material/Edit';
-import {  useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { AuthContext } from '../../Context/AuthContext';
+import SingleUser from './SingleUser';
+import SingleProduct from './SingleProduct';
+import SingleProductVariant from './SingleProductVariant';
+import SingleSlider from './SingleSlider';
+import SingleCategory from './SingleCategory';
+import SingleBrand from './SingleBrand';
 
 export default function Single({ rowType }) {
-    const params = useParams()
-    const id = rowType == 'users' ? params.userId : params.productId
+    const { id } = useParams()
     const { token } = useContext(AuthContext)
     const [item, setItem] = useState();
 
-
+   
     useEffect(() => {
         if (token) {
             (async () => {
                 try {
-                    const res = await fetch(`${import.meta.env.VITE_BASE_API}${rowType == 'users' ? `user/${id}` : `product/${id}`}`, {
+                    const res = await fetch(import.meta.env.VITE_BASE_API + `${rowType}/${id}`, {
                         'method': 'GET',
                         headers: {
                             authorization: `Bearer ${token}`
@@ -25,9 +30,9 @@ export default function Single({ rowType }) {
                     })
                     const data = await res.json()
                     if (data?.success) {
-                        setItem(rowType == 'users' ? data?.data?.user : data?.data?.product)
+                        setItem(data?.data)
                     }
-                    console.log(data);
+                //    console.log(data.data);
 
                 } catch (error) {
                     console.log(error);
@@ -37,7 +42,42 @@ export default function Single({ rowType }) {
     }, [token]);
 
 
- 
+    const selectDetailItemComponent = (rowType) => {
+        switch (rowType) {
+
+            case 'user':
+                return (
+                    <SingleUser item={item} />
+                )
+            case 'product':
+                return (
+                    <SingleProduct item={item} />
+                )
+
+            case 'product-variant':
+                return (
+                    <SingleProductVariant item={item} />
+                )
+            case 'brand':
+                return (
+                    <SingleBrand item={item} />
+                )
+            case 'category':
+                return (
+                    <SingleCategory item={item} />
+                )
+            case 'slider':
+                return (
+                    <SingleSlider item={item} />
+                )
+
+            default:
+                return (<></>)
+        }
+    }
+
+
+
     return (
 
         <div className="single">
@@ -49,19 +89,7 @@ export default function Single({ rowType }) {
                         <EditIcon />
                     </div>
                     <h1 className='title'>مشخصات</h1>
-                    <div className="item">
-                        <img src={import.meta.env.VITE_BASE_URL + (rowType == 'users' ? item?.img : item?.images[0])} alt="img" className='itemImg' />
-                        <div className="details">
-                            <h2 className="itemTitle">{rowType == 'users' ? item?.fullName : item?.name}</h2>
-                            {token && item && Object?.entries(item)?.map(([key, value], index) => (
-                                <div key={index} className="itemInfo">
-                                    <span className="itemKey">{key}</span>
-                                    <span className="itemValue">{typeof value === 'object' ? JSON.stringify(value) : value}</span>
-                                </div>
-                            ))}
-
-                        </div>
-                    </div>
+                  {selectDetailItemComponent(rowType)}
                 </div>
             </div>
         </div>

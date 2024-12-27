@@ -65,7 +65,7 @@ export default function Sidebar() {
                             <span>محصولات</span>
                         </li>
                     </Link>
-                    <Link to='/variants'>
+                    <Link to='/product-variants'>
                         <li>
                             <CategoryOutlinedIcon className='icon' />
                             <span> زيرشاخه ي محصولات</span>

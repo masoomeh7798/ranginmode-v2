@@ -31,17 +31,17 @@ export default function App() {
           <Route path='/login' element={token ? <Home /> : <Login />} />
           <Route path='*' element={<NotFound />} />
           <Route path='/users' element={<List rowType={'user'} />} />
-          <Route path='/users/:userId' element={<Single rowType={'user'} />} />
+          <Route path='/users/:id' element={<Single rowType={'user'} />} />
           <Route path='/products' element={<List rowType={'product'} />} />
-          <Route path='/products/:productId' element={<Single rowType={'product'}/>} />
-          <Route path='/variants' element={<List rowType={'product-variant'} />} />
-          <Route path='/variants/:variantId' element={<Single rowType={'product-variant'}/>} />
+          <Route path='/products/:id' element={<Single rowType={'product'}/>} />
+          <Route path='/product-variants' element={<List rowType={'product-variant'} />} />
+          <Route path='/product-variants/:id' element={<Single rowType={'product-variant'}/>} />
           <Route path='/brands' element={<List rowType={'brand'} />} />
-          <Route path='/brands/:brandId' element={<Single rowType={'brand'}/>} />
+          <Route path='/brands/:id' element={<Single rowType={'brand'}/>} />
           <Route path='/categories' element={<List rowType={'category'} />} />
-          <Route path='/categories/:categoryId' element={<Single rowType={'category'}/>} />
+          <Route path='/categories/:id' element={<Single rowType={'category'}/>} />
           <Route path='/sliders' element={<List rowType={'slider'} />} />
-          <Route path='/sliders/:sliderId' element={<Single rowType={'slider'}/>} />
+          <Route path='/sliders/:id' element={<Single rowType={'slider'}/>} />
           <Route path='/new' element={<New />} />
         </Routes>
         <Toaster/>

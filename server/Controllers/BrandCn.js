@@ -26,7 +26,7 @@ export const getOne=catchAsync(async(req,res,next)=>{
     const brand=await Brand.findById(id)
     return res.status(200).json({
         success:true,
-        data:{brand},
+        data:brand,
     })
 
 })

@@ -29,7 +29,7 @@ export const getOne=catchAsync(async(req,res,next)=>{
     const slider=await Slider.findById(id)
     return res.status(200).json({
         success:true,
-        data:{slider},
+        data:slider,
     })
 
 })

@@ -30,7 +30,7 @@ export default function Datatable({ rows,columns,rowType }) {
             renderCell: (params) => {
                 return (
                     <div className="actionButtons">
-                        <Link to={`/${rowType}/${params?.row?._id}`} className='viewBtn'>
+                        <Link to={`/${rowType=='category'?'categories':rowType+'s'}/${params?.row?._id}`} className='viewBtn'>
                             <VisibilityIcon />
                         </Link>
                         <span onClick={() => handleDeleteRow(params.row._id)} className="deleteBtn">

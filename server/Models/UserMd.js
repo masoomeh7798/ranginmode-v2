@@ -21,6 +21,7 @@ const cartSchema = new mongoose.Schema({
   },
 });
 
+
 const userSchema = new mongoose.Schema({
   fullName: {
     type: String,

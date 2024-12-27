@@ -34,9 +34,10 @@ export const getAllVariants=catchAsync(async (req,res,next) => {
 })
 export const get=catchAsync(async (req,res,next) => {
     const {id}=req.params
-    const productVariant=await ProductVariant.findById(id)
+    const productVariant=await ProductVariant.findById(id).populate('productId')
+    console.log(productVariant);
     return res.status(201).json({
-        data:{productVariant},
+        data:productVariant,
         success:true,
     })
 })

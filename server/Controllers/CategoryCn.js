@@ -35,7 +35,7 @@ export const getCategory = catchAsync(async (req, res, next) => {
     const category = await Category.findById(req.params.id).populate('subCategory')
     return res.status(200).json({
         success: true,
-        data: { category }
+        data: category 
     })
 })
 

@@ -22,6 +22,12 @@
                 object-fit: cover;
                 border-radius: 50%;
             }
+            .itemImg2 {
+                width: 60px;
+                height: 60px;
+                object-fit: cover;
+                border-radius: 50%;
+            }
         }
 
         .editButton {
@@ -45,6 +51,7 @@
             margin-bottom: 20px;
         }
         .details{
+            width: 100%;
             color: var(--primary-clr);
             .itemTitle{
                 margin-bottom: 10px;
@@ -52,13 +59,32 @@
             .itemInfo{
                 display: flex;
                 gap: 20px;
+                &.multiValue{
+                        flex-direction: column;
+                        gap: 0px;
+                        margin: 10px 0;
+                        .multiValueSpan{
+                            display: flex;
+                            gap: 20px;
+                            align-items: center;
+                            &.cart{
+                                flex-direction: column;
+                            }
+                        }
+                }
                 .itemKey{
                     font-weight: bold;
-                    color: gray;
+                    color: rgba(128, 128, 128, 0.735);
+                    
                 }
                 .itemValue{
                     color: rgb(77, 76, 76);
                     font-weight: 400;
+                &.userItemValue{
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 20px;
+                }
                 }
             }
         }
