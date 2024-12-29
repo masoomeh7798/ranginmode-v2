@@ -8,8 +8,9 @@ import Select from '@mui/material/Select';
 import useFormFields from '../../../Utils/useFormFields.js';
 import { AuthContext } from '../../../Context/AuthContext.jsx';
 import notify from '../../../Utils/notify.js';
+import { useNavigate } from 'react-router-dom';
 
-export default function EditProductVariant() {
+export default function NewProductVariant({ item, id }) {
     const { token } = useContext(AuthContext)
     const [fields, handleChange, setFields] = useFormFields({
         name: '',
@@ -18,6 +19,7 @@ export default function EditProductVariant() {
         finalPrice: '',
         discount: '',
     })
+    const navigate = useNavigate()
 
 
     // start select product
@@ -42,9 +44,22 @@ export default function EditProductVariant() {
             }
         })()
     }, []);
-    console.log(products);
 
-    // start add product
+    useEffect(() => {
+        if (item) {
+            setFields({
+                name: item.name,
+                quantity: item.quantity,
+                price: item.price,
+                finalPrice: item.finalPrice,
+                discount:item.discount
+
+            });
+            setSelectedProduct(item?.productId?._id)
+        }
+    }, [item]);
+
+    // start update product variant
     const handleReset = () => {
         setFields({
             name: '',
@@ -58,8 +73,8 @@ export default function EditProductVariant() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const res = await fetch(import.meta.env.VITE_BASE_API + `product-variant/${selectedProduct}`, {
-                method: 'POST',
+            const res = await fetch(import.meta.env.VITE_BASE_API + `product-variant/${id}`, {
+                method: 'PATCH',
                 headers: {
                     authorization: `Bearer ${token}`,
                     "content-type": "application/json"
@@ -69,6 +84,7 @@ export default function EditProductVariant() {
             const data = await res.json()
             if (data?.success) {
                 notify("success", data?.message)
+                navigate('/product-variants')
 
             } else {
                 notify("error", "همه فيلد ها الزامي هستند.")
