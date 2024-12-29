@@ -1,21 +1,24 @@
 import React, { useContext, useEffect, useState } from 'react'
 import "./../style.scss"
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import { AuthContext } from '../../../Context/AuthContext.jsx';
+import { AuthContext } from '../../../Context/AuthContext';
 import { Box, createTheme, FormControlLabel, Switch, ThemeProvider } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import useFormFields from '../../../Utils/useFormFields.js';
+import useFormFields from '../../../Utils/useFormFields';
 import notify from '../../../Utils/notify.js';
+import { useNavigate } from 'react-router-dom';
 
 
 
-export default function EditProduct() {
-    const [files, setFiles] = useState();
+export default function EditProduct({ item, id }) {
+    const [files, setFiles] = useState([]);
     const [fields, handleChange, setFields] = useFormFields({ name: '', description: '', information: '' })
     const { token } = useContext(AuthContext)
+    const navigate=useNavigate()
+
 
 
     // start toggle is active
@@ -72,6 +75,22 @@ export default function EditProduct() {
         })()
     }, []);
 
+    useEffect(() => {
+        if (item) {
+            setFields({
+                name: item.name,
+                description: item.description,
+                information: item.information.map(e => `${e.name}:${e.value}`).join(','),
+
+            });
+            setIsActive(item?.isActive)
+            setSelectedBrand(item?.brandId?._id)
+            setSelectedCat(item?.categoryId?._id)
+            setFiles([{name:item?.images[0]}])
+        }
+    }, [item]);
+
+
 
     // start upload images
     const handleChangeImages = async (e) => {
@@ -114,8 +133,8 @@ export default function EditProduct() {
         e.preventDefault()
         const information = fields?.information?.split('+').map(e => e.split(':')).map(e => ({ name: e[0], value: e[1] }))
         try {
-            const res = await fetch(import.meta.env.VITE_BASE_API + 'product', {
-                method: 'POST',
+            const res = await fetch(import.meta.env.VITE_BASE_API + `product/${id}`, {
+                method: 'PATCH',
                 headers: {
                     authorization: `Bearer ${token}`,
                     "content-type": "application/json"
@@ -125,6 +144,7 @@ export default function EditProduct() {
             const data = await res.json()
             if (data?.success) {
                 notify("success", data?.message)
+                navigate('/products')
 
             } else {
                 notify("error", "همه فيلد ها الزامي هستند.")
@@ -138,13 +158,16 @@ export default function EditProduct() {
 
     return (
         <>
-           
+
             <div className="bottom">
                 <div className="right">
                     <div className="uploadFile">
                         <label htmlFor="file">
-                            <img src={(files && files.length != 0) ? import.meta.env.VITE_BASE_URL + files[0]?.name : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"} alt="avatar" />
+                            
+                                <img src={(files && files.length != 0) ? import.meta.env.VITE_BASE_URL + files[0]?.name : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"} alt="avatar" />
+                            
                             <div className="fileIcon">
+
                                 <AddOutlinedIcon />
                             </div>
                         </label>

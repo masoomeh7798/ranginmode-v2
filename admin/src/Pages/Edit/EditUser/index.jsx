@@ -36,6 +36,8 @@ export default function EditUser({ item ,id}) {
         password: '*****',
       });
       setIsActive(item?.role)
+      setFiles([{name:item?.img}])
+
     }
   }, [item]);
 
