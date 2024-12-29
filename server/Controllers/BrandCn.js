@@ -36,6 +36,6 @@ export const update=catchAsync(async(req,res,next)=>{
     return res.status(200).json({
         success:true,
         data:{brand:newBrand},
-        message:'brand has been updated'
+        message:'برند به روز شد.'
     })
 })

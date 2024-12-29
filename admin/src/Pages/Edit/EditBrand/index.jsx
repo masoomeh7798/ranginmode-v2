@@ -1,13 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { AuthContext } from '../../../Context/AuthContext.jsx';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { AuthContext } from '../../../Context/AuthContext';
 import { Box, FormControlLabel, Switch } from '@mui/material';
+import useFormFields from '../../../Utils/useFormFields';
 import notify from '../../../Utils/notify.js';
+import { useNavigate } from 'react-router-dom';
 
 
 
-export default function EditBrand() {
+export default function EditBrand({ item, id }) {
     const [title, setTitle] = useState('');
-    const handleChange=(e)=>{
+    const navigate = useNavigate()
+
+    const handleChange = (e) => {
         setTitle(e.target.value)
     }
 
@@ -21,37 +26,42 @@ export default function EditBrand() {
         setIsActive(prev => !prev);
     };
 
+    useEffect(() => {
+        if (item) {
+            setTitle(item?.title);
+            setIsActive(item?.isActive)
+        }
+    }, [item]);
 
-
-    // start create brand
+    // start update brand
     const handleReset = () => {
         setTitle('');
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-   
-            try {
-                const res = await fetch(import.meta.env.VITE_BASE_API + 'brand', {
-                    method: 'POST',
-                    headers: {
-                        authorization: `Bearer ${token}`,
-                        "content-type": "application/json"
-                    },
-                    body: JSON.stringify({ title, isActive })
-                })
-                const data = await res.json()
-                if (data?.success) {
-                    notify("success", data?.message)
 
-                } else {
-                    notify("error", 'نام برند الزامي است.')
-                }
-                handleReset()
-            } catch (error) {
-                console.log(error);
+        try {
+            const res = await fetch(import.meta.env.VITE_BASE_API + `brand/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    authorization: `Bearer ${token}`,
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({ title, isActive })
+            })
+            const data = await res.json()
+            if (data?.success) {
+                notify("success", data?.message)
+                navigate('/brands')
+            } else {
+                notify("error", 'نام برند الزامي است.')
             }
-        
+            handleReset()
+        } catch (error) {
+            console.log(error);
+        }
+
     }
 
 
@@ -67,13 +77,13 @@ export default function EditBrand() {
                             <input value={title} onChange={handleChange} name='brand' type='text' placeholder='ژوپينگ' />
                         </div>
 
-                        <Box 
-                        width={'100%'}
+                        <Box
+                            width={'100%'}
                             sx={{
                                 '& label': {
                                     marginRight: '0px'
                                 },
-                               
+
                             }}
                         >
                             {/* start set isActive */}
@@ -99,8 +109,8 @@ export default function EditBrand() {
                             />
                             {/* end set isActive */}
                         </Box>
-                       
-                        <button type='submit' style={{marginTop:'auto'}}>افزودن</button>
+
+                        <button type='submit' style={{ marginTop: 'auto' }}>افزودن</button>
                     </form>
                 </div>
             </div>

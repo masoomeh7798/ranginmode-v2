@@ -10,7 +10,7 @@ import { AuthContext } from '../../../Context/AuthContext.jsx';
 import notify from '../../../Utils/notify.js';
 import { useNavigate } from 'react-router-dom';
 
-export default function NewProductVariant({ item, id }) {
+export default function EditProductVariant({ item, id }) {
     const { token } = useContext(AuthContext)
     const [fields, handleChange, setFields] = useFormFields({
         name: '',
