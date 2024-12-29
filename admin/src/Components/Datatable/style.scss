@@ -74,13 +74,16 @@
             border-radius: 5px;
             padding: 2px 5px;
             color: goldenrod;
-            background-color: rgba(218, 165, 32, 0.185);
         }
         .deleteBtn {
             border-radius: 5px;
             padding: 2px 5px;
             color: rgb(255, 0, 111);
-            background-color: rgba(174, 46, 95, 0.167);
+        }
+        .editBtn {
+            border-radius: 5px;
+            padding: 2px 5px;
+            color: rgb(140, 1, 108);
         }
     }
     .MuiToolbar-root{

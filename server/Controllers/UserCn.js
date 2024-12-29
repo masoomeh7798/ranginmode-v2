@@ -26,20 +26,20 @@ export const getOneUser = catchAsync(async (req, res, next) => {
     }
 
     const user = await User.findById(id)
-    .populate('recentlyProductIds')
-    .populate('favoriteProductIds')
-    .populate('boughtProduct')
-    .populate({
-        path: 'cart',
-        populate: {
-            path: 'items.productId',
-            model: 'Product'
-        }
-    })
+        .populate('recentlyProductIds')
+        .populate('favoriteProductIds')
+        .populate('boughtProduct')
+        .populate({
+            path: 'cart',
+            populate: {
+                path: 'items.productId',
+                model: 'Product'
+            }
+        })
 
     return res.status(200).json({
         success: true,
-        data:  user,
+        data: user,
     })
 })
 
@@ -47,14 +47,24 @@ export const updateUser = catchAsync(async (req, res, next) => {
     const { id } = req.params
     const { role, id: userId } = jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET)
     if (role !== 'admin' && id !== userId) {
-        return next(new HandleError("you don't have permission", 401))
+        return next(new HandleError("دسترسي نداري ;)", 401))
     }
-    const { password = '', role: r = '', ...others } = req.body
-    const user = await User.findByIdAndUpdate(id, others, { new: true, runValidators: true })
+    const { password, role: sentRole = '', ...others } = req.body
+    let newRole;
+    if (role == 'admin') {
+        newRole = sentRole
+    } else {
+        newRole = role
+    }
+
+    const newPass = bcryptjs.hashSync(password, 10)
+
+    const user = await User.findByIdAndUpdate(id, { ...others, role: newRole, password: newPass }, { new: true, runValidators: true })
 
     return res.status(200).json({
         success: true,
         data: user,
+        message:'اطلاعات كاربري به روز شد.'
     })
 })
 
@@ -65,8 +75,8 @@ export const foregtPass = catchAsync(async (req, res, next) => {
     if (!phone) {
         return next(new HandleError('شماره تلفن الزامي است.', '400'))
     }
-    const user=await User.findOne({phone})
-    if(!user){
+    const user = await User.findOne({ phone })
+    if (!user) {
         return next(new HandleError('كاربر پيدا نشد.', '400'))
     }
     const sentCode = await sendAuthCode(phone)
@@ -80,7 +90,7 @@ export const foregtPass = catchAsync(async (req, res, next) => {
 
 export const checkCode = catchAsync(async (req, res, next) => {
     const { code, phone } = req?.body
-    if ( !code) {
+    if (!code) {
         return next(new HandleError('كد تاييد الزامي است.', '400'))
     }
     if (!phone) {
@@ -96,7 +106,7 @@ export const checkCode = catchAsync(async (req, res, next) => {
 
 
 export const resetPass = catchAsync(async (req, res, next) => {
-    const {password, phone,code } = req?.body
+    const { password, phone, code } = req?.body
     if (!phone) {
         return next(new HandleError('شماره تلفن الزامي است.', '400'))
     }
@@ -106,8 +116,8 @@ export const resetPass = catchAsync(async (req, res, next) => {
     if (!password) {
         return next(new HandleError(' رمز عبور الزامي است.', '400'))
     }
-    const hashPass=bcryptjs.hashSync(password,10)
-    const user=await User.findOneAndUpdate({phone},{password:hashPass},{new:true,runValidators:true})
+    const hashPass = bcryptjs.hashSync(password, 10)
+    const user = await User.findOneAndUpdate({ phone }, { password: hashPass }, { new: true, runValidators: true })
     if (!user) {
         return next(new HandleError('کاربر پیدا نشد.', '404'));
     }

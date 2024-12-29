@@ -1,0 +1,165 @@
+.edit {
+    display: flex;
+    width: 100%;
+
+    .editContainer {
+        flex: 6;
+        min-height: max-content;
+
+        h1 {
+            font-size: 20px;
+            color: gray;
+            font-weight: 600;
+        }
+
+        .top {
+            display: flex;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            border: .5px solid rgba(0, 0, 0, .059);
+        }
+
+        .bottom {
+            display: flex;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+
+
+            .addItemsParts {
+                display: flex;
+                gap: 10px;
+                width: 100%;
+
+                .selectBar {
+                    flex: 1;
+                    display: flex;
+                    border-left: 3px solid rgba(0, 0, 0, .1);
+
+                    ul {
+                        margin-left: 20px;
+
+                        li {
+                            cursor: pointer;
+                            border-radius: 4px;
+
+                            &.activeTab,
+                            &:hover {
+                                background-color: rgba(128, 128, 128, 0.1);
+                            }
+
+                            &:not(:last-child) {
+                                margin-bottom: 8px;
+                            }
+
+                            button {
+                                cursor: pointer;
+                                text-align: start;
+                                text-wrap: wrap;
+                                border: none;
+                                outline: none;
+                                background-color: transparent;
+                                padding: 4px 16px;
+                                font-size: 16px;
+                                font-weight: 400;
+                                color: gray;
+                            }
+                        }
+                    }
+                }
+
+                .displayComponent {
+                    flex: 9;
+
+                    .bottom {
+                        margin: 0;
+                        height: 100%;
+
+                        .left {
+                            flex: 4;
+                          
+
+                            form {
+                               height: 100%;
+                                display: flex;
+                                flex-wrap: wrap;
+                                gap: 2%;
+
+                                .formInput {
+                                    width: 48%;
+                                    margin-bottom: 20px;
+
+                                    &.last-input {
+                                        width: 100%;
+                                    }
+
+                                    label {
+                                        display: inline-block;
+                                        margin-bottom: 5px;
+                                    }
+
+                                    input {
+                                        width: 100%;
+                                        border: none;
+                                        outline: none;
+                                        border-bottom: 1px solid gray;
+                                        padding: 5px;
+
+                                    }
+                                }
+
+                                button {
+                                    width: 100px;
+                                    height: fit-content;
+                                    background-color: teal;
+                                    color: white;
+                                    padding: 5px 0;
+                                    border-radius: 5px;
+                                    border: none;
+                                    font-size: 20px;
+                                    cursor: pointer;
+
+                                }
+                            }
+                        }
+
+                        .right {
+                            padding-left: 20px;
+                            flex: 1;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+
+                            .uploadFile {
+                                position: relative;
+
+                                img {
+                                    width: 100px;
+                                    height: 100px;
+                                    object-fit: cover;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                }
+
+                                .fileIcon {
+                                    cursor: pointer;
+                                    position: absolute;
+                                    left: 0;
+                                    bottom: 0;
+                                    color: gray;
+
+                                    svg {
+                                        font-size: 30px;
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}

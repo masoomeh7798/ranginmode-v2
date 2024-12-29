@@ -3,6 +3,7 @@ import "./style.scss"
 import { DataGrid } from '@mui/x-data-grid';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CloseIcon from '@mui/icons-material/Close';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { Link } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
 
@@ -32,6 +33,9 @@ export default function Datatable({ rows,columns,rowType }) {
                     <div className="actionButtons">
                         <Link to={`/${rowType=='category'?'categories':rowType+'s'}/${params?.row?._id}`} className='viewBtn'>
                             <VisibilityIcon />
+                        </Link>
+                        <Link to={`/${rowType=='category'?'categories':rowType+'s'}/edit/${params?.row?._id}`} className='editBtn'>
+                            <EditOutlinedIcon />
                         </Link>
                         <span onClick={() => handleDeleteRow(params.row._id)} className="deleteBtn">
                             <CloseIcon />

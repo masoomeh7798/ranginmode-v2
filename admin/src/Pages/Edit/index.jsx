@@ -4,19 +4,20 @@ import Sidebar from '../../Components/Sidebar'
 import Navbar from '../../Components/Navbar'
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../../Context/AuthContext';
-import SingleUser from './SingleUser';
-import SingleProduct from './SingleProduct';
-import SingleProductVariant from './SingleProductVariant';
-import SingleSlider from './SingleSlider';
-import SingleCategory from './SingleCategory';
-import SingleBrand from './SingleBrand';
+import EditUser from './EditUser';
+import EditProduct from './EditProduct';
+import EditProductVariant from './EditProductVariant';
+import EditSlider from './EditSlider';
+import EditCategory from './EditCategory';
+import EditBrand from './EditBrand';
+import { Typography } from '@mui/material';
 
-export default function Single({ rowType }) {
+export default function Edit({ rowType }) {
     const { id } = useParams()
     const { token } = useContext(AuthContext)
     const [item, setItem] = useState();
 
-   
+
     useEffect(() => {
         if (token) {
             (async () => {
@@ -31,7 +32,7 @@ export default function Single({ rowType }) {
                     if (data?.success) {
                         setItem(data?.data)
                     }
-                //    console.log(data.data);
+                    //    console.log(data.data);
 
                 } catch (error) {
                     console.log(error);
@@ -46,28 +47,28 @@ export default function Single({ rowType }) {
 
             case 'user':
                 return (
-                    <SingleUser item={item} />
+                    <EditUser item={item} id={id} />
                 )
             case 'product':
                 return (
-                    <SingleProduct item={item} />
+                    <EditProduct item={item} id={id} />
                 )
 
             case 'product-variant':
                 return (
-                    <SingleProductVariant item={item} />
+                    <EditProductVariant item={item} id={id} />
                 )
             case 'brand':
                 return (
-                    <SingleBrand item={item} />
+                    <EditBrand item={item} id={id} />
                 )
             case 'category':
                 return (
-                    <SingleCategory item={item} />
+                    <EditCategory item={item} id={id} />
                 )
             case 'slider':
                 return (
-                    <SingleSlider item={item} />
+                    <EditSlider item={item} id={id} />
                 )
 
             default:
@@ -79,13 +80,24 @@ export default function Single({ rowType }) {
 
     return (
 
-        <div className="single">
+        <div className="edit">
             <Sidebar />
-            <div className="singleContainer">
+            <div className="editContainer">
                 <Navbar />
-                <div className="content box-shadow">
-                    <h1 className='title'>مشخصات</h1>
-                  {selectDetailItemComponent(rowType)}
+                <div className="top box-shadow">
+                    <Typography
+                        component={'h1'}
+                        fontSize={24}
+                    >ويرايش</Typography>
+                </div>
+                <div className="bottom box-shadow">
+                    <div className="addItemsParts">
+
+                        <div className="displayComponent">
+                            {selectDetailItemComponent(rowType)}
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
