@@ -34,8 +34,8 @@ export default function Datatable({ rows,columns,rowType }) {
                         <Link to={`/${rowType=='category'?'categories':rowType+'s'}/${params?.row?._id}`} className='viewBtn'>
                             <VisibilityIcon />
                         </Link>
-                        <Link to={`/${rowType=='category'?'categories':rowType+'s'}/edit/${params?.row?._id}`} className='editBtn'>
-                            <EditOutlinedIcon />
+                        <Link to={`/${rowType=='category'?'categories':rowType+'s'}/edit/${params?.row?._id}`} className='editBtn' style={{display:rowType=='slider' && 'none'}} >
+                        <EditOutlinedIcon />
                         </Link>
                         <span onClick={() => handleDeleteRow(params.row._id)} className="deleteBtn">
                             <CloseIcon />
