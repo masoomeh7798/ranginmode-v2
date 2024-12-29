@@ -1,15 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import { AuthContext } from '../../../Context/AuthContext.jsx';
+import { AuthContext } from '../../../Context/AuthContext';
 import { Box, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Switch } from '@mui/material';
-import useFormFields from '../../../Utils/useFormFields.js';
+import useFormFields from '../../../Utils/useFormFields';
 import notify from '../../../Utils/notify.js';
+import { useNavigate } from 'react-router-dom';
 
 
 
-export default function EditCategory() {
+export default function EditCategory({ item, id }) {
     const [files, setFiles] = useState([]);
     const [title, setTitle] = useState('');
+    const navigate = useNavigate()
+
     const handleChange = (e) => {
         setTitle(e.target.value)
     }
@@ -30,6 +33,16 @@ export default function EditCategory() {
     const handleToggleMain = () => {
         setIsMain(prev => !prev);
     };
+
+    useEffect(() => {
+        if (item) {
+            setTitle(item.title);
+            setIsActive(item.isActive)
+            setIsMain(item.isMain)
+            setSelectedCat(item?.subCategory?._id)
+            setFiles([{ name: item?.image }])
+        }
+    }, [item]);
 
     // start upload images
     const handleChangeImages = async (e) => {
@@ -78,12 +91,13 @@ export default function EditCategory() {
                 const data = await res.json()
                 if (data?.success) {
                     setCategories(data?.data)
-                }      
+                }
             } catch (error) {
                 console.log(error);
             }
         })()
     }, []);
+
 
 
     // start create category
@@ -93,22 +107,23 @@ export default function EditCategory() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
         try {
-            const res = await fetch(import.meta.env.VITE_BASE_API + 'category', {
-                method: 'POST',
+            const res = await fetch(import.meta.env.VITE_BASE_API + `category/${id}`, {
+                method: 'PATCH',
                 headers: {
                     authorization: `Bearer ${token}`,
                     "content-type": "application/json"
                 },
-                body: JSON.stringify({ title, isActive, isMain, image: files[0].name,subCategory:selectedCat })
+                body: JSON.stringify({ title, isActive, isMain, image: files[0].name, subCategory: selectedCat })
             })
             const data = await res.json()
+            console.log(title);
             if (data?.success) {
                 notify("success", data?.message)
-
+                navigate('/categories')
             } else {
                 notify("error", 'نام دسته بندي الزامي است.')
+                console.log(data?.message);
             }
             handleReset()
         } catch (error) {
@@ -142,7 +157,7 @@ export default function EditCategory() {
                         </div>
 
                         <Box
-                        width={'100%'}
+                            width={'100%'}
                             display={'flex'}
                             gap={'5%'}
                             sx={{
@@ -198,53 +213,53 @@ export default function EditCategory() {
                                         }}
                                     />
                                 }
-                                label={isMain ? "اصلي" : "زيرمجموعه"}
+                                label={isMain ? "اصلي" : "فرعي"}
                             />
                             {/* end set isMain */}
 
-                             {/* start select category */}
-                        <Box sx={{
-                            minWidth: 120,
-                            ' .MuiInputLabel-root.Mui-focused': {
-                                color: 'red'
-                            },
-                            ' .MuiOutlinedInput-root.Mui-focused': {
-                                outlineColor: 'red'
-                            },
-                        }}>
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">دسته بندي</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={selectedCat}
-                                    label="دسته بندي"
-                                    onChange={handleChangeSelectCat}
-                                    MenuProps={{
-                                        PaperProps: {
-                                            style: {
-                                                maxHeight: 200,
+                            {/* start select category */}
+                            <Box sx={{
+                                minWidth: 120,
+                                ' .MuiInputLabel-root.Mui-focused': {
+                                    color: 'red'
+                                },
+                                ' .MuiOutlinedInput-root.Mui-focused': {
+                                    outlineColor: 'red'
+                                },
+                            }}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">دسته بندي</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={selectedCat}
+                                        label="دسته بندي"
+                                        onChange={handleChangeSelectCat}
+                                        MenuProps={{
+                                            PaperProps: {
+                                                style: {
+                                                    maxHeight: 200,
+                                                },
                                             },
-                                        },
-                                    }}
-                                    sx={{
-                                        '&.MuiOutlinedInput-root': {
-                                            '&.Mui-focused fieldset': {
-                                                borderColor: 'red',  // Change the border color when focused
+                                        }}
+                                        sx={{
+                                            '&.MuiOutlinedInput-root': {
+                                                '&.Mui-focused fieldset': {
+                                                    borderColor: 'red',  // Change the border color when focused
+                                                },
                                             },
-                                        },
-                                    }}
-                                >
-                                    {categories?.map(e => (
-                                        <MenuItem key={e?._id} value={e?._id}>{e?.title}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Box>
-                        {/* end select category */}
+                                        }}
+                                    >
+                                        {categories?.map(e => (
+                                            <MenuItem key={e?._id} value={e?._id}>{e?.title}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Box>
+                            {/* end select category */}
                         </Box>
 
-                       
+
 
                         <button type='submit' style={{ marginTop: 'auto' }}>افزودن</button>
                     </form>

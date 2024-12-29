@@ -40,15 +40,17 @@ export const getCategory = catchAsync(async (req, res, next) => {
 })
 
 export const update = catchAsync(async (req, res, next) => {
-    const category = await Category.findById(req.params.id)
-    if (category.image != req.body.image) {
+    const category = await Category.findById(req?.params?.id)
+    if (category.image && (category.image != req?.body?.image)) {
         fs.unlinkSync(`${__dirname}/Public/${category.image}`)
     }
+    console.log('this:',category?.image,req?.body?.image);
     const updatedCategory = await Category.findByIdAndUpdate(req.params.id, req.body, { new: true })
 
     return res.status(200).json({
         success: true,
-        data: { updatedCategory }
+        data: updatedCategory,
+        message:'دسته بندي به روز شد.'
     })
 })
 

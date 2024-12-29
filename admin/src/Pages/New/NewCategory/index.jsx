@@ -198,7 +198,7 @@ export default function NewCategory() {
                                         }}
                                     />
                                 }
-                                label={isMain ? "اصلي" : "زيرمجموعه"}
+                                label={isMain ? "اصلي" : "فرعي"}
                             />
                             {/* end set isMain */}
 
