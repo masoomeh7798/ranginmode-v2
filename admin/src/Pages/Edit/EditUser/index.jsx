@@ -36,12 +36,12 @@ export default function EditUser({ item ,id}) {
         password: '*****',
       });
       setIsActive(item?.role)
-      setFiles([{name:item?.img}])
+      setFiles(item.img && [ {name:item.img}])
 
     }
   }, [item]);
 
-
+console.log(files);
 
   // start upload images
   const handleChangeImages = async (e) => {

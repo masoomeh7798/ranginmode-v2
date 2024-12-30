@@ -40,7 +40,7 @@ export default function EditCategory({ item, id }) {
             setIsActive(item.isActive)
             setIsMain(item.isMain)
             setSelectedCat(item?.subCategory?._id)
-            setFiles([{ name: item?.image }])
+            setFiles(item.image && [ {name:item.image}])
         }
     }, [item]);
 

@@ -218,7 +218,7 @@ export default function EditProduct({ item, id }) {
                                         }}
                                     />
                                 }
-                                label={isActive ? "فعال" : "غیرفعال"}
+                                label={isActive ? "موجود" : "ناموجود"}
                             />
                             {/* end set isActive */}
 

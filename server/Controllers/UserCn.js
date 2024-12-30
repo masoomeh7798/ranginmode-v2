@@ -5,6 +5,8 @@ import jwt from 'jsonwebtoken'
 import ApiFeatures from "../Utils/apiFeatures.js";
 import { sendAuthCode, verifyCode } from "../Utils/smsHandler.js";
 import bcryptjs from 'bcryptjs'
+import fs from 'fs'
+import { __dirname } from "../app.js";
 
 export const getAllUser = catchAsync(async (req, res, next) => {
     const features = new ApiFeatures(User, req.query).filters().sort().limitFields().paginate().populate()
@@ -56,9 +58,11 @@ export const updateUser = catchAsync(async (req, res, next) => {
     } else {
         newRole = role
     }
-
     const newPass = bcryptjs.hashSync(password, 10)
-
+    const prevUser=await User.findById(id)
+     if (prevUser.img && (prevUser.img != req?.body?.img)) {
+            fs.unlinkSync(`${__dirname}/Public/${prevUser.img}`)
+        }
     const user = await User.findByIdAndUpdate(id, { ...others, role: newRole, password: newPass }, { new: true, runValidators: true })
 
     return res.status(200).json({

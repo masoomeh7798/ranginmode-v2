@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 import ApiFeatures from "../Utils/apiFeatures.js";
 import Product from "../Models/ProductMd.js";
 import User from "../Models/UserMd.js";
+import fs from 'fs'
+import { __dirname } from "../app.js";
 
 export const getAll = catchAsync(async (req, res, next) => {
     let role;
@@ -95,6 +97,13 @@ export const create=catchAsync(async(req,res,next)=>{
 
 export const update=catchAsync(async(req,res,next)=>{
   const {id}=req.params
+  const prevProduct=await Product.findById(id)
+  if(prevProduct.images.length > 0){
+    prevProduct.images.map(image=>{
+      !req.body.images.includes(image) &&
+      fs.unlinkSync(`${__dirname}/Public/${image}`)
+    })
+  }
   const product=await Product.findByIdAndUpdate(id,req.body,{new:true,runValidators:true})
   return res.status(201).json({
     message:'محصول به روز شد',

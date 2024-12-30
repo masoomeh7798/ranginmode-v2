@@ -7,9 +7,12 @@ export const columns = (rowType) => {
                 {
                     field: 'user', headerName: "كاربر", width: 230,
                     renderCell: (params) => {
+                        const imageSrc = params?.row?.img
+                        ? import.meta.env.VITE_BASE_URL + params.row.img
+                        : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg';
                         return (
                             <div className="cellWithImg">
-                                <img className="cellImg" src={import.meta.env.VITE_BASE_URL + params.row.img} alt={params.row.fullName} />
+                                <img className="cellImg" src={imageSrc} alt={params.row.fullName} />
                                 {params.row.fullName}
                             </div>
                         )
@@ -122,7 +125,7 @@ export const columns = (rowType) => {
                     renderCell: (params) => {
                         const imageSrc = params?.row?.image
                             ? import.meta.env.VITE_BASE_URL + params.row.image
-                            : '';
+                            : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg';
                         return (
                             <div className="cellWithImg">
                                 <img className="cellImg" src={imageSrc} alt={params?.row?.title} />

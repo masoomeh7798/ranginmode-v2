@@ -195,7 +195,7 @@ export default function NewProduct() {
                                         }}
                                     />
                                 }
-                                label={isActive ? "فعال" : "غیرفعال"}
+                                label={isActive ? "موجود" : "ناموجود"}
                             />
                             {/* end set isActive */}
 

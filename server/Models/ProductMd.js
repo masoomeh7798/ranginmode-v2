@@ -14,7 +14,13 @@ const productSchema = new mongoose.Schema({
   },
   images: {
     type: [String],
-    default: []
+    default: [],
+    validate: {
+      validator: function (v) {
+        return v.length > 0; // Ensure at least one image is provided
+      },
+      message: 'عكس محصول الزامي است.' // Custom error message
+    },
   },
   isActive: {
     type: Boolean,

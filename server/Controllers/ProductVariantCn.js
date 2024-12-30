@@ -58,5 +58,7 @@ export const remove=catchAsync(async (req,res,next) => {
     return res.status(201).json({
         data:{productVariant},
         success:true,
+        message:'زيرشاخه ي محصول حذف شد.'
+
     })
 })
