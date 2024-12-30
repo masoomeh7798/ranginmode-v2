@@ -11,6 +11,7 @@ import EditSlider from './EditSlider';
 import EditCategory from './EditCategory';
 import EditBrand from './EditBrand';
 import { Typography } from '@mui/material';
+import EditComment from './EditComment';
 
 export default function Edit({ rowType }) {
     const { id } = useParams()
@@ -69,6 +70,10 @@ export default function Edit({ rowType }) {
             case 'slider':
                 return (
                     <EditSlider item={item} id={id} />
+                )
+            case 'comment':
+                return (
+                    <EditComment item={item} id={id} />
                 )
 
             default:

@@ -187,6 +187,50 @@ export const columns = (rowType) => {
                     }
                 },
             ]
+        case 'comment':
+            return [
+                { field: 'id', headerName: 'ID', width: 70 },
+                {
+                    field: 'user', headerName: "کاربر", width: 200,
+                    renderCell: (params) => {
+                        return (
+                            <div >
+                               <p>{params?.row?.userId?.fullName}</p>
+                            </div>
+                        )
+                    }
+                },
+                {
+                    field: 'product', headerName: "محصول", width: 200,
+                    renderCell: (params) => {
+                        return (
+                            <div >
+                               <p>{params?.row?.productId?.name}</p>
+                            </div>
+                        )
+                    }
+                },
+                {
+                    field: 'content', headerName: "محتوا", width: 250,
+                    renderCell: (params) => {
+                        return (
+                            <div >
+                               <p>{params?.row?.content?.split(' ')?.slice(0,3).join(' ')}...</p>
+                            </div>
+                        )
+                    }
+                },
+                {
+                    field: "isPublish", headerName: "وضعیت انتشار", width: 150,
+                    renderCell: (params) => {
+                        return (
+                            <div>
+                                <p>{params?.row?.isPublish ? 'منتشر شده' : 'منتشر نشده'}</p>
+                            </div>
+                        )
+                    }
+                },
+            ]
 
         default:
             return [];

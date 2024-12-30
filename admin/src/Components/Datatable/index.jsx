@@ -75,7 +75,7 @@ export default function Datatable({ rows, columns, rowType }) {
                     rowType == 'product' ? 'محصولات' :
                         rowType == 'product-variant' ? 'زيرشاخه ي محصولات' :
                             rowType == 'brand' ? 'برند ها' :
-                                rowType == 'category' ? 'دسته بندي ها' : 'اسلايد ها'
+                                rowType == 'category' ? 'دسته بندي ها' :  rowType == 'comment' ? 'نظرات' :'اسلايد ها'
                     }</Typography>
             </div>
             <DataGrid

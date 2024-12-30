@@ -16,6 +16,7 @@ import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import Brightness7OutlinedIcon from '@mui/icons-material/Brightness7Outlined';
 import ViewCompactOutlinedIcon from '@mui/icons-material/ViewCompactOutlined';
 import ViewCarouselOutlinedIcon from '@mui/icons-material/ViewCarouselOutlined';
+import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 
 
 export default function Sidebar() {
@@ -87,6 +88,12 @@ export default function Sidebar() {
                         <li>
                             <ViewCarouselOutlinedIcon className='icon' />
                             <span>اسلايد ها</span>
+                        </li>
+                    </Link>
+                    <Link to='/comments'>
+                        <li>
+                            <ChatOutlinedIcon className='icon' />
+                            <span>نظرات</span>
                         </li>
                     </Link>
 

@@ -10,6 +10,7 @@ import SingleProductVariant from './SingleProductVariant';
 import SingleSlider from './SingleSlider';
 import SingleCategory from './SingleCategory';
 import SingleBrand from './SingleBrand';
+import SingleComment from './SingleComment';
 
 export default function Single({ rowType }) {
     const { id } = useParams()
@@ -68,6 +69,10 @@ export default function Single({ rowType }) {
             case 'slider':
                 return (
                     <SingleSlider item={item} />
+                )
+            case 'comment':
+                return (
+                    <SingleComment item={item} />
                 )
 
             default:

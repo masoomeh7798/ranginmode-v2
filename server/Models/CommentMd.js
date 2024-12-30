@@ -3,33 +3,23 @@ const commentSchema=new mongoose.Schema({
     content:{
         type:String,
         trim:true,
-        required:[true,'comment content is required'],
+        required:[true,'محتوای کامنت الزامی است.'],
     },
     userId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
-        required:[true,'userId is Required']
+        required:[true,'آی دی کاربر الزامی است.']
 
     },
     productId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Product',
-        required:[true,'productId is Required']
+        required:[true,'آی دی محصول الزامی است.']
     },
     isPublish:{
         type:Boolean,
         default:true
     },
-    rating:{
-        type:Number,
-        min:1,
-        max:5
-    },
-    isCustomer:{
-        type:Boolean,
-        default:false
-    }
-
 },{timestamps:true})
 const Comment=mongoose.model('Comment',commentSchema)
 export default Comment

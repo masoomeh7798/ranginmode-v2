@@ -31,24 +31,35 @@ export default function App() {
           <Route exact path='/' element={token ? <Home /> : <Login />} />
           <Route path='/login' element={token ? <Home /> : <Login />} />
           <Route path='*' element={<NotFound />} />
+          {/* user */}
           <Route path='/users' element={<List rowType={'user'} />} />
           <Route path='/users/:id' element={<Single rowType={'user'} />} />
           <Route path='/users/edit/:id' element={<Edit rowType={'user'} />} />
+          {/* product */}
           <Route path='/products' element={<List rowType={'product'} />} />
           <Route path='/products/:id' element={<Single rowType={'product'} />} />
           <Route path='/products/edit/:id' element={<Edit rowType={'product'} />} />
+          {/* product variant */}
           <Route path='/product-variants' element={<List rowType={'product-variant'} />} />
           <Route path='/product-variants/:id' element={<Single rowType={'product-variant'} />} />
           <Route path='/product-variants/edit/:id' element={<Edit rowType={'product-variant'} />} />
+          {/* brand */}
           <Route path='/brands' element={<List rowType={'brand'} />} />
           <Route path='/brands/:id' element={<Single rowType={'brand'} />} />
           <Route path='/brands/edit/:id' element={<Edit rowType={'brand'} />} />
+          {/* category */}
           <Route path='/categories' element={<List rowType={'category'} />} />
           <Route path='/categories/:id' element={<Single rowType={'category'} />} />
           <Route path='/categories/edit/:id' element={<Edit rowType={'category'} />} />
+          {/* slider */}
           <Route path='/sliders' element={<List rowType={'slider'} />} />
           <Route path='/sliders/:id' element={<Single rowType={'slider'} />} />
           <Route path='/sliders/edit/:id' element={<Edit rowType={'slider'} />} />
+          {/* comment */}
+          <Route path='/comments' element={<List rowType={'comment'} />} />
+          <Route path='/comments/:id' element={<Single rowType={'comment'} />} />
+          <Route path='/comments/edit/:id' element={<Edit rowType={'comment'} />} />
+          {/* create new */}
           <Route path='/new' element={<New />} />
         </Routes>
         <Toaster />
