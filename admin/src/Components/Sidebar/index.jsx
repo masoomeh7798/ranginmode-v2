@@ -17,12 +17,14 @@ import Brightness7OutlinedIcon from '@mui/icons-material/Brightness7Outlined';
 import ViewCompactOutlinedIcon from '@mui/icons-material/ViewCompactOutlined';
 import ViewCarouselOutlinedIcon from '@mui/icons-material/ViewCarouselOutlined';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
+import { SidebarContext } from '../../Context/SidebarContext.jsx';
 
 
 export default function Sidebar() {
     const { dispatch } = useContext(DarkModeContext)
     const { dispatch: authDispatch } = useContext(AuthContext)
     const navigate = useNavigate()
+    const {isOpenSidebar,dispatch:sidebarDispatch}=useContext(SidebarContext)
 
     const handleLogout = () => {
         navigate('/login')
@@ -30,102 +32,102 @@ export default function Sidebar() {
         localStorage.removeItem('user')
         authDispatch({ type: 'CLEAR_TOKEN' });
     }
+
+
     return (
-        <div className='sidebar'>
-            <div className="top">
-                <Link to='/'>
-                    <span className="logo">مدير سايت</span>
-                </Link>
-            </div>
-            <hr />
-            <div className="center">
-                <ul>
-                    <p className="title">اصلي</p>
+        <>
+            <div className={`sidebar sidebar-responsive ${isOpenSidebar && 'sidebar-onclick'}`}>
+                <div className="top">
                     <Link to='/'>
-                        <li>
-                            <DashboardIcon className='icon' />
-                            <span>داشبورد</span>
-                        </li>
+                        <span className="logo">مدير سايت</span>
                     </Link>
-                    <p className="title">ليست ها</p>
-                    <Link to='/new'>
-                        <li>
-                            <AddOutlinedIcon className='icon' />
-                            <span>افزودن موارد جديد</span>
-                        </li>
-                    </Link>
-                    <Link to='/users' >
-                        <li>
-                            <PersonOutlineOutlinedIcon className='icon' />
-                            <span>كاربران</span>
-                        </li>
-                    </Link>
-                    <Link to='/products'>
-                        <li>
-                            <StorefrontOutlinedIcon className='icon' />
-                            <span>محصولات</span>
-                        </li>
-                    </Link>
-                    <Link to='/product-variants'>
-                        <li>
-                            <CategoryOutlinedIcon className='icon' />
-                            <span> زيرشاخه ي محصولات</span>
-                        </li>
-                    </Link>
-                    <Link to='/brands'>
-                        <li>
-                            <Brightness7OutlinedIcon className='icon' />
-                            <span>برند ها</span>
-                        </li>
-                    </Link>
-                    <Link to='/categories'>
-                        <li>
-                            <ViewCompactOutlinedIcon className='icon' />
-                            <span>دسته بندي ها</span>
-                        </li>
-                    </Link>
-                    <Link to='/sliders'>
-                        <li>
-                            <ViewCarouselOutlinedIcon className='icon' />
-                            <span>اسلايد ها</span>
-                        </li>
-                    </Link>
-                    <Link to='/comments'>
-                        <li>
-                            <ChatOutlinedIcon className='icon' />
-                            <span>نظرات</span>
-                        </li>
-                    </Link>
+                </div>
+                <hr />
+                <div className="center">
+                    <ul>
+                        <p className="title" >اصلي</p>
+                        <Link to='/' onClick={()=>sidebarDispatch({type:'TOGGLE_SIDEBAR'})}>
+                            <li>
+                                <DashboardIcon className='icon' />
+                                <span>داشبورد</span>
+                            </li>
+                        </Link>
+                        <p className="title">ليست ها</p>
+                        <Link to='/new' onClick={()=>sidebarDispatch({type:'TOGGLE_SIDEBAR'})}>
+                            <li>
+                                <AddOutlinedIcon className='icon' />
+                                <span>افزودن موارد جديد</span>
+                            </li>
+                        </Link>
+                        <Link to='/users'  onClick={()=>sidebarDispatch({type:'TOGGLE_SIDEBAR'})}>
+                            <li>
+                                <PersonOutlineOutlinedIcon className='icon' />
+                                <span>كاربران</span>
+                            </li>
+                        </Link>
+                        <Link to='/products' onClick={()=>sidebarDispatch({type:'TOGGLE_SIDEBAR'})}>
+                            <li>
+                                <StorefrontOutlinedIcon className='icon' />
+                                <span>محصولات</span>
+                            </li>
+                        </Link>
+                        <Link to='/product-variants' onClick={()=>sidebarDispatch({type:'TOGGLE_SIDEBAR'})}>
+                            <li>
+                                <CategoryOutlinedIcon className='icon' />
+                                <span> زيرشاخه ي محصولات</span>
+                            </li>
+                        </Link>
+                        <Link to='/brands' onClick={()=>sidebarDispatch({type:'TOGGLE_SIDEBAR'})}>
+                            <li>
+                                <Brightness7OutlinedIcon className='icon' />
+                                <span>برند ها</span>
+                            </li>
+                        </Link>
+                        <Link to='/categories' onClick={()=>sidebarDispatch({type:'TOGGLE_SIDEBAR'})}>
+                            <li>
+                                <ViewCompactOutlinedIcon className='icon' />
+                                <span>دسته بندي ها</span>
+                            </li>
+                        </Link>
+                        <Link to='/sliders' onClick={()=>sidebarDispatch({type:'TOGGLE_SIDEBAR'})}>
+                            <li>
+                                <ViewCarouselOutlinedIcon className='icon' />
+                                <span>اسلايد ها</span>
+                            </li>
+                        </Link>
+                        <Link to='/comments' onClick={()=>sidebarDispatch({type:'TOGGLE_SIDEBAR'})}>
+                            <li>
+                                <ChatOutlinedIcon className='icon' />
+                                <span>نظرات</span>
+                            </li>
+                        </Link>
 
-                    <li>
-                        <CreditCardOutlinedIcon className='icon' />
-                        <span>سفارشات</span>
-                    </li>
-                    <li>
-                        <LocalShippingOutlinedIcon className='icon' />
-                        <span>ارسال</span>
-                    </li>
-                    <p className="title">مفيد</p>
-                    <li>
-                        <NotificationsNoneOutlinedIcon className='icon' />
-                        <span>اعلانات</span>
-                    </li>
+                        <li>
+                            <CreditCardOutlinedIcon className='icon' />
+                            <span>سفارشات</span>
+                        </li>
+                        <li>
+                            <LocalShippingOutlinedIcon className='icon' />
+                            <span>ارسال</span>
+                        </li>
+                        <p className="title">مفيد</p>
+                        <li>
+                            <NotificationsNoneOutlinedIcon className='icon' />
+                            <span>اعلانات</span>
+                        </li>
 
-                    <p className="title">مدير</p>
-                    <li>
-                        <AccountCircleOutlinedIcon className='icon' />
-                        <span>پروفايل </span>
-                    </li>
-                    <li onClick={handleLogout}>
-                        <ExitToAppOutlinedIcon className='icon' />
-                        <span>خروج</span>
-                    </li>
-                </ul>
+                        <p className="title">مدير</p>
+                        <li onClick={handleLogout}>
+                            <ExitToAppOutlinedIcon className='icon' />
+                            <span>خروج</span>
+                        </li>
+                    </ul>
+                </div>
+                <div className="bottom">
+                    <div className="colorOption" onClick={() => dispatch({ type: 'LIGHT' })}></div>
+                    <div className="colorOption" onClick={() => dispatch({ type: 'DARK' })}></div>
+                </div>
             </div>
-            <div className="bottom">
-                <div className="colorOption" onClick={() => dispatch({ type: 'LIGHT' })}></div>
-                <div className="colorOption" onClick={() => dispatch({ type: 'DARK' })}></div>
-            </div>
-        </div>
+        </>
     )
 }

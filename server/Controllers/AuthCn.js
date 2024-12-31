@@ -53,7 +53,8 @@ export const login=catchAsync(async(req,res,next)=>{
                 userName:user.userName,
                 email:user.email,
                 role:user.role,
-                fullName:user.fullName
+                fullName:user.fullName,
+                img:user?.img
             }
         },
         message:'login successfully'

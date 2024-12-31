@@ -1,12 +1,34 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import "./style.scss"
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
-import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
+import { AuthContext } from '../../Context/AuthContext';
 
 export default function Widget({ type }) {
     let data;
-    let amount = 1000
+    const [amount, setAmount] = useState();
+    const {token}=useContext(AuthContext)
+    useEffect(() => {
+        (async()=>{
+            try {
+                const res = await fetch(import.meta.env.VITE_BASE_API + "user", {
+                    method: "GET",
+                    headers: {
+                       authorization: `Bearer ${token}`
+                    },
+               
+                });
+                const data = await res.json();
+                if (data?.success) {
+                    setAmount(data?.count)
+                } 
+    
+            } catch (error) {
+                console.log(error);
+            }
+        })()
+        
+    }, []);
     switch (type) {
         case 'user':
             data = {
@@ -32,14 +54,7 @@ export default function Widget({ type }) {
                 icon: <MonetizationOnOutlinedIcon className='icon'  sx={{color:'green',bgcolor:'rgba(0,255,0,.2)'}} />
             }
             break;
-        case 'balance':
-            data = {
-                title: 'تراز',
-                isMoney: true,
-                link: "مشاهده جزئيات",
-                icon: <AccountBalanceWalletOutlinedIcon className='icon'  sx={{color:'purple',bgcolor:'rgba(160,32,240,.2)'}} />
-            }
-            break;
+
         default: break;
     }
     return (

@@ -3,7 +3,7 @@ export const authReducer = (state, action) => {
         case 'SET_TOKEN':
             return {
                 token: action.payload.token,
-                user:JSON.stringify(action.payload.user) 
+                user:action.payload.user
             }
         case 'CLEAR_TOKEN':
             return {

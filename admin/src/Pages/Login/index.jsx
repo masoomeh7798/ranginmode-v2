@@ -13,7 +13,7 @@ export default function Login() {
     const [fields, handleChange] = useFormFields()
     const navigate = useNavigate()
     const { dispatch,token } = useContext(AuthContext)
-    console.log(token);
+    
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {

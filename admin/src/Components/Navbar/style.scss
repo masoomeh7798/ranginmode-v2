@@ -5,6 +5,7 @@
     background-color: var(--text-clr);
     border-bottom: 1px solid rgba(211, 211, 211, 0.489);
 
+
     .wrapper {
         display: flex;
         align-items: center;
@@ -12,24 +13,35 @@
         width: 100%;
         padding: 20px;
 
+        .hamburgerMenu {
+            display: flex;
+            align-items: center;
+            display: none;
+        }
+
         .items {
             display: flex;
             align-items: center;
-            .item{
+            margin-right: auto;
+
+            .item {
                 position: relative;
                 display: flex;
                 align-items: center;
                 margin-right: 20px;
                 cursor: pointer;
-                .icon{
+
+                .icon {
                     font-size: 20px;
                 }
-                .avatar{
+
+                .avatar {
                     width: 30px;
                     height: 30px;
                     border-radius: 50%;
                 }
-                .counter{
+
+                .counter {
                     position: absolute;
                     top: -5px;
                     left: -5px;
@@ -54,17 +66,43 @@
             padding: 5px;
             border: 1px solid rgba(211, 211, 211, 0.489);
             background-color: white;
-            input{
+
+            input {
                 border: none;
                 outline: none;
                 background-color: transparent;
-                &::placeholder{
+
+                &::placeholder {
                     font-size: 12px;
                 }
             }
-            .icon{
+
+            .icon {
                 color: var(--primary-clr);
             }
         }
+    }
+}
+
+
+
+@media screen and (max-Width:'1000px') {
+    .navbar {
+        .wrapper {
+            .hamburgerMenu {
+                display: flex;
+            }
+        }
+    }
+}
+
+@media screen and (max-Width:'1000px') {
+    .navbar.navbar-responsive{
+        position: fixed !important;
+        right: 0;
+        left: 0;
+        height: 50px;
+        z-index: 1000 !important;
+
     }
 }

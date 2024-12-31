@@ -1,15 +1,16 @@
  .new {
      display: flex;
      width: 100%;
-
+      
      .newContainer {
          flex: 6;
          min-height: max-content;
-
+         
          h1 {
              font-size: 20px;
              color: gray;
              font-weight: 600;
+           
          }
 
          .top {
@@ -162,4 +163,12 @@
 
          }
      }
+ }
+
+ @media screen and (max-width:1000px){
+    .newContainer{
+        .top{
+            margin-top: 70px !important;
+        }
+    }
  }

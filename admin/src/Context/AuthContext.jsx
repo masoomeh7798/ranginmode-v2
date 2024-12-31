@@ -12,8 +12,10 @@ export const AuthContextProvider = ({ children }) => {
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
         const storedUser = localStorage.getItem('user')
+        const parsedUser  = JSON.parse(storedUser ); // Parse the user back into an object
+
         if (storedToken && storedUser) {
-            dispatch({ type: 'SET_TOKEN', payload: { token: storedToken, user: storedUser } })
+            dispatch({ type: 'SET_TOKEN', payload: { token: storedToken, user: parsedUser } })
         }
 
     }, [state.token]);
