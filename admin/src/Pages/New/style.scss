@@ -1,16 +1,17 @@
  .new {
      display: flex;
      width: 100%;
-      
+
      .newContainer {
          flex: 6;
          min-height: max-content;
-         
+         width: 100%;
+
          h1 {
              font-size: 20px;
              color: gray;
              font-weight: 600;
-           
+
          }
 
          .top {
@@ -79,10 +80,10 @@
 
                          .left {
                              flex: 4;
-                           
+
 
                              form {
-                                height: 100%;
+                                 height: 100%;
                                  display: flex;
                                  flex-wrap: wrap;
                                  gap: 2%;
@@ -165,10 +166,66 @@
      }
  }
 
- @media screen and (max-width:1000px){
-    .newContainer{
-        .top{
-            margin-top: 70px !important;
-        }
-    }
+ @media screen and (max-width:1000px) {
+   
+         .top {
+             margin-top: 70px !important;
+         }
+
+         .bottom {
+             flex-direction: column;
+
+             .addItemsParts {
+                 flex-direction: column;
+
+                 .selectBar {
+                     overflow-x: scroll;
+                     border-left: 0 !important;
+
+                     &::-webkit-scrollbar {
+                         display: none;
+                     }
+
+                     ul {
+                         display: flex;
+
+                         li {
+                             margin-bottom: 0 !important;
+
+                             button {
+                                 text-wrap: nowrap !important;
+                             }
+                         }
+                     }
+                 }
+             }
+
+             .right {
+                 margin-bottom: 20px;
+             }
+
+             .left {
+                 .formInput {
+                     width: 100% !important;
+                 }
+
+                 .switch {
+                     display: flex;
+                     margin-bottom: 15px;
+                     flex-direction: column;
+                     align-items: center;
+                     gap: 20px;
+                 }
+
+                 form {
+                     align-items: center;
+                     flex-direction: column;
+
+                     br {
+                         display: none;
+                     }
+                 }
+             }
+         }
+     
  }

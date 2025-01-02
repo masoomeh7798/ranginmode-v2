@@ -44,7 +44,8 @@ export default function List({ rowType }) {
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
-                <Datatable rows={rows} columns={columns(rowType)} rowType={rowType} />
+                <Datatable 
+                rows={rows} columns={columns(rowType)} rowType={rowType} />
             </div>
         </div>
     )

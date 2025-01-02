@@ -65,7 +65,8 @@ export default function Navbar() {
       </div>
       <div>
         <Backdrop
-          sx={(theme) => ({ color: '#fff', zIndex:900 })}
+          className='backdrop-mobile'
+          sx={(theme) => ({ color: '#fff', zIndex: 900,display:'none' })}
           open={isOpenSidebar}
           onClick={handleClose}
         >

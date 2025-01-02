@@ -161,6 +161,7 @@ console.log(files);
               alignItems={'center'}
               justifyContent={'end'}
               gap={'5%'}
+              className={'switch'}
             >
               {/* start set isActive */}
               <FormControlLabel

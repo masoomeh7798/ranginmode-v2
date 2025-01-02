@@ -198,6 +198,7 @@ export default function EditProduct({ item, id }) {
                             alignItems={'center'}
                             justifyContent={'space-around'}
                             gap={'5%'}
+                            className={'switch'}
                         >
                             {/* start set isActive */}
                             <FormControlLabel

@@ -147,6 +147,7 @@ export default function NewUser() {
               alignItems={'center'}
               justifyContent={'end'}
               gap={'5%'}
+              className='switch'
             >
               {/* start set isActive */}
               <FormControlLabel
@@ -172,7 +173,7 @@ export default function NewUser() {
               {/* end set isActive */}
             </Box>
             <br />
-            <button type='submit'>افزودن</button>
+            <button className='btn' type='submit'>افزودن</button>
           </form>
         </div>
       </div>

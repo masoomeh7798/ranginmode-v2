@@ -13,30 +13,32 @@ const paginationModel = { page: 0, pageSize: 8 };
 
 export default function Datatable({ rows, columns, rowType }) {
     const { token } = useContext(AuthContext)
-    const [rowsData, setRowsData] = useState(rows);
-    const [columnsData, setColumnsData] = useState(rows);
+    const [rowsData, setRowsData] = useState([]);
+    const [columnsData, setColumnsData] = useState([]);
+
 
     useEffect(() => {
         setRowsData(rows);
         setColumnsData(columns);
     }, [rows, columns]);
 
-    const handleDeleteRow = async(id) => {
+
+    const handleDeleteRow = async (id) => {
         setRowsData(rowsData?.filter(row => row._id !== id))
         try {
-            const res=await fetch(import.meta.env.VITE_BASE_API+`${rowType}/${id}`,{
-                method:'DELETE',
-                headers:{
-                    authorization:`Baerer ${token}`
+            const res = await fetch(import.meta.env.VITE_BASE_API + `${rowType}/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    authorization: `Baerer ${token}`
                 }
             })
-            const data=await res.json()
-            if(data.success){
-                notify('success',data.message)
-            }else{
-                notify('error',data?.message)
+            const data = await res.json()
+            if (data.success) {
+                notify('success', data.message)
+            } else {
+                notify('error', data?.message)
             }
-            
+
         } catch (error) {
             console.log(error);
         }
@@ -46,7 +48,7 @@ export default function Datatable({ rows, columns, rowType }) {
         {
             field: "action",
             headerName: "گزينه ها",
-            width: 200,
+            width: 150,
             renderCell: (params) => {
                 return (
                     <div className="actionButtons">
@@ -57,7 +59,7 @@ export default function Datatable({ rows, columns, rowType }) {
                             <EditOutlinedIcon />
                         </Link>
                         <span onClick={() => handleDeleteRow(params.row._id)} className="deleteBtn"
-                            style={{ display: (rowType == 'user' || rowType == 'product'|| rowType == 'brand'|| rowType == 'category') && 'none' }}>
+                            style={{ display: (rowType == 'user' || rowType == 'product' || rowType == 'brand' || rowType == 'category') && 'none' }}>
                             <CloseIcon />
                         </span>
                     </div>
@@ -75,16 +77,21 @@ export default function Datatable({ rows, columns, rowType }) {
                     rowType == 'product' ? 'محصولات' :
                         rowType == 'product-variant' ? 'زيرشاخه ي محصولات' :
                             rowType == 'brand' ? 'برند ها' :
-                                rowType == 'category' ? 'دسته بندي ها' :  rowType == 'comment' ? 'نظرات' :'اسلايد ها'
+                                rowType == 'category' ? 'دسته بندي ها' : rowType == 'comment' ? 'نظرات' : 'اسلايد ها'
                     }</Typography>
             </div>
-            <DataGrid
-                className='datagrid'
-                rows={rowsData}
-                columns={columnsData.concat(actionColumn)}
-                initialState={{ pagination: { paginationModel } }}
-                checkboxSelection
-            />
+            <div style={{ width: '100%', overflowX: 'scroll' }}>
+                <DataGrid
+                    className='datagrid'
+                    rows={rowsData}
+                    columns={columnsData.concat(actionColumn)}
+                    initialState={{ pagination: { paginationModel } }}
+                    disableRowSelectionOnClick
+                    columnVisibilityModel={[
+                'id','user','email','phone','role'
+                ]}
+                />
+            </div>
         </div>
     )
 }

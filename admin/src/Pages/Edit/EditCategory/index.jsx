@@ -40,7 +40,7 @@ export default function EditCategory({ item, id }) {
             setIsActive(item.isActive)
             setIsMain(item.isMain)
             setSelectedCat(item?.subCategory?._id)
-            setFiles(item.image && [ {name:item.image}])
+            setFiles(item.image && [{ name: item.image }])
         }
     }, [item]);
 
@@ -158,6 +158,7 @@ export default function EditCategory({ item, id }) {
 
                         <Box
                             width={'100%'}
+                            className={'switch'}
                             display={'flex'}
                             gap={'5%'}
                             sx={{
@@ -169,9 +170,6 @@ export default function EditCategory({ item, id }) {
                         >
                             {/* start set isActive */}
                             <FormControlLabel
-                                sx={{
-                                    width: '120px',
-                                }}
                                 control={
                                     <Switch
                                         checked={isActive}

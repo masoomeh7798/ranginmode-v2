@@ -78,7 +78,7 @@ export default function NewCategory() {
                 const data = await res.json()
                 if (data?.success) {
                     setCategories(data?.data)
-                }      
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -101,7 +101,7 @@ export default function NewCategory() {
                     authorization: `Bearer ${token}`,
                     "content-type": "application/json"
                 },
-                body: JSON.stringify({ title, isActive, isMain, image: files[0].name,subCategory:selectedCat })
+                body: JSON.stringify({ title, isActive, isMain, image: files[0].name, subCategory: selectedCat })
             })
             const data = await res.json()
             if (data?.success) {
@@ -142,7 +142,8 @@ export default function NewCategory() {
                         </div>
 
                         <Box
-                        width={'100%'}
+                            width={'100%'}
+                            className={'switch'}
                             display={'flex'}
                             gap={'5%'}
                             sx={{
@@ -154,9 +155,7 @@ export default function NewCategory() {
                         >
                             {/* start set isActive */}
                             <FormControlLabel
-                                sx={{
-                                    width: '120px',
-                                }}
+
                                 control={
                                     <Switch
                                         checked={isActive}
@@ -202,49 +201,49 @@ export default function NewCategory() {
                             />
                             {/* end set isMain */}
 
-                             {/* start select category */}
-                        <Box sx={{
-                            minWidth: 120,
-                            ' .MuiInputLabel-root.Mui-focused': {
-                                color: 'red'
-                            },
-                            ' .MuiOutlinedInput-root.Mui-focused': {
-                                outlineColor: 'red'
-                            },
-                        }}>
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">دسته بندي</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={selectedCat}
-                                    label="دسته بندي"
-                                    onChange={handleChangeSelectCat}
-                                    MenuProps={{
-                                        PaperProps: {
-                                            style: {
-                                                maxHeight: 200,
+                            {/* start select category */}
+                            <Box sx={{
+                                minWidth: 120,
+                                ' .MuiInputLabel-root.Mui-focused': {
+                                    color: 'red'
+                                },
+                                ' .MuiOutlinedInput-root.Mui-focused': {
+                                    outlineColor: 'red'
+                                },
+                            }}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">دسته بندي</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={selectedCat}
+                                        label="دسته بندي"
+                                        onChange={handleChangeSelectCat}
+                                        MenuProps={{
+                                            PaperProps: {
+                                                style: {
+                                                    maxHeight: 200,
+                                                },
                                             },
-                                        },
-                                    }}
-                                    sx={{
-                                        '&.MuiOutlinedInput-root': {
-                                            '&.Mui-focused fieldset': {
-                                                borderColor: 'red',  // Change the border color when focused
+                                        }}
+                                        sx={{
+                                            '&.MuiOutlinedInput-root': {
+                                                '&.Mui-focused fieldset': {
+                                                    borderColor: 'red',  // Change the border color when focused
+                                                },
                                             },
-                                        },
-                                    }}
-                                >
-                                    {categories?.map(e => (
-                                        <MenuItem key={e?._id} value={e?._id}>{e?.title}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Box>
-                        {/* end select category */}
+                                        }}
+                                    >
+                                        {categories?.map(e => (
+                                            <MenuItem key={e?._id} value={e?._id}>{e?.title}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Box>
+                            {/* end select category */}
                         </Box>
 
-                       
+
 
                         <button type='submit' style={{ marginTop: 'auto' }}>افزودن</button>
                     </form>

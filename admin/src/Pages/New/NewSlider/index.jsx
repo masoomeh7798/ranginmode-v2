@@ -9,11 +9,11 @@ import notify from '../../../Utils/notify.js';
 
 export default function NewSlider() {
     const [files, setFiles] = useState([]);
-    const [fields, handleChange,setFields] =useFormFields({title:'',href:''});
+    const [fields, handleChange, setFields] = useFormFields({ title: '', href: '' });
     const { token } = useContext(AuthContext)
 
 
-  
+
 
     // start upload images
     const handleChangeImages = async (e) => {
@@ -54,8 +54,8 @@ export default function NewSlider() {
     // start create category
     const handleReset = () => {
         setFields({
-            title:'',
-            href:''
+            title: '',
+            href: ''
         })
     }
 
@@ -119,6 +119,7 @@ export default function NewSlider() {
                             width={'100%'}
                             display={'flex'}
                             gap={'5%'}
+                            className={'switch'}
                             sx={{
                                 '& label': {
                                     marginRight: '0px'

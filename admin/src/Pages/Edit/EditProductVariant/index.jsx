@@ -134,6 +134,7 @@ export default function EditProductVariant({ item, id }) {
                             display={'flex'}
                             alignItems={'center'}
                             justifyContent={'start'}
+                            className={'switch'}
                         >
 
                             {/* start select brand */}

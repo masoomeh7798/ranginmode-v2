@@ -11,8 +11,6 @@ export default function EditSlider() {
     const [files, setFiles] = useState([]);
     const [fields, handleChange,setFields] =useFormFields({title:'',href:''});
     const { token } = useContext(AuthContext)
-
-
   
 
     // start upload images
@@ -119,6 +117,7 @@ export default function EditSlider() {
                             width={'100%'}
                             display={'flex'}
                             gap={'5%'}
+                            className={'switch'}
                             sx={{
                                 '& label': {
                                     marginRight: '0px'

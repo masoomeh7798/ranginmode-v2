@@ -1,10 +1,8 @@
 .single {
     display: flex;
-
     .singleContainer {
         flex: 6;
     }
-
     .content {
         padding: 20px;
         margin: 20px;
@@ -22,6 +20,7 @@
                 object-fit: cover;
                 border-radius: 50%;
             }
+
             .itemImg2 {
                 width: 60px;
                 height: 60px;
@@ -30,49 +29,94 @@
             }
         }
 
-       
-        .title{
+
+        .title {
             color: gray;
             font-size: 16px;
             margin-bottom: 20px;
         }
-        .details{
-            width: 100%;
+
+        .details {
             color: var(--primary-clr);
-            .itemTitle{
+            .itemTitle {
                 margin-bottom: 10px;
             }
-            .itemInfo{
+
+            .itemInfo {
                 display: flex;
                 gap: 20px;
-                &.multiValue{
-                        flex-direction: column;
-                        gap: 0px;
-                        margin: 10px 0;
-                        .multiValueSpan{
-                            display: flex;
-                            gap: 20px;
-                            align-items: center;
-                            &.cart{
-                                flex-direction: column;
-                            }
+                flex-direction: column;
+
+                &.multiValue {
+                    flex-direction: column;
+                    gap: 0px;
+                    margin: 10px 0;
+
+                    .multiValueSpan {
+                        display: flex;
+                        gap: 20px;
+                        align-items: center;
+
+                        &.cart {
+                            flex-direction: column;
                         }
+                    }
                 }
-                .itemKey{
+
+                .itemKey {
                     font-weight: bold;
                     color: rgba(128, 128, 128, 0.735);
-                    
+
                 }
-                .itemValue{
+
+                .itemValue {
                     color: rgb(77, 76, 76);
                     font-weight: 400;
-                &.userItemValue{
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 20px;
-                }
+
+                    &.userItemValue {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 20px;
+                    }
                 }
             }
+        }
+    }
+}
+
+@media screen and (max-width:1000px) {
+    .content {
+        margin:60px 10px 10px 10px !important;
+        border-radius: 8px !important;
+        .itemInfo{
+            gap: 0 !important;
+            margin-bottom: 10px;
+            &.multiValue .itemKey{
+                margin-bottom: 10px;
+            }
+        }
+        .multiValueSpan div{
+            display: flex;
+            flex-direction: column !important;
+        }
+        span{
+            text-wrap: wrap;
+        }
+        .item{
+            gap: 5px !important;
+            flex-direction: column;
+        }
+        .itemImg {
+            width: 60px !important;
+            height: 60px !important;
+        }
+        .itemImg2{
+            width: 40px !important;
+            height: 40px !important;
+        }
+
+        h2 {
+            font-size: 18px;
         }
     }
 }

@@ -118,6 +118,7 @@ export default function NewProductVariant() {
                             display={'flex'}
                             alignItems={'center'}
                             justifyContent={'start'}
+                            className={'switch'}
                         >
 
                             {/* start select brand */}

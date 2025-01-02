@@ -71,6 +71,7 @@ export default function NewBrand() {
 
                         <Box 
                         width={'100%'}
+                        className={'switch'}
                             sx={{
                                 '& label': {
                                     marginRight: '0px'

@@ -78,6 +78,7 @@ export default function EditBrand({ item, id }) {
                         </div>
 
                         <Box
+                            className={'switch'}
                             width={'100%'}
                             sx={{
                                 '& label': {

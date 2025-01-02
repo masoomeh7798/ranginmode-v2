@@ -4,9 +4,11 @@
     ::-webkit-scrollbar{
         display: none;
     }
+    
     .listContainer{
-        overflow-x: scroll;
+        width: 100%;
+
         flex:6;
-       
+          
     }
 }

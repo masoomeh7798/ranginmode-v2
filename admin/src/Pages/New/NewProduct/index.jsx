@@ -175,6 +175,7 @@ export default function NewProduct() {
                             alignItems={'center'}
                             justifyContent={'space-around'}
                             gap={'5%'}
+                            className={'switch'}
                         >
                             {/* start set isActive */}
                             <FormControlLabel

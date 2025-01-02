@@ -14,10 +14,10 @@ export default function SingleUser({ item }) {
           <span className="itemKey">ايميل:</span>
           <span className="itemValue">{item?.email}</span>
         </div>
-        <div className="itemInfo">
+        {/* <div className="itemInfo">
           <span className="itemKey">رمز عبور:</span>
           <span className="itemValue">{item?.password}</span>
-        </div>
+        </div> */}
         <div className="itemInfo">
           <span className="itemKey">نقش:</span>
           <span className="itemValue">{item?.role == 'admin' ? 'ادمين' : 'كاربر'}</span>

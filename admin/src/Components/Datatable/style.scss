@@ -1,18 +1,19 @@
 .datatable {
     padding: 20px;
-    width: 100%;
-    .dataTableTitle{
+  
+    .dataTableTitle {
         margin-bottom: 20px;
         display: flex;
         border-radius: 10px;
         padding: 20px;
         border: .5px solid rgba(0, 0, 0, .059);
+
         h1 {
             font-size: 20px;
             color: gray;
             font-weight: 600;
         }
-       
+
     }
 
     .MuiDataGrid-cell--textLeft {
@@ -56,13 +57,14 @@
         gap: 10px;
         height: 100%;
 
-        a{
+        a {
             line-height: 0;
             height: fit-content;
             cursor: pointer;
-           
-            
+
+
         }
+
         span {
             line-height: 0;
             height: fit-content;
@@ -75,22 +77,45 @@
             padding: 2px 5px;
             color: goldenrod;
         }
+
         .deleteBtn {
             border-radius: 5px;
             padding: 2px 5px;
             color: rgb(255, 0, 111);
         }
+
         .editBtn {
             border-radius: 5px;
             padding: 2px 5px;
             color: rgb(140, 1, 108);
         }
     }
-    .MuiToolbar-root{
+
+    .MuiToolbar-root {
         direction: ltr;
         justify-content: start;
     }
-    .MuiTablePagination-selectLabel{
+
+    .MuiTablePagination-selectLabel {
         display: none !important;
+    }
+}
+
+@media screen and (max-width:1000px) {
+    .datatable {
+        margin-top: 50px;
+
+        .dataTableTitle {
+            padding: 10px;
+
+            h1 {
+                font-size: 18px;
+            }
+
+        }
+
+        .MuiDataGrid-menuIcon {
+            display: none !important;
+        }
     }
 }

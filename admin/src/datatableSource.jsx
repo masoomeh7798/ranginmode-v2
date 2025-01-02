@@ -3,37 +3,37 @@ export const columns = (rowType) => {
     switch (rowType) {
         case 'user':
             return [
-                { field: 'id', headerName: 'ID', width: 70 },
+                { field: 'id', headerName: 'ID', width: 70,align:'center',headerAlign: 'center'},
                 {
-                    field: 'user', headerName: "كاربر", width: 230,
+                    field: 'user', headerName: "كاربر", width: 200,
                     renderCell: (params) => {
                         const imageSrc = params?.row?.img
-                        ? import.meta.env.VITE_BASE_URL + params.row.img
-                        : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg';
+                            ? import.meta.env.VITE_BASE_URL + params?.row?.img
+                            : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg';
                         return (
                             <div className="cellWithImg">
-                                <img className="cellImg" src={imageSrc} alt={params.row.fullName} />
-                                {params.row.fullName}
+                                <img className="cellImg" src={imageSrc} alt={params?.row?.fullName?.split(' ').slice(0,2).join(' ')} />
+                                {params?.row?.fullName?.split(' ')?.slice(0,2)?.join(' ')}
                             </div>
                         )
                     }
                 },
                 { field: "email", headerName: "ايميل", width: 230 },
-                { field: "phone", headerName: "موبايل", width: 150 },
                 {
-                    field: "role", headerName: "نقش", width: 150,
+                    field: "role", headerName: "نقش", width:80,
                     renderCell: (params) => (
                         <p>{params?.row?.role == 'admin' ? 'ادمين' : 'كاربر'}</p>
                     )
                 },
+                { field: "phone", headerName: "موبايل", width: 150 },
 
             ]
 
         case 'product':
             return [
-                { field: 'id', headerName: 'ID', width: 70 },
+                { field: 'id', headerName: 'ID', width: 70,align:'center',headerAlign: 'center' },
                 {
-                    field: 'product', headerName: "محصول", width: 230,
+                    field: 'product', headerName: "محصول", width: 200,
                     renderCell: (params) => {
                         const imageSrc = (params?.row?.images && params.row.images.length > 0)
                             ? import.meta.env.VITE_BASE_URL + params.row.images[0]
@@ -48,7 +48,7 @@ export const columns = (rowType) => {
                     }
                 },
                 {
-                    field: "isActive", headerName: "موجودي", width: 150,
+                    field: "isActive", headerName: "موجودي", width: 100,
                     renderCell: (params) => {
                         return (
                             <div className="cellWithImg">
@@ -68,7 +68,7 @@ export const columns = (rowType) => {
                     }
                 },
                 {
-                    field: "brand", headerName: "برند", width: 150,
+                    field: "brand", headerName: "برند", width: 100,
                     renderCell: (params) => {
                         return (
                             <div className="cellWithImg">
@@ -80,14 +80,14 @@ export const columns = (rowType) => {
             ]
         case 'product-variant':
             return [
-                { field: 'id', headerName: 'ID', width: 70 },
+                { field: 'id', headerName: 'ID', width: 70,align:'center',headerAlign: 'center' },
                 {
                     field: 'name', headerName: "نام", width: 150
                 },
                 { field: "quantity", headerName: "تعداد", width: 150 },
                 { field: "price", headerName: "قيمت", width: 150 },
                 {
-                    field: "discount", headerName: "تخفيف", width: 150,
+                    field: "discount", headerName: "تخفيف", width: 70,
                     renderCell: (params) => (
                         <p>{params?.row?.discount}%</p>
                     )
@@ -103,10 +103,10 @@ export const columns = (rowType) => {
             ]
         case 'brand':
             return [
-                { field: 'id', headerName: 'ID', width: 70 },
-                { field: 'title', headerName: 'نام', width: 150 },
+                { field: 'id', headerName: 'ID', width: 70,align:'center',headerAlign: 'center' },
+                { field: 'title', headerName: 'نام', width: 100 },
                 {
-                    field: "isActive", headerName: "فعال", width: 150,
+                    field: "isActive", headerName: "فعال", width: 70,
                     renderCell: (params) => {
                         return (
                             <div className="cellWithImg">
@@ -119,9 +119,9 @@ export const columns = (rowType) => {
 
         case 'category':
             return [
-                { field: 'id', headerName: 'ID', width: 70 },
+                { field: 'id', headerName: 'ID', width: 70,align:'center',headerAlign: 'center' },
                 {
-                    field: 'cat', headerName: "دسته بندي", width: 230,
+                    field: 'cat', headerName: "دسته بندي", width: 200,
                     renderCell: (params) => {
                         const imageSrc = params?.row?.image
                             ? import.meta.env.VITE_BASE_URL + params.row.image
@@ -136,13 +136,13 @@ export const columns = (rowType) => {
                 },
 
                 {
-                    field: "subCat", headerName: "زيردسته براي:", width: 150,
+                    field: "subCat", headerName: "زيردسته براي", width: 120,
                     renderCell: (params) => (
                         <p>{params?.row?.subCategory?.title}</p>
                     )
                 },
                 {
-                    field: "isActive", headerName: "فعال", width: 150,
+                    field: "isActive", headerName: "فعال", width: 70,
                     renderCell: (params) => {
                         return (
                             <div className="cellWithImg">
@@ -151,7 +151,7 @@ export const columns = (rowType) => {
                         )
                     }
                 }, {
-                    field: "isMain", headerName: "اصلي", width: 150,
+                    field: "isMain", headerName: "اصلي", width: 70,
                     renderCell: (params) => {
                         return (
                             <div className="cellWithImg">
@@ -163,9 +163,9 @@ export const columns = (rowType) => {
             ]
         case 'slider':
             return [
-                { field: 'id', headerName: 'ID', width: 70 },
+                { field: 'id', headerName: 'ID', width: 70,align:'center',headerAlign: 'center' },
                 {
-                    field: 'slide', headerName: "اسلايد", width: 230,
+                    field: 'slide', headerName: "اسلايد", width: 200,
                     renderCell: (params) => {
 
                         return (
@@ -177,7 +177,7 @@ export const columns = (rowType) => {
                     }
                 },
                 {
-                    field: "position", headerName: "موقعيت", width: 150,
+                    field: "position", headerName: "موقعيت", width: 100,
                     renderCell: (params) => {
                         return (
                             <div className="cellWithImg">
@@ -189,33 +189,33 @@ export const columns = (rowType) => {
             ]
         case 'comment':
             return [
-                { field: 'id', headerName: 'ID', width: 70 },
+                { field: 'id', headerName: 'ID', width: 70,align:'center',headerAlign: 'center' },
                 {
-                    field: 'user', headerName: "کاربر", width: 200,
+                    field: 'user', headerName: "کاربر", width: 120,
                     renderCell: (params) => {
                         return (
                             <div >
-                               <p>{params?.row?.userId?.fullName}</p>
+                                <p>{params?.row?.userId?.fullName}</p>
                             </div>
                         )
                     }
                 },
                 {
-                    field: 'product', headerName: "محصول", width: 200,
+                    field: 'product', headerName: "محصول", width: 140,
                     renderCell: (params) => {
                         return (
                             <div >
-                               <p>{params?.row?.productId?.name}</p>
+                                <p>{params?.row?.productId?.name}</p>
                             </div>
                         )
                     }
                 },
                 {
-                    field: 'content', headerName: "محتوا", width: 250,
+                    field: 'content', headerName: "محتوا", width: 200,
                     renderCell: (params) => {
                         return (
                             <div >
-                               <p>{params?.row?.content?.split(' ')?.slice(0,3).join(' ')}...</p>
+                                <p>{params?.row?.content?.split(' ')?.slice(0, 3).join(' ')}...</p>
                             </div>
                         )
                     }

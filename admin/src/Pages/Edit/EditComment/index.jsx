@@ -78,6 +78,7 @@ export default function EditComment({ item, id }) {
 
                         <Box
                             width={'100%'}
+                            className={'switch'}
                             sx={{
                                 '& label': {
                                     marginRight: '0px'

@@ -97,12 +97,17 @@
 }
 
 @media screen and (max-Width:'1000px') {
-    .navbar.navbar-responsive{
-        position: fixed !important;
-        right: 0;
-        left: 0;
-        height: 50px;
-        z-index: 1000 !important;
-
+    .navbar {
+        &.navbar-responsive {
+            position: fixed !important;
+            right: 0;
+            left: 0;
+            height: 50px;
+            z-index: 1000 !important;
+        }
+       
+    }
+    .backdrop-mobile{
+        display:block !important;
     }
 }
