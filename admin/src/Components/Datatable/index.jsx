@@ -85,11 +85,9 @@ export default function Datatable({ rows, columns, rowType }) {
                     className='datagrid'
                     rows={rowsData}
                     columns={columnsData.concat(actionColumn)}
-                    initialState={{ pagination: { paginationModel } }}
+                    // initialState={{ pagination: { paginationModel } }}
                     disableRowSelectionOnClick
-                    columnVisibilityModel={[
-                'id','user','email','phone','role'
-                ]}
+                  
                 />
             </div>
         </div>

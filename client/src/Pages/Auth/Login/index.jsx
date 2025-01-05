@@ -46,7 +46,7 @@ export default function Login({ handlePageType }) {
         headers: {
           "content-type": "application/json"
         },
-        body: JSON.stringify({ phone, password:newPass, code }),
+        body: JSON.stringify({ phone, password: newPass, code }),
       });
       const data = await res.json();
       if (data?.success) {
@@ -99,6 +99,7 @@ export default function Login({ handlePageType }) {
         handleOpenChild()
       } else {
         notify("error", data.message)
+        handleOpenChild()
       }
     } catch (error) {
       console.log(error);
@@ -385,7 +386,7 @@ export default function Login({ handlePageType }) {
                     }
                   }}>
                     <Box
-                      onClick={handleCheckCode}
+
                       sx={{
                         '& .MuiTextField-root': { m: 2, width: '12ch' },
                         '& .MuiInputBase-input': {
@@ -410,6 +411,7 @@ export default function Login({ handlePageType }) {
 
                       />
                       <Button
+                        onClick={handleCheckCode}
                         sx={{
                           alignSelf: 'center',
                           bgcolor: 'green',

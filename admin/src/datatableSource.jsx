@@ -1,5 +1,5 @@
 export const columns = (rowType) => {
-
+    
     switch (rowType) {
         case 'user':
             return [
@@ -18,7 +18,7 @@ export const columns = (rowType) => {
                         )
                     }
                 },
-                { field: "email", headerName: "ايميل", width: 230 },
+                { field: "email", headerName: "ايميل", maxWidth: 230 },
                 {
                     field: "role", headerName: "نقش", width:80,
                     renderCell: (params) => (
@@ -94,7 +94,7 @@ export const columns = (rowType) => {
                 },
                 { field: "finalPrice", headerName: "قيمت نهايي", width: 150 },
                 {
-                    field: "product", headerName: "براي محصولِ:", width: 150,
+                    field: "product", headerName: "براي محصولِ:", maxWidth: 150,
                     renderCell: (params) => (
                         <p>{params?.row?.productId?.name}</p>
                     )
