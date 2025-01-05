@@ -81,7 +81,7 @@ export const foregtPass = catchAsync(async (req, res, next) => {
     }
     const user = await User.findOne({ phone })
     if (!user) {
-        return next(new HandleError('كاربر پيدا نشد.', '400'))
+        return next(new HandleError('كاربر پيدا نشد.', '404'))
     }
     const sentCode = await sendAuthCode(phone)
     return res.status(200).json({

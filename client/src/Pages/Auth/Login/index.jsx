@@ -1,5 +1,5 @@
 import { Box, Button, FormControl, Stack, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
@@ -80,11 +80,25 @@ export default function Login({ handlePageType }) {
   const handleClose = () => {
     setOpen(false);
   };
-  // end forget pass modal
+
+
 
   // start send code
   const handleSendCodeSubmit = async (e) => {
     e.preventDefault()
+
+    const lastPhone = localStorage.getItem('lastPhoneNum')
+    const past = localStorage.getItem('past')
+    const now = new Date();
+    const present = Math.floor(now.getTime() / 1000);
+
+    if (lastPhone && lastPhone == phone && (present - past <= 120)) {
+      // console.log(lastPhoneNum);
+      handleOpenChild()
+      notify('error', 'كد تاييد از قبل ارسال شده است.')
+      return
+    }
+
     try {
       const res = await fetch(import.meta.env.VITE_BASE_API + "user/forget-pass", {
         method: "POST",
@@ -97,9 +111,12 @@ export default function Login({ handlePageType }) {
       if (data?.success) {
         notify("success", data.message)
         handleOpenChild()
+        const now = new Date();
+        const seconds = Math.floor(now.getTime() / 1000);
+        localStorage.setItem('lastPhoneNum', phone)
+        localStorage.setItem('past', seconds)
       } else {
         notify("error", data.message)
-        handleOpenChild()
       }
     } catch (error) {
       console.log(error);
@@ -351,6 +368,7 @@ export default function Login({ handlePageType }) {
                 لطفا شماره موبايل خود را وارد نماييد:
               </p>
               <TextField
+                value={phone}
                 required
                 id="outlined-password-input"
                 label="09150000000"
