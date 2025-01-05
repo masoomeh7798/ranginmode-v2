@@ -19,7 +19,7 @@ export default function NewestProducts() {
             try {
                 const res = await fetch(import.meta.env.VITE_BASE_API+`product?limit=10&sort=-createdAt`)
                 const data = await res.json()
-                setProducts(data?.data?.products)
+                setProducts(data?.data)
             } catch (error) {
                 console.log(error);
             }

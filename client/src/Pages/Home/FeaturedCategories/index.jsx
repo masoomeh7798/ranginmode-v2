@@ -10,7 +10,7 @@ export default function FeaturedCategories() {
             try {
                 const res = await fetch(import.meta.env.VITE_BASE_API + 'category?filters[isMain][$eq]=true')
                 const data = await res.json()
-                setCategories(data?.data?.categories)
+                setCategories(data?.data)
 
             } catch (error) {
                 console.log(error);

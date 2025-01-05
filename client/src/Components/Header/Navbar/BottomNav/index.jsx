@@ -22,8 +22,6 @@ import './style.css'
 
 
 export default function BottomNav({handleOpenCat,categories}) {
-    // all category btn
- 
    
 
     // start tab categories

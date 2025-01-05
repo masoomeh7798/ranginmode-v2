@@ -16,7 +16,7 @@ export default function Header() {
       try {
         const res = await fetch(import.meta.env.VITE_BASE_API + 'category')
         const data = await res.json()
-        setCategories(data?.data?.categories)
+        setCategories(data?.data)
 
       } catch (error) {
         console.log(error);

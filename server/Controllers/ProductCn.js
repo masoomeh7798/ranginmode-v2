@@ -36,6 +36,7 @@ export const getAll = catchAsync(async (req, res, next) => {
     .secondPopulate(req?.query?.populate || "")
     .secondPopulate('categoryId')
     .secondPopulate('brandId')
+    .secondPopulate('productVariantIds')
 
     const products=await features.model
     const count=await Product.countDocuments(queryString?.filters)
