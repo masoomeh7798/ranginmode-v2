@@ -15,7 +15,7 @@ export default function DiscountBanner() {
       try {
         const res = await fetch(import.meta.env.VITE_BASE_API + 'slider?filters[position][$eq]=discount')
         const data = await res.json()
-        setBanners(data?.data?.slider)
+        setBanners(data?.data)
       } catch (error) {
         console.log(error);
       }

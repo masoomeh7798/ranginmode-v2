@@ -26,7 +26,7 @@ export default function Footer() {
         <footer>
             {/* start top footer */}
             <Box width={{ lg: '85%', sm: '90%', xs: "95%" }} mx={'auto'} >
-                <Stack flexWrap={'wrap'} width={'100%'} direction={'row'} padding={'20px 0'} sx={{ '& svg': { fontSize: '28px' }, '& p': { fontWeight: 500 } }} borderBottom={'1px solid rgba(0,0,0,.2)'} borderTop={'1px solid rgba(0,0,0,.2)'}>
+                <Stack flexWrap={'wrap'} width={'100%'} direction={'row'} padding={'20px 0'} sx={{ '& svg': { fontSize: {xs:'20px',md:'28px'} }, '& p': { fontWeight: 500 } }} borderBottom={'1px solid rgba(0,0,0,.2)'} borderTop={'1px solid rgba(0,0,0,.2)'}>
                     <Stack borderBottom={{ xs: '1px solid rgba(0,0,0,.2)', lg: 0 }} width={{ xs: '100%', sm: '50%', lg: '25%' }} direction={'row'} gap={1} justifyContent={'center'} alignItems={'center'} padding={'8px 16px'}>
                         <CiGift /><Typography>هر روز با محصولات جدید</Typography>
                     </Stack>
@@ -164,8 +164,8 @@ export default function Footer() {
                 <Stack my={'16px'} direction={{ xs: 'column', md: 'row' }} justifyContent={{ xs: 'center', md: 'space-between' }} alignItems={'center'} padding={'0 32px'} gap={1}>
                     <Typography sx={{ textAlign: { xs: 'center', md: 'start' } }} display={'inline-block'}>تمامی حقوق برای سایت "رنگین مد" محفوظ است.</Typography>
                     <Stack direction={'row'} alignItems={'center'} gap={1} sx={{ '& svg': { fontSize: { xs: '24px', md: '28px' } } }}>
-                        <Link to='/'><IconButton sx={{ bgcolor: '#e1306c', '&:hover svg': { color: '#e1306c !important' } }}><FaInstagram color={'var(--text-clr)'} /></IconButton></Link>
-                        <Link to='/'><IconButton sx={{ bgcolor: '#24A1DE', '&:hover svg': { color: '#24A1DE !important' } }}><FaTelegramPlane color={'var(--text-clr)'} /></IconButton></Link>
+                        <Link to='https://www.instagram.com/ranginmode'><IconButton sx={{ bgcolor: '#e1306c', '&:hover svg': { color: '#e1306c !important' } }}><FaInstagram color={'var(--text-clr)'} /></IconButton></Link>
+                        <Link to='https://telegram.me/ranginmode'><IconButton sx={{ bgcolor: '#24A1DE', '&:hover svg': { color: '#24A1DE !important' } }}><FaTelegramPlane color={'var(--text-clr)'} /></IconButton></Link>
                         <Link to='/'><IconButton sx={{ bgcolor: '#25d366', '&:hover svg': { color: '#25d366 !important' } }}><FaWhatsapp color={'	var(--text-clr)'} /></IconButton></Link>
                     </Stack>
                 </Stack>

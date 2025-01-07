@@ -11,7 +11,7 @@ export default function Home() {
       <Banner />
       {/* start banner */}
       {/* start main */}
-      <main>
+      <main style={{width:'100%'}}>
         <Box width={{ lg: '85%', sm: '90%', xs: "95%" }} mx={'auto'} mt={'20px'}>
         <FeaturedCategories/>
           <Stack direction={'row'} gap={'2%'}>

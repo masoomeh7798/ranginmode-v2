@@ -40,7 +40,7 @@ export default function NewestProducts() {
         </SwiperSlide>
     ))
     return (
-        <Stack width={'100%'} height={{xs:'95vh',sm:'85vh'}} my={3}>
+        <Stack width={'100%'} my={3}>
                 <Typography  mb={{xs:1,md:2,lg:2.2}} fontSize={{xs:24,md:32,lg:36}} component={'h3'}> <Link style={{color:'var(--primary-clr)'}} to='/products/all/all-products' target='_blank'>جدیدترین محصولات</Link></Typography>
             <Swiper
                 slidesPerView={1}

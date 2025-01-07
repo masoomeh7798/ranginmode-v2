@@ -19,31 +19,44 @@ export default function FeaturedCategories() {
 
     }, []);
 
-    const items=categories?.map(e=>(
+    const items = categories?.map(e => (
         <Link key={e?._id} to={`/products/${e?._id}/${e?.title.replaceAll(' ', '-')}`} target='_blank'>
-        <Stack sx={{ '&:hover div': { boxShadow: ' 0 3px 6px rgba(0,0,0,.5),0 3px 6px rgba(0,0,0,.5)', transform: 'translateY(-5px)' }, '& div': { transition: 'all .3s' } }} alignItems={'center'} justifyContent={'center'} gap={1}>
-            <Box width='120px' height={'120px'} borderRadius={'50%'} overflow={'hidden'}>
-                <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={import.meta.env.VITE_BASE_URL+`${e?.image}`} alt={e?.title} />
-            </Box>
-            <Typography fontWeight={500} color='primary'>{e?.title}</Typography>
-        </Stack>
-    </Link>
+            <Stack sx={{ '&:hover div': { boxShadow: ' 0 3px 6px rgba(0,0,0,.5),0 3px 6px rgba(0,0,0,.5)', transform: 'translateY(-5px)' }, '& div': { transition: 'all .3s' } }} alignItems={'center'} justifyContent={'center'} gap={1}>
+                <Box width='120px' height={'120px'} borderRadius={'50%'} overflow={'hidden'}>
+                    <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={import.meta.env.VITE_BASE_URL + `${e?.image}`} alt={e?.title} />
+                </Box>
+                <Typography fontWeight={500} color='primary'>{e?.title}</Typography>
+            </Stack>
+        </Link>
     )
     )
 
     return (
+        <Stack direction={'column'} gap={2} my={3}>
+            {/* Typography outside the scrollable container */}
+            <Typography fontSize={'1.5em'} fontWeight={400} component={'h3'}>
+                دسته بندی های اصلی
+            </Typography>
 
-        <Stack direction={'column'} gap={2} my={3} sx={{overflowX:'scroll',
-            '&::-webkit-scrollbar':{
-                display:'none'
-            }
-        }}>
-            <Typography fontSize={'1.5em'} fontWeight={400} component={'h3'}>دسته بندی های اصلی</Typography>
-            <Stack gap={1} direction={'row'} justifyContent={'space-around'} sx={{ overflowX: 'scroll' ,overflow:'visible'}} >
-                {items}
+            {/* Scrollable container for categories */}
+            <Stack
+                py={1}
+                sx={{
+                    overflowX: 'scroll',
+                    '&::-webkit-scrollbar': {
+                        display: 'none'
+                    }
+                }}
+            >
+                <Stack
+                    gap={1}
+                    direction={'row'}
+                    justifyContent={'space-around'}
+                    sx={{ overflow: 'visible' }}
+                >
+                    {items}
+                </Stack>
             </Stack>
-
-
         </Stack>
     )
 }
