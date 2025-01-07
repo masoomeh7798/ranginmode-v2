@@ -11,7 +11,7 @@ import InnerImageZoom from 'react-inner-image-zoom';
 
 
 
-export default function ProductSlider({ img }) {
+export default function ProductSlider({ images }) {
     const [thumbsSwiper, setThumbsSwiper] = useState(0);
     return (
         <>
@@ -28,7 +28,7 @@ export default function ProductSlider({ img }) {
                 modules={[ Thumbs]}
                 className="product-slider-2"
             >
-                {img?.map((e, index) => (
+                {images?.map((e, index) => (
                     <SwiperSlide key={index}>
                         <InnerImageZoom zoomType='hover' zoomScale={1}
                             src={import.meta.env.VITE_BASE_URL + `${e}`} />
@@ -47,7 +47,7 @@ export default function ProductSlider({ img }) {
                 modules={[FreeMode, Navigation, Thumbs]}
                 className="product-slider-3"
             >
-                 {img?.map((e, index) => (
+                 {images?.map((e, index) => (
                     <SwiperSlide key={index}>
                         <img
                             src={import.meta.env.VITE_BASE_URL + `${e}`} />

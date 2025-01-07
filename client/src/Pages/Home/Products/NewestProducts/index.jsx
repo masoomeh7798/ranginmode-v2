@@ -33,13 +33,9 @@ export default function NewestProducts() {
            id={e._id}
            name={e?.name}
            description={e?.description}
-           variants={e?.variants}
            brand={e?.brandId?.title}
-           rating={e?.rating}
-           price={e?.price}
-           finalPrice={e?.finalPrice}
-           discount={e?.discount}
-           img={e.images}
+           images={e?.images}
+           productVariantIds={e?.productVariantIds}
            />
         </SwiperSlide>
     ))

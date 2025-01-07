@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import ProductSlider from '../ProductSlider';
-import { Box,Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import { IoMdCart } from "react-icons/io";
 import { IoMdHeartEmpty } from "react-icons/io";
 import QuantityBox from '../../../../Components/QuantityBox'
@@ -27,7 +27,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 
-export default function ProductModal({ handleClose, open, img, discount, finalPrice, price, name, description, brand, variants, id }) {
+export default function ProductModal({ handleClose, open, images, productVariantIds, name, description, brand, id }) {
     const [addProductBtns, setAddProductBtns] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
     const { token, user } = useSelector(state => state.auth)
@@ -40,52 +40,84 @@ export default function ProductModal({ handleClose, open, img, discount, finalPr
 
     useEffect(() => {
         if (user && token) {
-        (async () => {
-            try {
-                const res = await fetch(import.meta.env.VITE_BASE_API + `user/${user?.id}`, {
-                    method: "GET",
-                    headers: {
-                        authorization: `Bearer ${token}`
+            (async () => {
+                try {
+                    const res = await fetch(import.meta.env.VITE_BASE_API + `user/${user?.id}`, {
+                        method: "GET",
+                        headers: {
+                            authorization: `Bearer ${token}`
+                        }
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        setIsFavorite(data?.data?.user?.favoriteProductIds.includes(id) && true)
                     }
-                });
-                const data = await res.json();
-                if(res.ok){
-                    setIsFavorite(data?.data?.user?.favoriteProductIds.includes(id) && true)
+                } catch (error) {
+                    // console.log(error);
                 }
-            } catch (error) {
-                // console.log(error);
-            }
-        })()}
+            })()
+        }
 
     }, [checkFavorite]);
 
     const handleCheckIsFavorite = async () => {
         if (user && token) {
-        try {
-            const res = await fetch(import.meta.env.VITE_BASE_API + `product/favorite/${id}`, {
-                method: "POST",
-                headers: {
-                    authorization: `Bearer ${token}`,
-                    "content-type": "application/json"
-                },
-                body: JSON.stringify({ isFavorite })
+            try {
+                const res = await fetch(import.meta.env.VITE_BASE_API + `product/favorite/${id}`, {
+                    method: "POST",
+                    headers: {
+                        authorization: `Bearer ${token}`,
+                        "content-type": "application/json"
+                    },
+                    body: JSON.stringify({ isFavorite })
 
-            });
-            const data = await res.json();
-            if (data?.success && res.ok) {
-                setIsFavorite(data?.isFavorite)
-                handleCheckFavorite()
-            } else {
-                notify('error', 'بايد ابتدا وارد سايت شويد.')
+                });
+                const data = await res.json();
+                if (data?.success && res.ok) {
+                    setIsFavorite(data?.isFavorite)
+                    handleCheckFavorite()
+                } else {
+                    notify('error', 'بايد ابتدا وارد سايت شويد.')
+                }
+            } catch (error) {
             }
-        } catch (error) {
-        }}else{
-            notify('error', 'بايد ابتدا وارد سايت شويد.')  
+        } else {
+            notify('error', 'بايد ابتدا وارد سايت شويد.')
         }
     }
 
-    return (
+    // strat variants
+    const [selectedVariant, setSelectedVariant] = useState(0);
 
+    const variants = productVariantIds?.map((variant, index) => (
+        <div key={index}>
+            <Stack direction={'row'} gap={2} >
+                <Typography fontSize={{ xs: '16px', lg: '12px', xl: '16px' }} sx={{ textDecoration: 'line-through' }}>{variant?.price} تومان</Typography>
+                <Typography color='secondary' fontSize={{ xs: '18px', lg: '16px', xl: '18px' }}>{variant?.finalPrice} تومان</Typography>
+            </Stack>
+            <Typography sx={{ width: 'fit-content', borderRadius: "16px" }} bgcolor={'var(--third-clr)'} padding={'2px 8px'} fontSize={'14px'}>{variant?.discount}% تخفيف</Typography>
+        </div>
+    ))
+
+    const variantToChoose = productVariantIds?.map((variant, index) => (
+        <Button key={index}
+        disabled={variant.quantity==0}
+        onClick={()=>setSelectedVariant(index)}
+        sx={{
+            bgcolor:'var(--secondary-clr)',
+            color:'whitesmoke',
+            '&:disabled':{
+                opacity:.6,
+                color:'white'
+            }
+        }}
+        >
+            {variant?.name}
+        </Button>
+    ))
+    console.log(variantToChoose);
+
+    return (
         <BootstrapDialog sx={{
             '& .MuiDialog-paper': {
                 padding: ' 0px 2%',
@@ -130,26 +162,23 @@ export default function ProductModal({ handleClose, open, img, discount, finalPr
                     <Stack direction={{ xs: 'column', md: 'row' }} height={'fit-content'} gap={{ xs: '20px', md: '3%' }} >
                         {/* start product slider */}
                         <Stack width={{ xs: "100%", md: '48.5%' }}>
-                            <ProductSlider img={img} />
+                            <ProductSlider images={images} />
                         </Stack>
                         {/* end product slider */}
 
                         {/* start product info */}
                         <Stack width={{ xs: "100%", md: '48.5%' }} gap={2} alignItems={'start '}>
-                            <Stack direction={'row'} gap={2} >
-                                <Typography fontSize={{ xs: '16px', lg: '12px', xl: '16px' }} sx={{ textDecoration: 'line-through' }}>{price} تومان</Typography>
-                                <Typography color='secondary' fontSize={{ xs: '18px', lg: '16px', xl: '18px' }}>{finalPrice} تومان</Typography>
-                            </Stack>
-                            <Typography sx={{ width: 'fit-content', borderRadius: "16px" }} bgcolor={'var(--third-clr)'} padding={'2px 8px'} fontSize={'14px'}>{discount}% تخفيف</Typography>
+                            {/* start variants */}
+                            {variants[selectedVariant]}
+                            {/* end variants */}
                             <Box mb={2}>
                                 <Typography textAlign={'justify'} fontSize={{ xs: '12px', sm: '16px' }}>{description}</Typography>
                             </Box>
-                            {/* <Stack
-                                direction={'row'}
-                                >
-                                   <Variants variants={variants}/>
-                                </Stack> */}
-                            <Stack direction={{ md: 'row' }} sx={{ width: '100%' }} alignItems={'center'} gap={2} mt={7}>
+                            <Box display={'flex'} gap={1}>
+                                {variantToChoose}
+                            </Box>
+
+                            <Stack direction={{ md: 'row' }} sx={{ width: '100%' }} alignItems={'center'} gap={2} >
                                 {addProductBtns ? <QuantityBox productId={id} /> :
                                     <Button
                                         onClick={() => setAddProductBtns(true)}

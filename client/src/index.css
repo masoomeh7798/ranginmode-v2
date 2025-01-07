@@ -85,7 +85,7 @@ background-color: var(--secondary-clr) !important;
 
 .product-slider.swiper{
   padding: 5px ;
-  height:480px !important;
+  height:fit-content !important;
 }
 .product-slider.swiper,
 .product-slider .swiper-wrapper,
