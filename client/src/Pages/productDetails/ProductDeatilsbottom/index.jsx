@@ -18,7 +18,7 @@ export default function ProductDeatilsBottom({ productId }) {
             try {
                 const res = await fetch(import.meta.env.VITE_BASE_API + `product/${productId}`)
                 const data = await res.json()
-                setProduct(data?.data?.product)
+                setProduct(data?.data)
             } catch (error) {
                 console.log(error);
             }
@@ -38,14 +38,14 @@ export default function ProductDeatilsBottom({ productId }) {
                         '& button': {
                             borderRadius: '24px',
                             fontWeight: 500,
-                            fontSize:{xs:'12px',xxs:'16px'}
+                            fontSize: { xs: '12px', xxs: '16px' }
                         }
                     }}
                     direction={'row'}
                     justifyContent={'start'}
                     p={'20px 0'}
                     mx={'24px'}
-                    gap={{xs:1,xxs:2}}
+                    gap={{ xs: 1, xxs: 2 }}
                     borderBottom={'1px solid rgba(0,0,0,.2)'}
                 >
                     <Button
@@ -91,13 +91,16 @@ export default function ProductDeatilsBottom({ productId }) {
                                     {product?.information?.map((e) => (
                                         <TableRow
                                             key={e?._id}
-                                            sx={{ '&:last-child td': { border: 0 },
-                                            '& td':{
-                                                textAlign:'right'
-                                            }}}
+                                            sx={{
+                                                '&:last-child td': { border: 0 },
+                                                '& td': {
+                                                    textAlign: 'center'
+                                                }
+                                            }}
                                         >
-                                            <TableCell align="right">{e?.name}</TableCell>
-                                            <TableCell key={e?._id} align="right">{e?.value}</TableCell>
+                                            <TableCell
+                                                sx={{ borderLeft: '2px solid rgba(0,0,0,.2) !important' }} align="center">{e?.name}</TableCell>
+                                            <TableCell key={e?._id} align="center">{e?.value}</TableCell>
                                         </TableRow>
                                     ))}
 

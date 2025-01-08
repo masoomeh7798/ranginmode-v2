@@ -43,7 +43,7 @@ export default function ProductDetailsTop({ productId }) {
                     const data = await res.json();
                     if (res.ok) {
 
-                        setIsFavorite(data?.data?.user?.favoriteProductIds.includes(productId) && true)
+                        setIsFavorite(data?.data?.favoriteProductIds.includes(productId) && true)
                     }
                 }
             } catch (error) {

@@ -15,47 +15,44 @@ import { useSelector } from 'react-redux';
 
 export default function RecentlyViewedProducts() {
     const [products, setProducts] = useState([]);
-    const {user,token}=useSelector(state=>state.auth)
-   
+    const { user, token } = useSelector(state => state.auth)
+
     useEffect(() => {
         if (user && token) {
-        (async () => {
-            try {
-                const res = await fetch(import.meta.env.VITE_BASE_API+`user/${user?.id}`,{
-                    method: 'GET',
-                    headers:{
-                        authorization:`Bearer ${token}`
-                    }
-                })
-                const data = await res.json()
-                setProducts(data?.data?.user?.recentlyProductIds)
-            } catch (error) {
-                console.log(error);
-            }
-        })()}
+            (async () => {
+                try {
+                    const res = await fetch(import.meta.env.VITE_BASE_API + `user/${user?.id}`, {
+                        method: 'GET',
+                        headers: {
+                            authorization: `Bearer ${token}`
+                        }
+                    })
+                    const data = await res.json()
+                    setProducts(data?.data?.recentlyProductIds)
+                } catch (error) {
+                    console.log(error);
+                }
+            })()
+        }
 
     }, []);
-   
+    
     const items = products?.map((e, index) => (
-        <SwiperSlide  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}} key={index}>
-            <ProductCard 
-           id={e._id}
-           name={e?.name}
-           description={e?.description}
-           variants={e?.variants}
-           brand={e?.brandId?.title}
-           rating={e?.rating}
-           price={e?.price}
-           finalPrice={e?.finalPrice}
-           discount={e?.discount}
-           img={e.images}
-           dynamicWidth={'99.5%'}/>
+        <SwiperSlide style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} key={index}>
+            <ProductCard
+                id={e._id}
+                name={e?.name}
+                description={e?.description}
+                brand={e?.brandId?.title}
+                images={e?.images}
+                productVariantIds={e?.productVariantIds}
+            />
         </SwiperSlide>
     ))
     return (
-        <Stack width={'100%'}  my={2}>
+        <Stack width={'100%'} my={2}>
             <Stack direction='row' alignItems={'center'} justifyContent={'space-between'} mb={1.5} >
-                <Typography fontSize={'2em'} component={'h3'}>اخيرا ديده ايد</Typography>
+                <Typography fontSize={{ xs: '1.5em', md: '2em' }} component={'h3'}>اخيرا ديده ايد</Typography>
             </Stack>
             <Swiper
                 slidesPerView={1}

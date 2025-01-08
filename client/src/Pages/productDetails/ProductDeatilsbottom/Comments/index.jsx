@@ -129,7 +129,7 @@ export default function Comments({ productId }) {
                 fontSize={{ xs: '12px', sm: '14px' }}
                 lineHeight={'14px'}
               >{e?.createdAt?.split('T')[0]}</Typography>
-              <Rating size='small' value={e?.rating} readOnly />
+             
             </Stack>
             <Stack>
               <Typography
@@ -180,26 +180,6 @@ export default function Comments({ productId }) {
                 }}
                 readOnly
                 value={user?.fullName || user?.email || 'براي ثبت نظر بايد وارد سايت شويد.'}
-              ></input>
-              <Rating
-                value={rating}
-                onChange={(e, newValue) => setRating(newValue)}
-                sx={{
-                  display: { xs: 'none', sm: 'inline-flex' },
-                  direction: 'ltr'
-                }}
-                size={'medium'}
-                precision={.5}
-              />
-              <Rating
-                value={rating}
-                onChange={(e, newValue) => setRating(newValue)}
-                sx={{
-                  display: { sm: 'none' },
-                  direction: 'ltr'
-                }}
-                size={'small'}
-                precision={.5}
               />
             </Stack>
             <textarea

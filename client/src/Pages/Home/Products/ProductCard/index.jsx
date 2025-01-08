@@ -154,7 +154,7 @@ export default function ProductCard({ images, name, description, brand, id, prod
                         alignItems={'center'}
                         alignSelf={'center'}
                     >
-                        <Button onClick={handleAddToRecentProduct} href={`/product-details/${id}/${name?.replaceAll(' ', '-')}`} target='_blank' sx={{ bgcolor: 'var(--third-clr)', px: '16px' }} >مشاهده محصول</Button>
+                        <Button onClick={handleAddToRecentProduct} href={`/product-details/${id}/${name?.replaceAll(' ', '-')}`}  sx={{ bgcolor: 'var(--third-clr)', px: '16px' }} >مشاهده محصول</Button>
                     </Stack>
                 </CardContent>
             </Box>

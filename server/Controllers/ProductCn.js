@@ -8,13 +8,13 @@ import fs from 'fs'
 import { __dirname } from "../app.js";
 
 export const getAll = catchAsync(async (req, res, next) => {
-    let role;
-    if(req?.headers?.authorization){
-        role = jwt.verify(
-            req.headers.authorization.split(" ")[1],
-            process.env.JWT_SECRET
-          ).role
-    }
+  let role;
+  if (req?.headers?.authorization) {
+    role = jwt.verify(
+      req.headers.authorization.split(" ")[1],
+      process.env.JWT_SECRET
+    ).role
+  }
 
   let queryString = {
     ...req.query,
@@ -38,78 +38,79 @@ export const getAll = catchAsync(async (req, res, next) => {
     .secondPopulate('brandId')
     .secondPopulate('productVariantIds')
 
-    const products=await features.model
-    const count=await Product.countDocuments(queryString?.filters)
-    return res.status(200).json({
-        success:true,
-        data:products,
-        count
-    })
+  const products = await features.model
+  const count = await Product.countDocuments(queryString?.filters)
+  return res.status(200).json({
+    success: true,
+    data: products,
+    count
+  })
 });
 
 
 export const get = catchAsync(async (req, res, next) => {
-    const {id}=req.params
-    let isFavorite=false
-    let isCustomer=false
-    let userId;
-    if(req?.headers?.authorization){
-        userId = jwt.verify(
-            req.headers.authorization.split(" ")[1],
-            process.env.JWT_SECRET
-          ).id
+  const { id } = req.params
+  let isFavorite = false
+  let isCustomer = false
+  let userId;
+  if (req?.headers?.authorization) {
+    userId = jwt.verify(
+      req.headers.authorization.split(" ")[1],
+      process.env.JWT_SECRET
+    ).id
 
-        const user=await User.findById(userId)
-        if(user.favoriteProductIds.includes(id)){
-            isFavorite=true
-        }
-        if(user.boughtProduct.includes(id)){
-            isCustomer=true
-        }
-        let recentlyProductIds=user?.recentlyProductIds
-        if(recentlyProductIds?.length==10){
-            recentlyProductIds.shift()
-            recentlyProductIds.push(id)
-        }else{
-            recentlyProductIds.push(id)
-
-        }
-        user.recentlyProductIds=recentlyProductIds
-        await user.save()
+    const user = await User.findById(userId)
+    if (user.favoriteProductIds.includes(id)) {
+      isFavorite = true
     }
-    const product=await Product.findById(id).populate({path: "productVariantIds" }).populate('categoryId').populate('brandId')
-    return res.status(200).json({
-        success:true,
-        data:product,
-        isFavorite,
-        isCustomer
-    })
+    if (user.boughtProduct.includes(id)) {
+      isCustomer = true
+    }
+    let recentlyProductIds = user?.recentlyProductIds
+    if (!recentlyProductIds.includes(id)) {
+      if (recentlyProductIds?.length == 10) {
+        recentlyProductIds.shift()
+        recentlyProductIds.push(id)
+      } else {
+        recentlyProductIds.push(id)
+      }
+    }
+    user.recentlyProductIds = recentlyProductIds
+    await user.save()
+  }
+  const product = await Product.findById(id).populate({ path: "productVariantIds" }).populate('categoryId').populate('brandId')
+  return res.status(200).json({
+    success: true,
+    data: product,
+    isFavorite,
+    isCustomer
+  })
 });
 
-export const create=catchAsync(async(req,res,next)=>{ 
-  const product=await Product.create(req.body)
+export const create = catchAsync(async (req, res, next) => {
+  const product = await Product.create(req.body)
   return res.status(201).json({
-    success:true,
-    data:{product},
-    message:'محصول جديد افزوده شد.',
+    success: true,
+    data: { product },
+    message: 'محصول جديد افزوده شد.',
   })
 })
 
 
-export const update=catchAsync(async(req,res,next)=>{
-  const {id}=req.params
-  const prevProduct=await Product.findById(id)
-  if(prevProduct.images.length > 0){
-    prevProduct.images.map(image=>{
+export const update = catchAsync(async (req, res, next) => {
+  const { id } = req.params
+  const prevProduct = await Product.findById(id)
+  if (prevProduct.images.length > 0) {
+    prevProduct.images.map(image => {
       !req.body.images.includes(image) &&
-      fs.unlinkSync(`${__dirname}/Public/${image}`)
+        fs.unlinkSync(`${__dirname}/Public/${image}`)
     })
   }
-  const product=await Product.findByIdAndUpdate(id,req.body,{new:true,runValidators:true})
+  const product = await Product.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
   return res.status(201).json({
-    message:'محصول به روز شد',
-    success:true,
-    data:{product}
+    message: 'محصول به روز شد',
+    success: true,
+    data: { product }
   })
 })
 
@@ -130,7 +131,7 @@ export const favoriteProduct = catchAsync(async (req, res, next) => {
     newFav = true
   }
   return res.status(200).json({
-    success:true,
+    success: true,
     isFavorite: newFav,
     message: newFav ? 'محصول به علاقه مندي ها اضافه شد.' : 'محصول از علاقه مندي ها حذف شد.'
   })

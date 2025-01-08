@@ -28,7 +28,12 @@ export const getOneUser = catchAsync(async (req, res, next) => {
     }
 
     const user = await User.findById(id)
-        .populate('recentlyProductIds')
+        .populate({
+            path:'recentlyProductIds',
+            populate:{
+                path:'productVariantIds'
+            }
+        })
         .populate('favoriteProductIds')
         .populate('boughtProduct')
         .populate({
