@@ -1,52 +1,15 @@
 import { Box, Button, Stack, Typography } from '@mui/material';
 import React, { useState } from 'react'
 
-export default function Variants({ variants }) {
-    const [activeVariant, setActiveVariant] = useState(0);
-
-    return (
-        <Stack
-            direction={'row'}
-            gap={2}
-            alignItems={'center'}
-            mt={'auto'}
-        >
-            {variants?.map((e, index) => (
-                <Box key={index}>
-
-                    <Typography 
-                        variant='body2'
-                        fontSize={'16px'}
-                        fontWeight={'500'}
-                        mb={1}
-                    > {e?.name}: </Typography>
-                    <Stack
-                        flexDirection={'row'}
-                        gap={1}
-                        sx={{
-                            '& button': {
-                                fontSize: { xs: '12px', sm: '14px' },
-                                minWidth: { xs: '40px', sm: '54px' },
-                                bgcolor: '#F1F1F1'
-                            }
-                        }}
-                    >
-                        {e?.value?.map((e2, index2) => (
-                           
-                                <Button key={index2}
-                                    sx={{
-                                        color: activeVariant == index2 ? 'var(--text-clr) !important' : 'black',
-                                        bgcolor: activeVariant == index2 ? 'var(--secondary-clr) !important' : '#F1F1F1'
-                                    }}
-                                    onClick={() => setActiveVariant(index2)}>{e2}</Button>
-                            
-                        ))}
-
-
-                    </Stack>
-                </Box>))}
-
-
-        </Stack>
-    )
+export default function Variants({ productVariantIds,selectedVariant }) {
+    const variants = productVariantIds?.map((variant, index) => (
+        <div key={index}>
+            <Stack direction={'row'} gap={2} >
+                <Typography fontSize={{ xs: '16px', lg: '12px', xl: '16px' }} sx={{ textDecoration: 'line-through' }}>{variant?.price} تومان</Typography>
+                <Typography color='secondary' fontSize={{ xs: '18px', lg: '16px', xl: '18px' }}>{variant?.finalPrice} تومان</Typography>
+            </Stack>
+            <Typography sx={{ width: 'fit-content', borderRadius: "16px" }} bgcolor={'var(--third-clr)'} padding={'2px 8px'} fontSize={'14px'}>{variant?.discount}% تخفيف</Typography>
+        </div>
+    ))
+    return variants[selectedVariant]
 }

@@ -30,7 +30,7 @@ export default function ProductDetailsTop({ productId }) {
             try {
                 const resC = await fetch(import.meta.env.VITE_BASE_API + `product/${productId}`)
                 const dataC = await resC.json()
-                setProduct(dataC?.data?.product)
+                setProduct(dataC?.data)
 
                 if (user && token) {
                 const res = await fetch(import.meta.env.VITE_BASE_API + `user/${user?.id}`, {

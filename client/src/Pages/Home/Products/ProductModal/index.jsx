@@ -16,6 +16,8 @@ import './style.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { setCheckFavorite } from '../../../../Store/Slices/FavoriteSlice';
 import notify from '../../../../Utils/notify';
+import ChooseVariants from '../../../../Components/ChooseVariant/index.jsx';
+import Variants from '../../../../Components/Variants/index.jsx';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -88,34 +90,36 @@ export default function ProductModal({ handleClose, open, images, productVariant
 
     // strat variants
     const [selectedVariant, setSelectedVariant] = useState(0);
+    const handleSelectedVariant=(index)=>{
+        setSelectedVariant(index)
+    }
 
-    const variants = productVariantIds?.map((variant, index) => (
-        <div key={index}>
-            <Stack direction={'row'} gap={2} >
-                <Typography fontSize={{ xs: '16px', lg: '12px', xl: '16px' }} sx={{ textDecoration: 'line-through' }}>{variant?.price} تومان</Typography>
-                <Typography color='secondary' fontSize={{ xs: '18px', lg: '16px', xl: '18px' }}>{variant?.finalPrice} تومان</Typography>
-            </Stack>
-            <Typography sx={{ width: 'fit-content', borderRadius: "16px" }} bgcolor={'var(--third-clr)'} padding={'2px 8px'} fontSize={'14px'}>{variant?.discount}% تخفيف</Typography>
-        </div>
-    ))
+    // const variants = productVariantIds?.map((variant, index) => (
+    //     <div key={index}>
+    //         <Stack direction={'row'} gap={2} >
+    //             <Typography fontSize={{ xs: '16px', lg: '12px', xl: '16px' }} sx={{ textDecoration: 'line-through' }}>{variant?.price} تومان</Typography>
+    //             <Typography color='secondary' fontSize={{ xs: '18px', lg: '16px', xl: '18px' }}>{variant?.finalPrice} تومان</Typography>
+    //         </Stack>
+    //         <Typography sx={{ width: 'fit-content', borderRadius: "16px" }} bgcolor={'var(--third-clr)'} padding={'2px 8px'} fontSize={'14px'}>{variant?.discount}% تخفيف</Typography>
+    //     </div>
+    // ))
 
-    const variantToChoose = productVariantIds?.map((variant, index) => (
-        <Button key={index}
-        disabled={variant.quantity==0}
-        onClick={()=>setSelectedVariant(index)}
-        sx={{
-            bgcolor:'var(--secondary-clr)',
-            color:'whitesmoke',
-            '&:disabled':{
-                opacity:.6,
-                color:'white'
-            }
-        }}
-        >
-            {variant?.name}
-        </Button>
-    ))
-    console.log(variantToChoose);
+    // const variantToChoose = productVariantIds?.map((variant, index) => (
+    //     <Button key={index}
+    //     disabled={variant.quantity==0}
+    //     onClick={()=>setSelectedVariant(index)}
+    //     sx={{
+    //         bgcolor:'var(--secondary-clr)',
+    //         color:'whitesmoke',
+    //         '&:disabled':{
+    //             opacity:.6,
+    //             color:'white'
+    //         }
+    //     }}
+    //     >
+    //         {variant?.name}
+    //     </Button>
+    // ))
 
     return (
         <BootstrapDialog sx={{
@@ -169,13 +173,13 @@ export default function ProductModal({ handleClose, open, images, productVariant
                         {/* start product info */}
                         <Stack width={{ xs: "100%", md: '48.5%' }} gap={2} alignItems={'start '}>
                             {/* start variants */}
-                            {variants[selectedVariant]}
+                            <Variants productVariantIds={productVariantIds} selectedVariant={selectedVariant}/>
                             {/* end variants */}
                             <Box mb={2}>
                                 <Typography textAlign={'justify'} fontSize={{ xs: '12px', sm: '16px' }}>{description}</Typography>
                             </Box>
                             <Box display={'flex'} gap={1}>
-                                {variantToChoose}
+                                <ChooseVariants productVariantIds={productVariantIds} handleSelectedVariant={handleSelectedVariant} selectedVariant={selectedVariant}/>
                             </Box>
 
                             <Stack direction={{ md: 'row' }} sx={{ width: '100%' }} alignItems={'center'} gap={2} >
