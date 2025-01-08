@@ -1,4 +1,4 @@
-.isSelectedVariant{
+.variant-button.isSelectedVariant{
     background-color: var(--secondary-clr);
     color: rgba(245, 245, 245, 0.929);
 }

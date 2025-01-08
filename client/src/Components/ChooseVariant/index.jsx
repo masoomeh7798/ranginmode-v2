@@ -5,7 +5,7 @@ import './style.css'
 export default function ChooseVariants({productVariantIds,handleSelectedVariant,selectedVariant}) {
       const variantToChoose = productVariantIds?.map((variant, index) => (
             <Button key={index}
-            className={`${(selectedVariant==index) && 'isSelectedVariant'}`}
+            className={`variant-button ${(selectedVariant===index) && 'isSelectedVariant'}`}
             disabled={variant.quantity==0}
             onClick={()=>handleSelectedVariant(index)}
             sx={{
