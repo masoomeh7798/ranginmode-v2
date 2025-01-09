@@ -20,11 +20,11 @@ export default function FilterBoxes() {
             try {
                 const res = await fetch(import.meta.env.VITE_BASE_API + 'category')
                 const data = await res.json()
-                setCategories(data?.data?.categories)
+                setCategories(data?.data)
 
                 const resB = await fetch(import.meta.env.VITE_BASE_API + 'brand')
                 const dataB = await resB.json()
-                setBrands(dataB?.data?.brands)
+                setBrands(dataB?.data)
 
             } catch (error) {
                 console.log(error);
@@ -59,6 +59,26 @@ export default function FilterBoxes() {
                         py: '0'
                     }}
                 >
+                     <ListItem
+                            sx={{
+                                '& svg': { color: 'var(--secondary-clr)' },
+                                px: 0,
+                                '& label': { marginRight: 0 },
+                                '& label span:first-of-type': {
+                                    padding: "0 !important",
+                                    marginLeft: '4px !important'
+                                }
+                            }}
+
+                        >
+                            <FormControlLabel
+                                control={<Checkbox
+                                    onChange={() => { setSelectedCat('all'), dispatch(getCat('all')) }}
+                                    checked={selectedCat == 'all'}
+                                />}
+                                label={'همه دسته ها'} />
+                        </ListItem>
+
                     {categories?.map(e => (
                         <ListItem
                             key={e?._id}
@@ -76,9 +96,9 @@ export default function FilterBoxes() {
                             <FormControlLabel
                                 control={<Checkbox
 
-                                    onChange={() => { setSelectedCat(e?._id), dispatch(getCat(e?.title=='همه دسته ها'? 'all':e?._id)) }}
+                                    onChange={() => { setSelectedCat(e?._id), dispatch(getCat(e?.title == 'همه دسته ها' ? 'all' : e?._id)) }}
                                     checked={selectedCat == e?._id}
-                                
+
                                 />}
                                 label={e?.title} />
                         </ListItem>
@@ -107,6 +127,22 @@ export default function FilterBoxes() {
                         py: '0'
                     }}
                 >
+                    <ListItem
+                        sx={{
+                            '& svg': { color: 'var(--secondary-clr)' },
+                            px: 0,
+                            '& label': { marginRight: 0 },
+                            '& label span:first-of-type': {
+                                padding: "0 !important",
+                                marginLeft: '4px !important'
+                            }
+                        }}
+
+                    ><FormControlLabel control={<Checkbox
+                        checked={selectedBrand == 'all'}
+                        onChange={() => { setSelectedBrand('all'), dispatch(getBrand('all')) }}
+                    />} label={'همه برند ها'} />
+                    </ListItem>
                     {brands?.map(e => (
                         <ListItem
                             key={e?._id}
@@ -122,7 +158,7 @@ export default function FilterBoxes() {
 
                         ><FormControlLabel control={<Checkbox
                             checked={selectedBrand == e?._id}
-                            onChange={() => { setSelectedBrand(e?._id), dispatch(getBrand(e?.title=='همه برند ها'? 'all':e?._id)) }}
+                            onChange={() => {setSelectedBrand(e?._id), dispatch(getBrand(e?._id)) }}
                         />} label={e?.title} />
                         </ListItem>
                     ))}

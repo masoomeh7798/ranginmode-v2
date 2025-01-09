@@ -26,9 +26,15 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
+  // categoryId: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Category'
+  // },
   categoryId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Category'
+    type:[{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category'
+    }]
   },
   productVariantIds: {
     type: [{

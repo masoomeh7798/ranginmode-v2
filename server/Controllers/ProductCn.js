@@ -100,9 +100,10 @@ export const create = catchAsync(async (req, res, next) => {
 export const update = catchAsync(async (req, res, next) => {
   const { id } = req.params
   const prevProduct = await Product.findById(id)
+  console.log(req.body.images);
   if (prevProduct.images.length > 0) {
     prevProduct.images.map(image => {
-      !req.body.images.includes(image) &&
+      (!req.body.images.includes(image)) &&
         fs.unlinkSync(`${__dirname}/Public/${image}`)
     })
   }

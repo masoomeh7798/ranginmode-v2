@@ -47,7 +47,7 @@ export default function ProductsPart() {
       try {
         const res = await fetch(import.meta.env.VITE_BASE_API + `product?limit=8&page=${currentPage}&sort=${sort}${catId == "all" ? "" : `&filters[categoryId][$in]=${catId}`}${brand == "all" || !brand ? "" : `&filters[brandId][$eq]=${brand.toString()}`}`)
         const data = await res.json()
-        setProducts(data?.data?.products)
+        setProducts(data?.data)
         setCount(data?.count || 1)
       } catch (error) {
         console.log(error);
@@ -64,11 +64,11 @@ export default function ProductsPart() {
       try {
         const res = await fetch(import.meta.env.VITE_BASE_API + 'category')
         const data = await res.json()
-        setCategories(data?.data?.categories)
+        setCategories(data?.data)
 
         const resB = await fetch(import.meta.env.VITE_BASE_API + 'brand')
         const dataB = await resB.json()
-        setBrands(dataB?.data?.brands)
+        setBrands(dataB?.data)
 
       } catch (error) {
         console.log(error);
@@ -78,24 +78,18 @@ export default function ProductsPart() {
   }, []);
 
 
-
   const items = products?.map((e, index) => (
     <Box
       key={index}
-      height={{ xs: '450px', xxs: '450px', sm: '450px' }}
+    // height={{ xs: '450px', xxs: '450px', sm: '450px' }}
     >
       <ProductCard
-
         id={e._id}
         name={e?.name}
         description={e?.description}
-        variants={e?.variants}
         brand={e?.brandId?.title}
-        rating={e?.rating}
-        price={e?.price}
-        finalPrice={e?.finalPrice}
-        discount={e?.discount}
-        img={e.images}
+        images={e?.images}
+        productVariantIds={e?.productVariantIds}
       />
     </Box>
   ))
@@ -132,22 +126,22 @@ export default function ProductsPart() {
           direction={'row'}
           bgcolor={'#F1F1F1'}
           border={'1px solid rgba(0,0,0,.2)'}
-          p={{xs:'8px',sm:'8px 16px'}}
-          borderRadius={{xs:'4px',sm:2,md:3}}
+          p={{ xs: '8px', sm: '8px 16px' }}
+          borderRadius={{ xs: '4px', sm: 2, md: 3 }}
           mt={'10px'}
           alignItems={'center'}
           justifyContent={'start'}
           gap={'1.5%'}
           sx={{
-            overflowX:'scroll',
-            '&::-webkit-scrollbar':{
-              display:'none'
+            overflowX: 'scroll',
+            '&::-webkit-scrollbar': {
+              display: 'none'
             }
           }}
-        >  
+        >
           {/* start select sort type */}
           <Stack>
-            <FormControl sx={{  minWidth: 120, maxWidth: 120 }} size="small">
+            <FormControl sx={{ minWidth: 120, maxWidth: 120 }} size="small">
               <InputLabel id="demo-select-small-label">مرتب سازي</InputLabel>
               <Select
                 labelId="demo-select-small-label"
@@ -156,9 +150,9 @@ export default function ProductsPart() {
                 label="مرتب سازي"
                 onChange={handleShowItem}
                 MenuProps={{
-                  sx:{
-                    '& .MuiMenu-paper':{
-                      maxHeight:'200px'
+                  sx: {
+                    '& .MuiMenu-paper': {
+                      maxHeight: '200px'
                     }
                   }
                 }}
@@ -175,10 +169,10 @@ export default function ProductsPart() {
           {/* end select sort type */}
 
           {/* start select cat */}
-          <Stack 
-          display={{xl:'none'}}
+          <Stack
+            display={{ xl: 'none' }}
           >
-            <FormControl sx={{minWidth: 120, maxWidth: 120 }} size="small">
+            <FormControl sx={{ minWidth: 120, maxWidth: 120 }} size="small">
               <InputLabel id="demo-select-small-label">دسته بندي</InputLabel>
               <Select
                 labelId="demo-select-small-label"
@@ -187,15 +181,15 @@ export default function ProductsPart() {
                 label="دسته بندي"
                 onChange={handleShowCatItem}
                 MenuProps={{
-                  sx:{
-                    '& .MuiMenu-paper':{
-                      maxHeight:'200px'
+                  sx: {
+                    '& .MuiMenu-paper': {
+                      maxHeight: '200px'
                     }
                   }
                 }}
               >
                 <MenuItem value="">
-                  <em>هيچكدام</em>
+                  <em>همه</em>
                 </MenuItem>
                 {categories?.map(e => (
                   <MenuItem key={e?._id} value={e?.title == 'همه دسته ها' ? 'all' : e?._id}>{e?.title}</MenuItem>
@@ -206,10 +200,10 @@ export default function ProductsPart() {
           {/* end select cat */}
 
           {/* start select brand */}
-          <Stack 
-          display={{lg:'none'}}
+          <Stack
+            display={{ lg: 'none' }}
           >
-            <FormControl sx={{  minWidth: 120, maxWidth: 120 }} size="small">
+            <FormControl sx={{ minWidth: 90, maxWidth: 100 }} size="small">
               <InputLabel id="demo-select-small-label">برند</InputLabel>
               <Select
                 labelId="demo-select-small-label"
@@ -218,15 +212,15 @@ export default function ProductsPart() {
                 label="برند"
                 onChange={handleShowBrandItem}
                 MenuProps={{
-                  sx:{
-                    '& .MuiMenu-paper':{
-                      maxHeight:'200px'
+                  sx: {
+                    '& .MuiMenu-paper': {
+                      maxHeight: '200px'
                     }
                   }
                 }}
               >
                 <MenuItem value="">
-                  <em>هيچكدام</em>
+                  <em>همه</em>
                 </MenuItem>
                 {brands?.map(e => (
                   <MenuItem key={e?._id} value={e?.title == 'همه برند ها' ? 'all' : e?._id}>{e?.title}</MenuItem>
@@ -271,7 +265,10 @@ export default function ProductsPart() {
             onChange={(e, value) => setCurrentPage(Number(value))}
             count={Math.ceil(count / 8)}
             sx={{
-              direction: 'ltr'
+              direction: 'ltr',
+              '& .MuiPaginationItem-root:hover': {
+                backgroundColor: 'var(--third-clr) !important', 
+              }
             }}
             color="secondary"
           />

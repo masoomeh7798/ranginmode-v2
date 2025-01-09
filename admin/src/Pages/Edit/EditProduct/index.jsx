@@ -17,8 +17,7 @@ export default function EditProduct({ item, id }) {
     const [files, setFiles] = useState([]);
     const [fields, handleChange, setFields] = useFormFields({ name: '', description: '', information: '' })
     const { token } = useContext(AuthContext)
-    const navigate=useNavigate()
-
+    const navigate = useNavigate()
 
 
     // start toggle is active
@@ -30,11 +29,16 @@ export default function EditProduct({ item, id }) {
 
 
     // start select category
-    const [selectedCat, setSelectedCat] = useState('');
+    const [selectedCat, setSelectedCat] = useState([]);
     const [categories, setCategories] = useState();
 
     const handleChangeSelectCat = (event) => {
-        setSelectedCat(event.target.value);
+        const {
+            target: { value },
+        } = event;
+        setSelectedCat(
+            typeof value === 'string' ? value.split(',') : value,
+        );
     };
 
     // brand
@@ -85,8 +89,8 @@ export default function EditProduct({ item, id }) {
             });
             setIsActive(item?.isActive)
             setSelectedBrand(item?.brandId?._id)
-            setSelectedCat(item?.categoryId?._id)
-            setFiles([{name:item?.images[0]}])
+            setSelectedCat(item?.categoryId?.map(e=>e?._id))
+            setFiles(item?.images?.map(e=>({name:e})))
         }
     }, [item]);
 
@@ -147,7 +151,8 @@ export default function EditProduct({ item, id }) {
                 navigate('/products')
 
             } else {
-                notify("error", "همه فيلد ها الزامي هستند.")
+                // notify("error", "همه فيلد ها الزامي هستند.")
+                notify("error", data.message)
             }
             handleReset()
         } catch (error) {
@@ -163,9 +168,9 @@ export default function EditProduct({ item, id }) {
                 <div className="right">
                     <div className="uploadFile">
                         <label htmlFor="file">
-                            
-                                <img src={(files && files.length != 0) ? import.meta.env.VITE_BASE_URL + files[0]?.name : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"} alt="avatar" />
-                            
+
+                            <img src={(files && files.length != 0) ? import.meta.env.VITE_BASE_URL + files[0]?.name : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"} alt="avatar" />
+
                             <div className="fileIcon">
 
                                 <AddOutlinedIcon />
@@ -234,12 +239,13 @@ export default function EditProduct({ item, id }) {
                                 },
                             }}>
                                 <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">دسته بندي</InputLabel>
+                                    <InputLabel id="demo-multiple-name-label">دسته بندي</InputLabel>
                                     <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
+                                        labelId="demo-multiple-name-label"
+                                        id="demo-multiple-name"
                                         value={selectedCat}
                                         label="دسته بندي"
+                                        multiple
                                         onChange={handleChangeSelectCat}
                                         MenuProps={{
                                             PaperProps: {
