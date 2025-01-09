@@ -27,11 +27,16 @@ export default function NewProduct() {
 
 
     // start select category
-    const [selectedCat, setSelectedCat] = useState('');
+    const [selectedCat, setSelectedCat] = useState([]);
     const [categories, setCategories] = useState();
 
     const handleChangeSelectCat = (event) => {
-        setSelectedCat(event.target.value);
+        const {
+            target: { value },
+        } = event;
+        setSelectedCat(
+            typeof value === 'string' ? value.split(',') : value,
+        );
     };
 
     // brand
@@ -138,7 +143,7 @@ export default function NewProduct() {
 
     return (
         <>
-           
+
             <div className="bottom">
                 <div className="right">
                     <div className="uploadFile">
@@ -170,36 +175,14 @@ export default function NewProduct() {
                                 placeholder='جنس:استيل+ رنگ:طلايي-مسي' />
                         </div>
 
-                        <Box width={'48%'}
+                        <Box width={{xs:'48%',md:'100%'}}
                             display={'flex'}
                             alignItems={'center'}
-                            justifyContent={'space-around'}
+                            justifyContent={{xs:'center',md:'start'}}
                             gap={'5%'}
+                            mb={2}
                             className={'switch'}
                         >
-                            {/* start set isActive */}
-                            <FormControlLabel
-                                control={
-                                    <Switch
-                                        checked={isActive}
-                                        onChange={handleToggle}
-                                        sx={{
-                                            '& .Mui-checked': {
-                                                color: 'red !important',
-                                            },
-                                            '& .Mui-checked + .MuiSwitch-track': {
-                                                backgroundColor: 'red !important',
-                                            },
-                                            '& + .MuiSwitch-track': {
-                                                backgroundColor: 'red',
-                                            },
-                                        }}
-                                    />
-                                }
-                                label={isActive ? "موجود" : "ناموجود"}
-                            />
-                            {/* end set isActive */}
-
                             {/* start select category */}
                             <Box sx={{
                                 minWidth: 120,
@@ -210,18 +193,19 @@ export default function NewProduct() {
                                     outlineColor: 'red'
                                 },
                             }}>
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">دسته بندي</InputLabel>
+                                <FormControl sx={{maxWidth:120}} fullWidth>
+                                    <InputLabel id="demo-multiple-name-label">دسته بندي</InputLabel>
                                     <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
+                                        labelId="demo-multiple-name-label"
+                                        id="demo-multiple-name"
                                         value={selectedCat}
                                         label="دسته بندي"
+                                        multiple
                                         onChange={handleChangeSelectCat}
                                         MenuProps={{
                                             PaperProps: {
                                                 style: {
-                                                    maxHeight: 200,
+                                                    maxHeight: 200
                                                 },
                                             },
                                         }}
@@ -282,6 +266,29 @@ export default function NewProduct() {
                             </Box>
 
                             {/* end select brand */}
+
+                             {/* start set isActive */}
+                             <FormControlLabel
+                                control={
+                                    <Switch
+                                        checked={isActive}
+                                        onChange={handleToggle}
+                                        sx={{
+                                            '& .Mui-checked': {
+                                                color: 'red !important',
+                                            },
+                                            '& .Mui-checked + .MuiSwitch-track': {
+                                                backgroundColor: 'red !important',
+                                            },
+                                            '& + .MuiSwitch-track': {
+                                                backgroundColor: 'red',
+                                            },
+                                        }}
+                                    />
+                                }
+                                label={isActive ? "موجود" : "ناموجود"}
+                            />
+                            {/* end set isActive */}
                         </Box>
 
 

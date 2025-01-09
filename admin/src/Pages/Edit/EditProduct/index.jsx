@@ -89,8 +89,8 @@ export default function EditProduct({ item, id }) {
             });
             setIsActive(item?.isActive)
             setSelectedBrand(item?.brandId?._id)
-            setSelectedCat(item?.categoryId?.map(e=>e?._id))
-            setFiles(item?.images?.map(e=>({name:e})))
+            setSelectedCat(item?.categoryId?.map(e => e?._id))
+            setFiles(item?.images?.map(e => ({ name: e })))
         }
     }, [item]);
 
@@ -198,35 +198,15 @@ export default function EditProduct({ item, id }) {
                                 placeholder='جنس:استيل+ رنگ:طلايي-مسي' />
                         </div>
 
-                        <Box width={'48%'}
+                        <Box width={{xs:'48%',md:'100%'}}
                             display={'flex'}
                             alignItems={'center'}
-                            justifyContent={'space-around'}
+                            justifyContent={{ xs: 'center', md: 'start' }}
                             gap={'5%'}
+                            mb={2}
                             className={'switch'}
                         >
-                            {/* start set isActive */}
-                            <FormControlLabel
-                                control={
-                                    <Switch
-                                        checked={isActive}
-                                        onChange={handleToggle}
-                                        sx={{
-                                            '& .Mui-checked': {
-                                                color: 'red !important',
-                                            },
-                                            '& .Mui-checked + .MuiSwitch-track': {
-                                                backgroundColor: 'red !important',
-                                            },
-                                            '& + .MuiSwitch-track': {
-                                                backgroundColor: 'red',
-                                            },
-                                        }}
-                                    />
-                                }
-                                label={isActive ? "موجود" : "ناموجود"}
-                            />
-                            {/* end set isActive */}
+                           
 
                             {/* start select category */}
                             <Box sx={{
@@ -238,7 +218,7 @@ export default function EditProduct({ item, id }) {
                                     outlineColor: 'red'
                                 },
                             }}>
-                                <FormControl fullWidth>
+                                <FormControl sx={{maxWidth:120}} fullWidth>
                                     <InputLabel id="demo-multiple-name-label">دسته بندي</InputLabel>
                                     <Select
                                         labelId="demo-multiple-name-label"
@@ -309,8 +289,30 @@ export default function EditProduct({ item, id }) {
                                     </Select>
                                 </FormControl>
                             </Box>
-
                             {/* end select brand */}
+
+                             {/* start set isActive */}
+                             <FormControlLabel
+                                control={
+                                    <Switch
+                                        checked={isActive}
+                                        onChange={handleToggle}
+                                        sx={{
+                                            '& .Mui-checked': {
+                                                color: 'red !important',
+                                            },
+                                            '& .Mui-checked + .MuiSwitch-track': {
+                                                backgroundColor: 'red !important',
+                                            },
+                                            '& + .MuiSwitch-track': {
+                                                backgroundColor: 'red',
+                                            },
+                                        }}
+                                    />
+                                }
+                                label={isActive ? "موجود" : "ناموجود"}
+                            />
+                            {/* end set isActive */}
                         </Box>
 
 

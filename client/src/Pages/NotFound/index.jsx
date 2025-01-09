@@ -29,7 +29,7 @@ export default function NotFound() {
         اين صفحه در سايت موجود نيست و يا حذف شده است.
       </Typography>
       <Button variant="contained" color="primary" sx={{'&:hover':{bgcolor:'var(--secondary-clr)'}}} onClick={handleGoHome}>
-        Go to Home
+        صفحه اصلي
       </Button>
     </Box>
   );
