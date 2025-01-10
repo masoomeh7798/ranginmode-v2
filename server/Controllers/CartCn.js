@@ -4,45 +4,57 @@ import HandleError from "../Utils/handleError.js";
 import jwt from "jsonwebtoken";
 import Product from "../Models/ProductMd.js"
 import ProductVariant from "../Models/ProductVariantMd.js";
+import Cart from "../Models/CartMd.js";
 
 export const addToCart = catchAsync(async (req, res, next) => {
-  const { id } = jwt.verify(
-    req.headers.authorization.split(" ")[1],
-    process.env.JWT_SECRET
-  );
-  const user = await User.findById(id);
-  const { productId = null, variantId = null, quantity = 0 } = req.body;
-
-  if (!productId || quantity <= 0 || !variantId) {
+  let id;
+  if (req.headers.authorization) {
+    id = jwt.verify(
+      req.headers.authorization?.split(" ")[1],
+      process.env.JWT_SECRET
+    ).id
+  }
+  const { productId = null, variantId = null, quantity = 0, guestId = '' } = req.body;
+  if (!productId || quantity <= 0 || !variantId || (!id && !guestId)) {
     return next(
       new HandleError(
         "درخواست نامعتبر", 400
       )
     );
   }
-  const productVariant = await ProductVariant.findById(variantId);
-  const product = await Product.findById(productId);
-  let finalPrice = productVariant?.finalPrice;
+  let cart = await Cart.findOne({ $or: [{ userId: id }, { guestId: guestId }] })
   let add = false;
-  let newItems = user?.cart?.items?.map((e) => {
-    if (variantId == e?.variantId) {
-      e.quantity = quantity
-      add = true;
+  const variant = await ProductVariant.findById(variantId)
+  const finalPrice = variant?.finalPrice
+  if (!cart) {
+    cart = await Cart.create({ totalPrice:finalPrice*quantity, guestId, userId: id, items: [{ productId, variantId, quantity }] })
+  } else {
+    cart.items = cart?.items?.map((item) => {
+      if (item.productId == productId && item.variantId == variantId) {
+        if (item.quantity > quantity) {
+          cart.totalPrice -= (finalPrice * (item.quantity - quantity))
+        } else if (item.quantity < quantity) {
+          cart.totalPrice += (finalPrice * (quantity - item.quantity))
+        } 
+        item.quantity = quantity
+        add = true
+      }
+      return item
+    })
+    if (!add) {
+      cart.items.push({ productId, variantId, quantity })
+      cart.totalPrice += finalPrice * quantity
     }
-    return e;
-  });
-  if (!add) {
-    newItems.push({ productId, quantity: 1 });
   }
-  user.cart.totalPrice += finalPrice;
-  user.cart.items = newItems;
-  await user.save();
+
+  await cart.save()
+
+  if (id) {
+    const user = await User.findByIdAndUpdate(id, { cart: cart._id }, { new: true, runValidators: true })
+  }
   return res.status(200).json({
-    message: "increased",
-    data: {
-      cart: user.cart,
-      add
-    },
+    message: "محصول به سبد خرید اضافه شد.",
+    data: cart,
     success: true,
   });
 });

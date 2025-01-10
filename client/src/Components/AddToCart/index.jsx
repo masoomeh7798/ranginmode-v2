@@ -3,28 +3,32 @@ import React from 'react'
 import { IoMdCart } from 'react-icons/io'
 import { useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
+import notify from '../../Utils/notify'
 
-export default function AddToCart({ variantId, dynamicQuantity }) {
+export default function AddToCart({ variantId, dynamicQuantity, productId }) {
 
-    const { token, user } = useSelector(state => state.auth)
-
-
+    const { token = null, user = null } = useSelector(state => state.auth)
 
     const handleAddToCart = async () => {
-        if (!token) {
-            const guestId =uuidv4()
-            localStorage.setItem('guestId',guestId)
+        let guestId = localStorage.getItem('guestId')
+        if (!token && !guestId) {
+            guestId = uuidv4()
+            localStorage.setItem('guestId', guestId)
         }
+
         try {
             const res = await fetch(import.meta.env.VITE_BASE_API + 'cart', {
                 "method": "POST",
                 headers: {
+                    authorization: `Bearer ${token}`,
                     "content-type": "application/json"
                 },
-                body: JSON.stringify({ productId, variantId, quantity: dynamicQuantity })
+                body: JSON.stringify({ guestId, productId, variantId, quantity: dynamicQuantity })
             })
             const data = await res.json();
-
+            if (data?.success) {
+                notify('success', data?.message)
+            }
 
         } catch (error) {
             console.log(error);
