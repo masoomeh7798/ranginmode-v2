@@ -3,6 +3,7 @@ import User from "../Models/UserMd.js";
 import HandleError from "../Utils/handleError.js";
 import jwt from "jsonwebtoken";
 import Product from "../Models/ProductMd.js"
+import ProductVariant from "../Models/ProductVariantMd.js";
 
 export const addToCart = catchAsync(async (req, res, next) => {
   const { id } = jwt.verify(
@@ -10,22 +11,22 @@ export const addToCart = catchAsync(async (req, res, next) => {
     process.env.JWT_SECRET
   );
   const user = await User.findById(id);
-  const { productId = null } = req.body;
+  const { productId = null, variantId = null, quantity = 0 } = req.body;
 
-  if (!productId || !id) {
+  if (!productId || quantity <= 0 || !variantId) {
     return next(
       new HandleError(
-        "وارد سايت نشدي هنوز ^^", 400
+        "درخواست نامعتبر", 400
       )
     );
   }
-  
+  const productVariant = await ProductVariant.findById(variantId);
   const product = await Product.findById(productId);
-  let finalPrice = product?.finalPrice;
+  let finalPrice = productVariant?.finalPrice;
   let add = false;
   let newItems = user?.cart?.items?.map((e) => {
-    if (productId == e?.productId) {
-      e.quantity += 1
+    if (variantId == e?.variantId) {
+      e.quantity = quantity
       add = true;
     }
     return e;

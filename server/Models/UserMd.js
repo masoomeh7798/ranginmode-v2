@@ -1,25 +1,29 @@
 import mongoose from "mongoose";
-const cartSchema = new mongoose.Schema({
-  totalPrice: {
-    type: Number,
-    default: 0,
-  },
-  items: {
-    type: [
-      {
-        productId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Product",
-        },
-        quantity: {
-          type: Number,
-          default: 1
-        }
-      },
-    ],
-    default: [],
-  },
-});
+// const cartSchema = new mongoose.Schema({
+//   totalPrice: {
+//     type: Number,
+//     default: 0,
+//   },
+//   items: {
+//     type: [
+//       {
+//         productId: {
+//           type: mongoose.Schema.Types.ObjectId,
+//           ref: "Product",
+//         },
+//         productVariantId: {
+//           type: mongoose.Schema.Types.ObjectId,
+//           ref: "ProductVariant",
+//         },
+//         quantity: {
+//           type: Number,
+//           default: 1
+//         }
+//       },
+//     ],
+//     default: [],
+//   },
+// });
 
 
 const userSchema = new mongoose.Schema({
@@ -39,14 +43,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g, "ايميل نامعتبر است."],
     unique: [true, "ايميل تكراري است."],
-    required:[true,'ايميل الزامي است.']
+    required: [true, 'ايميل الزامي است.']
   },
   password: {
     type: String,
     required: [true, 'رمز عبور الزامي است.'],
   },
-  img:{
-    type:String
+  img: {
+    type: String
   },
   role: {
     type: String,
@@ -72,11 +76,8 @@ const userSchema = new mongoose.Schema({
     default: [],
   },
   cart: {
-    type: cartSchema,
-    default: {
-      totalPrice: 0,
-      items: []
-    }
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Cart",
   },
   boughtProduct: {
     type: [

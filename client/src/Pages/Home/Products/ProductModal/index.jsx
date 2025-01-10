@@ -18,6 +18,7 @@ import { setCheckFavorite } from '../../../../Store/Slices/FavoriteSlice';
 import notify from '../../../../Utils/notify';
 import ChooseVariants from '../../../../Components/ChooseVariant/index.jsx';
 import Variants from '../../../../Components/Variants/index.jsx';
+import AddToCart from '../../../../Components/AddToCart/index.jsx';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -30,7 +31,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 
 export default function ProductModal({ handleClose, open, images, productVariantIds, name, description, brand, id }) {
-    const [addProductBtns, setAddProductBtns] = useState(false);
+    const [dynamicQuantity, setdynamicQuantity] = useState(0);
     const [isFavorite, setIsFavorite] = useState(false);
     const { token, user } = useSelector(state => state.auth)
     const { checkFavorite } = useSelector(state => state.favorite)
@@ -38,6 +39,9 @@ export default function ProductModal({ handleClose, open, images, productVariant
 
     const handleCheckFavorite = () => {
         dispatch(setCheckFavorite(!checkFavorite))
+    }
+    const handleDynamicQuantity = (q) => {
+        setdynamicQuantity(q)
     }
 
     useEffect(() => {
@@ -91,7 +95,7 @@ export default function ProductModal({ handleClose, open, images, productVariant
     // strat variants
     const [selectedVariant, setSelectedVariant] = useState(0);
     const [selectedVariantId, setSelectedVariantId] = useState(productVariantIds[0]?._id);
-    const handleSelectedVariant = (index,variantId) => {
+    const handleSelectedVariant = (index, variantId) => {
         setSelectedVariant(index)
         setSelectedVariantId(variantId)
     }
@@ -159,10 +163,17 @@ export default function ProductModal({ handleClose, open, images, productVariant
                             </Box>
                             {/* start add to cart btn & quantity */}
                             <Stack direction={{ md: 'row' }} sx={{ width: '100%' }} alignItems={'center'} gap={2} >
-                                <QuantityBox productId={id} variantId={selectedVariantId} />
-                                <Button
-                                    onClick={() => setAddProductBtns(true)}
-                                    sx={{ textWrap: 'nowrap', '& svg': { fontSize: "24px !important" }, borderRadius: '24px', bgcolor: "var(--third-clr)", color: 'var(--primary-clr)', padding: '8px 5px 8px 16px ', transition: "all .5s", '&:hover': { bgcolor: "var(--secondary-clr)", color: 'var(--text-clr)' } }} startIcon={<IoMdCart />}><Typography fontSize={{ xs: '12px', xxs: '14px', sm: '16px' }} fontWeight={500} mr={1}> افزودن به سبد خريد</Typography> </Button>
+                                <QuantityBox
+                                    handleDynamicQuantity={handleDynamicQuantity}
+                                    dynamicQuantity={dynamicQuantity}
+                                    variantId={selectedVariantId}
+                                />
+                                <AddToCart
+                                    dynamicQuantity={dynamicQuantity}
+                                    variantId={selectedVariantId}
+                                    productId={id}
+                                />
+
                             </Stack>
                             {/* start add to cart btn & quantity */}
 
