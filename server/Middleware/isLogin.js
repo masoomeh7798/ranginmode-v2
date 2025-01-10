@@ -9,7 +9,7 @@ const isLogin=catchAsync(async(req,res,next)=>{
         }
         return
     }catch(err){
-        return next(new HandleError("you don't have a permission",401))
+        return next(new HandleError("you don't have permission",401))
     }
 })
 

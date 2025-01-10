@@ -7,7 +7,7 @@ export default function ChooseVariants({productVariantIds,handleSelectedVariant,
             <Button key={index}
             className={`variant-button ${(selectedVariant===index) && 'isSelectedVariant'}`}
             disabled={variant.quantity==0}
-            onClick={()=>handleSelectedVariant(index)}
+            onClick={()=>handleSelectedVariant(index,variant?._id)}
             sx={{
                 bgcolor:'rgb(192, 174, 176)',
                 color:'black',

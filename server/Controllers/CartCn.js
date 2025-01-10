@@ -19,6 +19,7 @@ export const addToCart = catchAsync(async (req, res, next) => {
       )
     );
   }
+  
   const product = await Product.findById(productId);
   let finalPrice = product?.finalPrice;
   let add = false;
@@ -124,7 +125,7 @@ export const removeItemFromCart = catchAsync(async (req, res, next) => {
     message: "از سبد خريدت حذف شد.",
     data: {
       cart: user.cart,
-      remove:true
+      remove: true
     },
     success: true,
   });

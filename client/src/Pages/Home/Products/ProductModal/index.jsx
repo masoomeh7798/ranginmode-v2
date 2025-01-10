@@ -90,8 +90,10 @@ export default function ProductModal({ handleClose, open, images, productVariant
 
     // strat variants
     const [selectedVariant, setSelectedVariant] = useState(0);
-    const handleSelectedVariant = (index) => {
+    const [selectedVariantId, setSelectedVariantId] = useState(productVariantIds[0]?._id);
+    const handleSelectedVariant = (index,variantId) => {
         setSelectedVariant(index)
+        setSelectedVariantId(variantId)
     }
 
 
@@ -155,15 +157,15 @@ export default function ProductModal({ handleClose, open, images, productVariant
                             <Box display={'flex'} gap={1}>
                                 <ChooseVariants productVariantIds={productVariantIds} handleSelectedVariant={handleSelectedVariant} selectedVariant={selectedVariant} />
                             </Box>
-
+                            {/* start add to cart btn & quantity */}
                             <Stack direction={{ md: 'row' }} sx={{ width: '100%' }} alignItems={'center'} gap={2} >
-                                {addProductBtns ? <QuantityBox productId={id} /> :
-                                    <Button
-                                        onClick={() => setAddProductBtns(true)}
-                                        sx={{ textWrap: 'nowrap', '& svg': { fontSize: "24px !important" }, borderRadius: '24px', bgcolor: "var(--third-clr)", color: 'var(--primary-clr)', padding: '8px 5px 8px 16px ', transition: "all .5s", '&:hover': { bgcolor: "var(--secondary-clr)", color: 'var(--text-clr)' } }} startIcon={<IoMdCart />}><Typography fontSize={{ xs: '12px', xxs: '14px', sm: '16px' }} fontWeight={500} mr={1}> افزودن به سبد خريد</Typography> </Button>
-                                }
-
+                                <QuantityBox productId={id} variantId={selectedVariantId} />
+                                <Button
+                                    onClick={() => setAddProductBtns(true)}
+                                    sx={{ textWrap: 'nowrap', '& svg': { fontSize: "24px !important" }, borderRadius: '24px', bgcolor: "var(--third-clr)", color: 'var(--primary-clr)', padding: '8px 5px 8px 16px ', transition: "all .5s", '&:hover': { bgcolor: "var(--secondary-clr)", color: 'var(--text-clr)' } }} startIcon={<IoMdCart />}><Typography fontSize={{ xs: '12px', xxs: '14px', sm: '16px' }} fontWeight={500} mr={1}> افزودن به سبد خريد</Typography> </Button>
                             </Stack>
+                            {/* start add to cart btn & quantity */}
+
                             <Stack direction={'row'} sx={{ width: '100%' }} justifyContent={{ xs: "center", md: 'start' }} alignItems={'center'} gap={2} mt={'20px'}>
                                 <Button
                                     onClick={handleCheckIsFavorite}
