@@ -14,7 +14,7 @@ export const addToCart = catchAsync(async (req, res, next) => {
       process.env.JWT_SECRET
     ).id
   }
-  const { productId = null, variantId = null, quantity = 0, guestId = '' } = req.body;
+  const { productId = null, variantId = null, quantity = 0, guestId = '' } = req?.body;
   if (!productId || quantity <= 0 || !variantId || (!id && !guestId)) {
     return next(
       new HandleError(
@@ -22,12 +22,18 @@ export const addToCart = catchAsync(async (req, res, next) => {
       )
     );
   }
-  let cart = await Cart.findOne({ $or: [{ userId: id }, { guestId: guestId }] })
+
+  let cart;
+  if (id) {
+    cart = await Cart.findOne({ userId: id })
+  } else {
+    cart = await Cart.findOne({ guestId })
+  }
   let add = false;
   const variant = await ProductVariant.findById(variantId)
   const finalPrice = variant?.finalPrice
   if (!cart) {
-    cart = await Cart.create({ totalPrice:finalPrice*quantity, guestId, userId: id, items: [{ productId, variantId, quantity }] })
+    cart = await Cart.create({ totalPrice: finalPrice * quantity, guestId, userId: id, items: [{ productId, variantId, quantity }] })
   } else {
     cart.items = cart?.items?.map((item) => {
       if (item.productId == productId && item.variantId == variantId) {
@@ -35,7 +41,7 @@ export const addToCart = catchAsync(async (req, res, next) => {
           cart.totalPrice -= (finalPrice * (item.quantity - quantity))
         } else if (item.quantity < quantity) {
           cart.totalPrice += (finalPrice * (quantity - item.quantity))
-        } 
+        }
         item.quantity = quantity
         add = true
       }
@@ -46,18 +52,41 @@ export const addToCart = catchAsync(async (req, res, next) => {
       cart.totalPrice += finalPrice * quantity
     }
   }
-
   await cart.save()
-
   if (id) {
     const user = await User.findByIdAndUpdate(id, { cart: cart._id }, { new: true, runValidators: true })
   }
   return res.status(200).json({
-    message: "محصول به سبد خرید اضافه شد.",
+    message: "محصول اضافه شد.",
     data: cart,
     success: true,
   });
 });
+
+
+
+export const getGuestUserCart = catchAsync(async (req, res, next) => {
+  let userId;
+  if (req.headers.authorization) {
+    userId = jwt.verify(
+      req.headers.authorization?.split(" ")[1],
+      process.env.JWT_SECRET
+    ).id
+  }
+  const { guestId } = req?.body
+  let cart;
+  if (userId) {
+    cart = await Cart.findOne({ userId })
+  } else {
+    cart = await Cart.findOne({ guestId })
+  }
+  return res.status(200).json({
+    success: true,
+    data: cart
+  });
+});
+
+
 
 export const clearCart = catchAsync(async (req, res, next) => {
   const { id } = jwt.verify(

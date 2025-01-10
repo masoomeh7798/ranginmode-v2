@@ -15,12 +15,11 @@ export default function AddToCart({ variantId, dynamicQuantity, productId }) {
             guestId = uuidv4()
             localStorage.setItem('guestId', guestId)
         }
-
         try {
             const res = await fetch(import.meta.env.VITE_BASE_API + 'cart', {
                 "method": "POST",
                 headers: {
-                    authorization: `Bearer ${token}`,
+                    authorization: token ? `Bearer ${token}` : '',
                     "content-type": "application/json"
                 },
                 body: JSON.stringify({ guestId, productId, variantId, quantity: dynamicQuantity })

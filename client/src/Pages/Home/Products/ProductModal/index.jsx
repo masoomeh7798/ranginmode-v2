@@ -167,6 +167,7 @@ export default function ProductModal({ handleClose, open, images, productVariant
                                     handleDynamicQuantity={handleDynamicQuantity}
                                     dynamicQuantity={dynamicQuantity}
                                     variantId={selectedVariantId}
+                                    productId={id}
                                 />
                                 <AddToCart
                                     dynamicQuantity={dynamicQuantity}

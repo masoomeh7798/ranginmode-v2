@@ -4,88 +4,9 @@ import { FaMinus, FaPlus } from "react-icons/fa6";
 import { useDispatch, useSelector } from 'react-redux';
 import { changedQuantity, setIsAdded, setIsRemoved } from '../../Store/Slices/CartSlice';
 
-export default function QauntityBox({variantId ,handleDynamicQuantity,dynamicQuantity}) {
+export default function QauntityBox({ variantId, handleDynamicQuantity, dynamicQuantity, productId }) {
     const [variantQuantity, setVariantQuantity] = useState();
-
-    //     const dispatch=useDispatch()
-    //     const {isAdded,isRemoved,dynamicQunatityD}=useSelector(state=>state.cart)
-
-
-    //   const handleRemove = () => {
-    //     dispatch(setIsRemoved(isRemoved - 1));
-    //   };
-    //   const handleAdded = () => {
-    //     dispatch(setIsAdded(isAdded + 1));
-    //   };
-    //   const handleChangedQuantity = () => {
-    //     dispatch(changedQuantity(!dynamicQunatityD))
-    //   };
-
-
-    // useEffect(() => {
-    //     (async () => {
-    //         try {
-    //             const res = await fetch(import.meta.env.VITE_BASE_API + `user/${user?.id}`, {
-    //                 "method": "GET",
-    //                 headers: {
-    //                     authorization: `Bearer ${token}`
-    //                 }
-    //             })
-    //             const data = await res.json()
-    //             setdynamicQuantity(data?.data?.cart?.items?.filter(e => e?.productId?._id == productId)[0]?.quantity || 0)
-
-    //             const resC = await fetch(import.meta.env.VITE_BASE_API + `product/${productId}`)
-    //             const dataC = await resC.json()
-    //             setProductQuantity(dataC?.data?.quantity)
-
-
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     })()
-
-    // }, [isAdded, isRemoved, productId, user?.id, dynamicQunatityD]);
-
-
-    // const handleDecreaseQuantity = async () => {
-    //     setdynamicQuantity(dynamicQuantity - 1)
-    //     handleChangedQuantity()
-    //     try {
-    //         const res = await fetch(import.meta.env.VITE_BASE_API + 'cart', {
-    //             "method": "DELETE",
-    //             headers: {
-    //                 authorization: `Bearer ${token}`,
-    //                 "content-type": "application/json"
-    //             },
-    //             body: JSON.stringify({ productId })
-    //         })
-    //         const data = await res.json();
-    //         (data?.data?.remove && handleRemove())
-
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-
-    // const handleIncreaseQuantity = async () => {
-    //     setdynamicQuantity(dynamicQuantity + 1)
-    //     handleChangedQuantity()
-        // try {
-        //     const res = await fetch(import.meta.env.VITE_BASE_API + 'cart', {
-        //         "method": "POST",
-        //         headers: {
-        //             authorization: `Bearer ${token}`,
-        //             "content-type": "application/json"
-        //         },
-        //         body: JSON.stringify({ productId, variantId })
-        //     })
-        //     const data = await res.json();
-        //     (!data?.data?.add && handleAdded())
-
-        // } catch (error) {
-        //     console.log(error);
-        // }
-    // }
+    const { token = null, user = null } = useSelector(state => state.auth)
 
 
     // start get product variant quantity
@@ -96,13 +17,31 @@ export default function QauntityBox({variantId ,handleDynamicQuantity,dynamicQua
                 const data = await res.json()
                 if (data?.success) {
                     setVariantQuantity(data?.data?.quantity)
-                    if(data?.data?.quantity < dynamicQuantity){
+                    if (data?.data?.quantity < dynamicQuantity) {
                         handleDynamicQuantity(data?.data?.quantity)
                     }
                 }
-                
+
+                // start get initial user cart item quantitiy
+                const guestId = localStorage.getItem('guestId')
+                if (token || guestId) {
+                    const resC = await fetch(import.meta.env.VITE_BASE_API + `cart/guest-user-cart`, {
+                        method:'POST',
+                        headers: {
+                            authorization: token ? `Bearer ${token}` : '',
+                            "content-type": "application/json"
+                        },
+                        body: JSON.stringify({ guestId})
+                    })
+                    const dataC = await resC.json()
+                    if (dataC?.success) {
+                        const initialQuantity=dataC?.data?.items?.filter(e=>(e.variantId==variantId && e.productId==productId))[0]?.quantity || 0
+                        handleDynamicQuantity(initialQuantity)
+                    }
+                }
+
             } catch (error) {
-                console.log('error');
+                console.log(error);
             }
         })()
 
