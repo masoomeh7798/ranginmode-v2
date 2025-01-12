@@ -13,7 +13,6 @@ import QuantityBox from '../../Components/QuantityBox'
 import { Link, useNavigate } from 'react-router-dom';
 import QauntityBox from '../../Components/QuantityBox';
 import { useDispatch, useSelector } from 'react-redux';
-import { changedQuantity, setIsRemoved } from '../../Store/Slices/CartSlice';
 import notify from '../../Utils/notify';
 
 

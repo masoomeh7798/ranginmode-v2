@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import useFormFields from '../../Utils/useFormFields'
 import { useDispatch, useSelector } from 'react-redux'
 import notify from '../../Utils/notify'
-import { changedQuantity, setIsRemoved } from '../../Store/Slices/CartSlice'
 import { useNavigate } from 'react-router-dom'
 
 

@@ -17,7 +17,7 @@ import { IoArrowBackCircleOutline } from 'react-icons/io5';
 
 export default function TopNav() {
   const { token, user } = useSelector(state => state.auth)
-  const { isAdded, isRemoved } = useSelector(state => state.cart)
+  const { isChangedCartQuantity } = useSelector(state => state.cart)
   const [cartItems, setCartItems] = useState(0);
   const [searchData, setSearchData] = useState();
   const [searchContent, setSearchContent] = useState(null);
@@ -67,33 +67,37 @@ export default function TopNav() {
 
 
   useEffect(() => {
-    if (token && user) {
-      (async () => {
-        try {
-          const res = await fetch(import.meta.env.VITE_BASE_API + `user/${user?.id}`, {
-            "method": "GET",
-            headers: {
-              authorization: `Bearer ${token}`
-            }
-          })
-          const data = await res.json()
-          setCartItems(data?.data?.user?.cart?.items?.length)
-        } catch (error) {
-          console.log(error);
-        }
-      })()
-    } else {
-      return
-    }
-  }, [isRemoved, isAdded]);
+    (async () => {
+      let guestId = localStorage.getItem('guestId')
+      if (!token && !guestId) {
+        guestId = uuidv4()
+        localStorage.setItem('guestId', guestId)
+      }
+      try {
+        const res = await fetch(import.meta.env.VITE_BASE_API + `cart/guest-user-cart`, {
+          "method": "POST",
+          headers: {
+            authorization: token ? `Bearer ${token}` : '',
+            "content-type": "application/json"
+          },
+          body: JSON.stringify({ guestId })
+        })
+        const data = await res.json()
+        setCartItems(data?.data?.items?.length)
+      } catch (error) {
+        console.log(error);
+      }
+    })()
+
+  }, [isChangedCartQuantity]);
 
 
   return (
     <Stack alignItems={'center'} direction={'row'} my={{ xs: 2, md: 3 }} gap={1}>
 
       <Backdrop
-      
-        sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer - 1 ,display:{sm:'none'}})}
+
+        sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer - 1, display: { sm: 'none' } })}
         open={open}
         onClick={handleDrawerClose}
       >

@@ -2,7 +2,6 @@ import { IconButton, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { FaMinus, FaPlus } from "react-icons/fa6";
 import { useDispatch, useSelector } from 'react-redux';
-import { changedQuantity, setIsAdded, setIsRemoved } from '../../Store/Slices/CartSlice';
 
 export default function QauntityBox({ variantId, handleDynamicQuantity, dynamicQuantity, productId }) {
     const [variantQuantity, setVariantQuantity] = useState();
