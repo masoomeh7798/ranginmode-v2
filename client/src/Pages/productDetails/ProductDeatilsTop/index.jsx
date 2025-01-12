@@ -13,14 +13,28 @@ import { setCheckFavorite } from '../../../Store/Slices/FavoriteSlice';
 import notify from '../../../Utils/notify';
 import ChooseVariants from '../../../Components/ChooseVariant';
 import Variants from '../../../Components/Variants';
+import AddToCart from '../../../Components/AddToCart';
 
 
 export default function ProductDetailsTop({ productId }) {
     const [product, setProduct] = useState({});
-    const [addProductBtns, setAddProductBtns] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
     const { token, user } = useSelector(state => state.auth)
     const { checkFavorite } = useSelector(state => state.favorite)
+    const [dynamicQuantity, setdynamicQuantity] = useState(0);
+
+    // strat variants
+    const [selectedVariant, setSelectedVariant] = useState(0);
+    const [selectedVariantId, setSelectedVariantId] = useState();
+    const handleSelectedVariant = (index, variantId) => {
+        setSelectedVariant(index)
+        setSelectedVariantId(variantId)
+    }
+
+    const handleDynamicQuantity = (q) => {
+        setdynamicQuantity(q)
+    }
+
     const dispatch = useDispatch()
 
     const handleCheckFavorite = () => {
@@ -31,7 +45,10 @@ export default function ProductDetailsTop({ productId }) {
             try {
                 const resC = await fetch(import.meta.env.VITE_BASE_API + `product/${productId}`)
                 const dataC = await resC.json()
-                setProduct(dataC?.data)
+                if(dataC?.success){
+                    setProduct(dataC?.data)
+                    setSelectedVariantId(dataC.data.productVariantIds[0]?._id)
+                }
 
                 if (user && token) {
                     const res = await fetch(import.meta.env.VITE_BASE_API + `user/${user?.id}`, {
@@ -81,13 +98,6 @@ export default function ProductDetailsTop({ productId }) {
     }
 
 
-    const [selectedVariant, setSelectedVariant] = useState(0);
-    const handleSelectedVariant = (index) => {
-        setSelectedVariant(index)
-    }
- 
-    
-
 
     return (
         (product.productVariantIds && product.productVariantIds.length != 0) ? (
@@ -134,13 +144,22 @@ export default function ProductDetailsTop({ productId }) {
                                 <Box display={'flex'} gap={1}>
                                     <ChooseVariants productVariantIds={product?.productVariantIds} handleSelectedVariant={handleSelectedVariant} selectedVariant={selectedVariant} />
                                 </Box>
+                                {/* start add to cart btn & quantity */}
                                 <Stack direction={{ md: 'row' }} sx={{ width: '100%' }} alignItems={'center'} gap={2} mt={7}>
-                                    {addProductBtns ?
-                                        <QuantityBox productId={productId} /> :
-                                        <Button
-                                            onClick={() => setAddProductBtns(true)}
-                                            sx={{ '& svg': { fontSize: "24px !important" }, borderRadius: '24px', bgcolor: "var(--third-clr)", color: 'var(--primary-clr)', padding: '8px 5px 8px 16px ', transition: "all .5s", '&:hover': { bgcolor: "var(--secondary-clr)", color: 'var(--text-clr)' } }} startIcon={<IoMdCart />}><Typography fontSize={{ xs: '12px', xxs: '14px', sm: '16px' }} fontWeight={500} mr={1}>افزودن به سبد خريد</Typography> </Button>}
+                                    <QuantityBox
+                                        handleDynamicQuantity={handleDynamicQuantity}
+                                        dynamicQuantity={dynamicQuantity}
+                                        variantId={selectedVariantId}
+                                        productId={productId}
+                                    />
+                                    <AddToCart
+                                        dynamicQuantity={dynamicQuantity}
+                                        variantId={selectedVariantId}
+                                        productId={productId}
+                                    />
                                 </Stack>
+                                {/* start add to cart btn & quantity */}
+
                                 <Stack direction={'row'} sx={{ width: '100%' }} justifyContent={{ xs: "center", md: 'start' }} alignItems={'center'} gap={2} mt={'20px'}>
                                     <Button
                                         onClick={handleCheckIsFavorite}
@@ -155,6 +174,6 @@ export default function ProductDetailsTop({ productId }) {
                     </DialogContent>
                 </Stack>
             </Box>
-        ) :(<></>)
+        ) : (<></>)
     )
 }
