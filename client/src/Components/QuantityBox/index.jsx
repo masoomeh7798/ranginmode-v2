@@ -41,7 +41,6 @@ export default function QauntityBox({ variantId, handleDynamicQuantity, dynamicQ
                         const dataC = await resC.json()
                         if (dataC?.success) {
                             const initialQuantity = dataC?.data?.items?.filter(e => (e.variantId._id == variantId && e.productId._id == productId))[0]?.quantity || 0
-                            console.log(initialQuantity, variantId);
                             handleDynamicQuantity(initialQuantity)
 
                         }

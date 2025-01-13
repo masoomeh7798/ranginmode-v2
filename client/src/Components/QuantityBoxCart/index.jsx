@@ -6,17 +6,18 @@ import { useDynamicQuantity } from '../../Pages/Home/Products/ProductModal';
 import notify from '../../Utils/notify';
 import { setIsChangedCartQuantity } from '../../Store/Slices/CartSlice';
 
-export default function QauntityBoxCart({ variantId, productId,handleChanged }) {
+export default function QauntityBoxCart({ variantId, productId}) {
     const [variantQuantity, setVariantQuantity] = useState();
     const { token = null, user = null } = useSelector(state => state.auth)
+    const { isChangedCartQuantity} = useSelector(state => state.cart)
     const { dynamicQuantity, handleDynamicQuantity } = useDynamicQuantity()
+    
     const dispatch = useDispatch()
-      const [changedValue, setChangedValue] = useState(false);
+    const [changedValue, setChangedValue] = useState(false);
     
 
     //  add to cart 
     const handleAddToCart = async () => {
-        handleChanged()
         let guestId = localStorage.getItem('guestId')
         try {
             const res = await fetch(import.meta.env.VITE_BASE_API + 'cart', {

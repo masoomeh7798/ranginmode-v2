@@ -41,14 +41,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function Cart() {
   const [cart, setCart] = useState([]);
   const { token, user } = useSelector(state => state.auth)
+  const { isChangedCartQuantity} = useSelector(state => state.cart)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const guestId=localStorage.getItem('guestId')
 
-  // change value: to disable and enable ثبت btn & to update total price after each changes
-  const [changed, setChanged] = useState(false);
-  const handleChanged = () => {
-    setChanged(!changed)
-  }
 
   let totalQuantity = 0
   cart?.items?.map(e => {
@@ -73,7 +70,6 @@ export default function Cart() {
       const data = await res.json()
       if (data?.success) {
         dispatch(setIsChangedCartQuantity())
-        setChanged()
         notify('success',data?.message)
       }
 
@@ -105,7 +101,7 @@ export default function Cart() {
       }
     })()
 
-  }, [changed]);
+  }, [isChangedCartQuantity]);
 
 
   const handleCheckCartItems = async () => {
@@ -131,6 +127,8 @@ export default function Cart() {
 
 
   return (
+    (guestId || token) ?
+    (
     <Stack
       width={{ lg: '85%', sm: '90%', xs: "95%" }} mx={'auto'}
       my={2}
@@ -237,7 +235,6 @@ export default function Cart() {
                     <QauntityBoxCart
                       productId={e?.productId?._id}
                       variantId={e?.variantId?._id}
-                      handleChanged={handleChanged}
                     />
                   </StyledTableCell>
                   <StyledTableCell align="center">{e?.variantId?.finalPrice * e?.quantity}</StyledTableCell>
@@ -454,6 +451,6 @@ export default function Cart() {
 
 
       </Stack>
-    </Stack>
+    </Stack> ) : <Typography component={'h1'} textAlign={'center'} my={3} fontSize={32}>سبد خريد خالي است.</Typography>
   )
 }
