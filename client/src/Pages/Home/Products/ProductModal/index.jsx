@@ -29,9 +29,20 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
+export const useDynamicQuantity = (initialValue = 0) => {
+    const [dynamicQuantity, setdynamicQuantity] = useState(initialValue);
+
+    const handleDynamicQuantity = (q) => {
+        setdynamicQuantity(q);
+    };
+
+    return { dynamicQuantity, handleDynamicQuantity };
+};
+
 
 export default function ProductModal({ handleClose, open, images, productVariantIds, name, description, brand, id }) {
-    const [dynamicQuantity, setdynamicQuantity] = useState(0);
+    // const [dynamicQuantity, setdynamicQuantity] = useState(0);
+    const { dynamicQuantity, handleDynamicQuantity }=useDynamicQuantity()
     const [isFavorite, setIsFavorite] = useState(false);
     const { token, user } = useSelector(state => state.auth)
     const { checkFavorite } = useSelector(state => state.favorite)
@@ -40,9 +51,10 @@ export default function ProductModal({ handleClose, open, images, productVariant
     const handleCheckFavorite = () => {
         dispatch(setCheckFavorite(!checkFavorite))
     }
-    const handleDynamicQuantity = (q) => {
-        setdynamicQuantity(q)
-    }
+    // const handleDynamicQuantity = (q) => {
+    //     setdynamicQuantity(q)
+    // }
+   
 
     useEffect(() => {
         if (user && token) {
@@ -95,6 +107,7 @@ export default function ProductModal({ handleClose, open, images, productVariant
     // strat variants
     const [selectedVariant, setSelectedVariant] = useState(0);
     const [selectedVariantId, setSelectedVariantId] = useState(productVariantIds[0]?._id);
+
     const handleSelectedVariant = (index, variantId) => {
         setSelectedVariant(index)
         setSelectedVariantId(variantId)

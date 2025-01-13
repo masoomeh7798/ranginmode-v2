@@ -1,4 +1,4 @@
-import { Box, Button, Rating, Stack, Typography } from '@mui/material'
+import { Box, Button, Stack, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -9,11 +9,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { MdOutlineClose } from "react-icons/md";
-import QuantityBox from '../../Components/QuantityBox'
 import { Link, useNavigate } from 'react-router-dom';
-import QauntityBox from '../../Components/QuantityBox';
 import { useDispatch, useSelector } from 'react-redux';
 import notify from '../../Utils/notify';
+import QauntityBoxCart from '../../Components/QuantityBoxCart';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -40,22 +40,27 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function Cart() {
   const [cart, setCart] = useState([]);
   const { token, user } = useSelector(state => state.auth)
-  const { isAdded, isRemoved, dynamicQunatityD } = useSelector(state => state.cart)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  // change value: to disable and enable ثبت btn & to update total price after each changes
+  const [changed, setChanged] = useState(false);
+  const handleChanged=()=>{
+    setChanged(!changed)
+  }
+
+
 
   let totalQuantity = 0
   cart?.items?.map(e => {
     totalQuantity += e?.quantity
   })
 
-  const handleChangedQuantity = () => {
-    dispatch(changedQuantity(!dynamicQunatityD))
-  };
+
 
 
   const handleRemoveItem = async (productId) => {
-    dispatch(setIsRemoved(isRemoved + 1))
+    // dispatch((isRemoved + 1))
     try {
       const res = await fetch(import.meta.env.VITE_BASE_API + 'cart/removeItem', {
         "method": "DELETE",
@@ -74,21 +79,29 @@ export default function Cart() {
 
   useEffect(() => {
     (async () => {
+      let guestId = localStorage.getItem('guestId')
+      if (!token && !guestId) {
+        guestId = uuidv4()
+        localStorage.setItem('guestId', guestId)
+      }
       try {
-        const res = await fetch(import.meta.env.VITE_BASE_API + `user/${user?.id}`, {
-          "method": "GET",
+        const res = await fetch(import.meta.env.VITE_BASE_API + `cart/guest-user-cart`, {
+          "method": "POST",
           headers: {
-            authorization: `Bearer ${token}`
-          }
+            authorization: token ? `Bearer ${token}` : '',
+            "content-type": "application/json"
+          },
+          body: JSON.stringify({ guestId })
         })
         const data = await res.json()
-        setCart(data?.data?.user?.cart)
+        setCart(data?.data)
       } catch (error) {
         console.log(error);
       }
     })()
 
-  }, [isRemoved, isAdded, dynamicQunatityD]);
+  }, [changed]);
+
 
   const handleCheckCartItems = async () => {
     try {
@@ -102,7 +115,7 @@ export default function Cart() {
       if (data?.data?.change) {
         setCart(data?.data?.cart)
         notify('success', data?.message)
-        handleChangedQuantity()
+        // handleChangedQuantity()
       } else {
         navigate('/payment')
       }
@@ -110,6 +123,8 @@ export default function Cart() {
       console.log(error);
     }
   }
+
+
   return (
     <Stack
       width={{ lg: '85%', sm: '90%', xs: "95%" }} mx={'auto'}
@@ -151,19 +166,19 @@ export default function Cart() {
             <TableHead>
               <TableRow>
                 <StyledTableCell align="center">محصول</StyledTableCell>
-                <StyledTableCell align="center">قيمت واحد</StyledTableCell>
+                <StyledTableCell align="center">قيمت واحد (ت)</StyledTableCell>
                 <StyledTableCell align="center">تعداد</StyledTableCell>
-                <StyledTableCell align="center">مجموع قيمت</StyledTableCell>
+                <StyledTableCell align="center">مجموع قيمت (ت)</StyledTableCell>
                 <StyledTableCell align="center">حذف</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {cart?.items?.map((e, index) => (
+              {cart && cart?.items?.length != 0 && cart?.items?.map((e, index) => (
                 <StyledTableRow key={index}>
                   <StyledTableCell align="center">
                     <Stack
                       direction={'row'}
-                      alignItems={'start'}
+                      alignItems={'center'}
                       gap={2}
                     >
                       <Box
@@ -182,7 +197,9 @@ export default function Cart() {
                       <Stack
                         gap={1}
                         width={{ md: '250px', lg: '220px', xl: '300px' }}
-                        alignItems={'start'}
+                        alignItems={'center'}
+                        flexDirection={'row'}
+                        height={'100%'}
                         sx={{
                           '& a': {
                             color: 'var(--primary-clr)',
@@ -197,12 +214,11 @@ export default function Cart() {
                           <Typography
                             textAlign={'start'}
                             fontSize={{ xs: '12px', sm: '14px', md: '16px' }}
-                          >{e?.productId?.name?.split(' ').slice(0, 8).join(' ')}</Typography></Link>
-                        <Rating size='small' value={e?.productId?.rating} readOnly />
+                          >{e?.productId?.name?.split(' ').slice(0, 8).join(' ')} - {e?.variantId?.name?.split(' ').slice(0, 8).join(' ')}</Typography></Link>
                       </Stack>
                     </Stack>
                   </StyledTableCell>
-                  <StyledTableCell align="center">{e?.productId?.finalPrice}</StyledTableCell>
+                  <StyledTableCell align="center">{e?.variantId?.finalPrice}</StyledTableCell>
                   <StyledTableCell
                     sx={{
                       '& .quantityChanger button': {
@@ -212,8 +228,14 @@ export default function Cart() {
                         gap: { md: '8px' }
                       }
                     }}
-                    align="center"><QuantityBox productId={e?.productId?._id} /></StyledTableCell>
-                  <StyledTableCell align="center">{e?.productId?.finalPrice * e?.quantity}</StyledTableCell>
+                    align="center">
+                    <QauntityBoxCart
+                      productId={e?.productId?._id}
+                      variantId={e?.variantId?._id}
+                      handleChanged={handleChanged}
+                    />
+                  </StyledTableCell>
+                  <StyledTableCell align="center">{e?.variantId?.finalPrice * e?.quantity}</StyledTableCell>
                   <StyledTableCell align="center">
                     <Button
                       sx={{
@@ -223,12 +245,14 @@ export default function Cart() {
                           fontSize: '24px'
                         }
                       }}
-                    ><MdOutlineClose onClick={() => handleRemoveItem(e?.productId?._id)} /></Button></StyledTableCell>
+                    ><DeleteForeverIcon onClick={() => handleRemoveItem(e?.productId?._id)} /></Button></StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+
+
 
         {/* start table under md */}
         {cart?.items?.map((e, index) => (
@@ -341,7 +365,7 @@ export default function Cart() {
                   textAlign={'start'}
                   fontSize={{ xs: '12px', sm: '14px', md: '16px' }}
                 >تعداد</Typography>
-                <QauntityBox productId={e?.productId?._id} />
+                <QauntityBoxCart productId={e?.productId?._id} />
               </Stack>
               <Stack
                 direction={'row'}
@@ -418,7 +442,8 @@ export default function Cart() {
             }}
 
           >
-            <Typography fontSize={{ xs: '12px', xxs: '14px', sm: '16px' }} fontWeight={500} mr={1}>پرداخت</Typography> </Button>
+            <Typography fontSize={{ xs: '12px', xxs: '14px', sm: '16px' }} fontWeight={500} mr={1}>پرداخت</Typography>
+          </Button>
         </Stack>
         {/* end final price */}
 

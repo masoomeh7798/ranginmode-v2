@@ -14,6 +14,7 @@ import notify from '../../../Utils/notify';
 import ChooseVariants from '../../../Components/ChooseVariant';
 import Variants from '../../../Components/Variants';
 import AddToCart from '../../../Components/AddToCart';
+import { useDynamicQuantity } from '../../Home/Products/ProductModal';
 
 
 export default function ProductDetailsTop({ productId }) {
@@ -21,7 +22,8 @@ export default function ProductDetailsTop({ productId }) {
     const [isFavorite, setIsFavorite] = useState(false);
     const { token, user } = useSelector(state => state.auth)
     const { checkFavorite } = useSelector(state => state.favorite)
-    const [dynamicQuantity, setdynamicQuantity] = useState(0);
+    const { dynamicQuantity, handleDynamicQuantity }=useDynamicQuantity()
+    // const [dynamicQuantity, setdynamicQuantity] = useState(0);
 
     // strat variants
     const [selectedVariant, setSelectedVariant] = useState(0);
@@ -31,9 +33,9 @@ export default function ProductDetailsTop({ productId }) {
         setSelectedVariantId(variantId)
     }
 
-    const handleDynamicQuantity = (q) => {
-        setdynamicQuantity(q)
-    }
+    // const handleDynamicQuantity = (q) => {
+    //     setdynamicQuantity(q)
+    // }
 
     const dispatch = useDispatch()
 

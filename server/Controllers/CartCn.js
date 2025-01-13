@@ -57,7 +57,7 @@ export const addToCart = catchAsync(async (req, res, next) => {
     const user = await User.findByIdAndUpdate(id, { cart: cart._id }, { new: true, runValidators: true })
   }
   return res.status(200).json({
-    message: "محصول اضافه شد.",
+    message: "محصول اضافه و سبد خريد به روز شد.",
     data: cart,
     success: true,
   });
@@ -76,9 +76,11 @@ export const getGuestUserCart = catchAsync(async (req, res, next) => {
   const { guestId } = req?.body
   let cart;
   if (userId) {
-    cart = await Cart.findOne({ userId })
+    cart = await Cart.findOne({ userId }).populate({path:'items',populate:'productId variantId'})
+    .populate({path:'items',populate:'variantId'})
   } else {
-    cart = await Cart.findOne({ guestId })
+    cart = await Cart.findOne({ guestId }).populate({path:'items',populate:'productId variantId'})
+
   }
   return res.status(200).json({
     success: true,
@@ -140,6 +142,8 @@ export const removeFromCart = catchAsync(async (req, res, next) => {
     success: true,
   });
 });
+
+
 
 export const removeItemFromCart = catchAsync(async (req, res, next) => {
   const { id } = jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET);
