@@ -29,6 +29,7 @@ export const addToCart = catchAsync(async (req, res, next) => {
   } else {
     cart = await Cart.findOne({ guestId })
   }
+
   let add = false;
   const variant = await ProductVariant.findById(variantId)
   const finalPrice = variant?.finalPrice
@@ -76,10 +77,10 @@ export const getGuestUserCart = catchAsync(async (req, res, next) => {
   const { guestId } = req?.body
   let cart;
   if (userId) {
-    cart = await Cart.findOne({ userId }).populate({path:'items',populate:'productId variantId'})
-    .populate({path:'items',populate:'variantId'})
+    cart = await Cart.findOne({ userId }).populate({ path: 'items', populate: 'productId variantId' })
+      .populate({ path: 'items', populate: 'variantId' })
   } else {
-    cart = await Cart.findOne({ guestId }).populate({path:'items',populate:'productId variantId'})
+    cart = await Cart.findOne({ guestId }).populate({ path: 'items', populate: 'productId variantId' })
 
   }
   return res.status(200).json({
@@ -87,6 +88,51 @@ export const getGuestUserCart = catchAsync(async (req, res, next) => {
     data: cart
   });
 });
+
+
+export const removeFromCart = catchAsync(async (req, res, next) => {
+  let userId;
+  if (req.headers.authorization) {
+    userId = jwt.verify(
+      req.headers.authorization?.split(" ")[1],
+      process.env.JWT_SECRET
+    )?.id
+  }
+  const { productId = null, variantId = null, quantity = 0, guestId = '' } = req?.body;
+  if (!productId || quantity <= 0 || !variantId || (!userId && !guestId)) {
+    return next(
+      new HandleError(
+        "درخواست نامعتبر", 400
+      )
+    );
+  }
+
+  let cart;
+  if (userId) {
+    cart = await Cart.findOne({ userId })
+  } else {
+    cart = await Cart.findOne({ guestId })
+  }
+
+  const variant=await ProductVariant.findById(variantId)
+  let finalPrice = variant.finalPrice;
+
+  let newItems = cart?.items?.filter((e) => {
+    if (productId == e.productId && variantId==e.variantId) {
+      cart.totalPrice -= finalPrice*quantity;
+      return
+    }
+    return e;
+  });
+  cart.items = newItems;
+  await cart.save();
+  return res.status(200).json({
+    message: "محصول حذف شد.",
+    data:cart,
+    success: true,
+  });
+});
+
 
 
 
@@ -101,77 +147,6 @@ export const clearCart = catchAsync(async (req, res, next) => {
     message: "سبد خريدت خالي شد :[",
     data: {
       cart: user.cart,
-    },
-    success: true,
-  });
-});
-
-export const removeFromCart = catchAsync(async (req, res, next) => {
-  const { id } = jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET);
-  const user = await User.findById(id);
-  const { productId = null } = req.body;
-  if (!productId || !id) {
-    return next(
-      new HandleError(
-        "both Id & product Id is required", 400
-      )
-    );
-  }
-  const product = await Product.findById(productId);
-  let finalPrice = product.finalPrice;
-  let remove = false
-  let newItems = user?.cart?.items?.filter((e) => {
-    if (productId == e.productId) {
-      user.cart.totalPrice -= finalPrice;
-      e.quantity -= 1
-      if (e.quantity == 0) {
-        remove = true
-        return false
-      }
-    }
-    return e;
-  });
-  user.cart.items = newItems;
-  await user.save();
-  return res.status(200).json({
-    message: "decreased or removed",
-    data: {
-      cart: user.cart,
-      remove
-    },
-    success: true,
-  });
-});
-
-
-
-export const removeItemFromCart = catchAsync(async (req, res, next) => {
-  const { id } = jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET);
-  const user = await User.findById(id);
-  const { productId = null } = req.body;
-  if (!productId || !id) {
-    return next(
-      new HandleError(
-        "both Id & product Id is required", 400
-      )
-    );
-  }
-  const product = await Product.findById(productId);
-  let finalPrice = product.finalPrice;
-  let newItems = user?.cart?.items?.filter((e) => {
-    if (productId == e.productId) {
-      user.cart.totalPrice -= finalPrice * e?.quantity
-      return false
-    }
-    return e;
-  });
-  user.cart.items = newItems;
-  await user.save();
-  return res.status(200).json({
-    message: "از سبد خريدت حذف شد.",
-    data: {
-      cart: user.cart,
-      remove: true
     },
     success: true,
   });

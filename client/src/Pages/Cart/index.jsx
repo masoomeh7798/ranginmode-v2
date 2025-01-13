@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import notify from '../../Utils/notify';
 import QauntityBoxCart from '../../Components/QuantityBoxCart';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { setIsChangedCartQuantity } from '../../Store/Slices/CartSlice';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -45,11 +46,9 @@ export default function Cart() {
 
   // change value: to disable and enable ثبت btn & to update total price after each changes
   const [changed, setChanged] = useState(false);
-  const handleChanged=()=>{
+  const handleChanged = () => {
     setChanged(!changed)
   }
-
-
 
   let totalQuantity = 0
   cart?.items?.map(e => {
@@ -59,18 +58,24 @@ export default function Cart() {
 
 
 
-  const handleRemoveItem = async (productId) => {
-    // dispatch((isRemoved + 1))
+  const handleRemoveItem = async (productId,variantId) => {
+    let guestId = localStorage.getItem('guestId')
+    const quantity = cart.items?.filter(e => (e.variantId._id == variantId && e.productId._id == productId))[0]?.quantity
     try {
-      const res = await fetch(import.meta.env.VITE_BASE_API + 'cart/removeItem', {
+      const res = await fetch(import.meta.env.VITE_BASE_API + 'cart', {
         "method": "DELETE",
         headers: {
-          authorization: `Bearer ${token}`,
+          authorization: token ? `Bearer ${token}` : '',
           "content-type": "application/json"
         },
-        body: JSON.stringify({ productId })
+        body: JSON.stringify({ guestId, productId, variantId, quantity })
       })
       const data = await res.json()
+      if (data?.success) {
+        dispatch(setIsChangedCartQuantity())
+        setChanged()
+        notify('success',data?.message)
+      }
 
     } catch (error) {
       console.log(error);
@@ -245,7 +250,7 @@ export default function Cart() {
                           fontSize: '24px'
                         }
                       }}
-                    ><DeleteForeverIcon onClick={() => handleRemoveItem(e?.productId?._id)} /></Button></StyledTableCell>
+                    ><DeleteForeverIcon onClick={() => handleRemoveItem(e?.productId?._id,e?.variantId?._id)} /></Button></StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
