@@ -127,7 +127,7 @@ export default function Cart() {
 
 
   return (
-    (guestId || token) ?
+    ((guestId || token) && (cart?.items?.length > 0)) ?
     (
     <Stack
       width={{ lg: '85%', sm: '90%', xs: "95%" }} mx={'auto'}
@@ -305,7 +305,7 @@ export default function Cart() {
                     textAlign={'start'}
                     fontSize={{ xs: '14px', xxs: '16px' }}
                     width={{ xs: 80, xxs: 150, sm: 200 }}
-                  >{e?.productId?.name?.split(' ').slice(0, 8).join(' ')}...</Typography></Link>
+                  >{e?.productId?.name?.split(' ').slice(0, 8).join(' ')} - {e?.variantId?.name?.split(' ').slice(0, 8).join(' ')}</Typography></Link>
                 <Button
                   sx={{
                     minWidth: '',
@@ -314,7 +314,7 @@ export default function Cart() {
                       fontSize: '20px !important'
                     }
                   }}
-                ><MdOutlineClose onClick={() => handleRemoveItem(e?.productId?._id)} /></Button>
+                ><DeleteForeverIcon onClick={() => handleRemoveItem(e?.productId?._id,e?.variantId?._id)} /></Button>
               </Stack>
               <Stack
                 direction={'row'}
@@ -336,7 +336,7 @@ export default function Cart() {
                   textAlign={'start'}
                   fontSize={{ xs: '12px', sm: '14px', md: '16px' }}
                 >قيمت واحد</Typography>
-                <Typography>{e?.productId?.finalPrice}</Typography>
+                <Typography>{e?.variantId?.finalPrice}</Typography>
               </Stack>
               <Stack
                 direction={'row'}
@@ -367,7 +367,10 @@ export default function Cart() {
                   textAlign={'start'}
                   fontSize={{ xs: '12px', sm: '14px', md: '16px' }}
                 >تعداد</Typography>
-                <QauntityBoxCart productId={e?.productId?._id} />
+                <QauntityBoxCart
+                 productId={e?.productId?._id} 
+                 variantId={e?.variantId?._id} 
+                 />
               </Stack>
               <Stack
                 direction={'row'}
@@ -388,7 +391,7 @@ export default function Cart() {
                   textAlign={'start'}
                   fontSize={{ xs: '12px', sm: '14px', md: '16px' }}
                 >مجموع قيمت</Typography>
-                <Typography>{e?.productId?.finalPrice * e?.quantity}</Typography>
+                <Typography>{e?.variantId?.finalPrice * e?.quantity}</Typography>
               </Stack>
 
             </Stack>
@@ -421,6 +424,14 @@ export default function Cart() {
             <Typography>تعداد اقلام</Typography>
             <Typography color='secondary'>{totalQuantity} عدد</Typography>
           </Stack>
+          <Stack
+            direction={'row'}
+            justifyContent={'space-between'}
+            mt={1}
+          >
+            <Typography>هزينه ارسال</Typography>
+            <Typography color='secondary'>35,000 تومان</Typography>
+          </Stack>
 
           <Stack
             direction={'row'}
@@ -429,7 +440,7 @@ export default function Cart() {
             mb={2}
           >
             <Typography>قيمت نهايي</Typography>
-            <Typography color='secondary'>{cart?.totalPrice || 0} تومان</Typography>
+            <Typography color='secondary'>{Number(cart?.totalPrice)+35000 || 0} تومان</Typography>
           </Stack>
           <Button
             onClick={handleCheckCartItems}
