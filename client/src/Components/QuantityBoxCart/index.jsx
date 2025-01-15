@@ -69,7 +69,7 @@ export default function QauntityBoxCart({ variantId, productId}) {
             }
         })()
 
-    }, [variantId]);
+    }, [variantId,isChangedCartQuantity]);
 
 
     return (

@@ -4,6 +4,9 @@ const orderHistorySchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
+    guestId:{
+        type:String
+    },
     totalPrice:{
         type:Number,
     },
@@ -16,6 +19,11 @@ const orderHistorySchema=new mongoose.Schema({
     },
     items:{
         type:Array
+    },
+    status:{
+        type:String,
+        enum:['success','pending','failed'],
+        default:'pending'
     }
 },{timestamps:true})
 

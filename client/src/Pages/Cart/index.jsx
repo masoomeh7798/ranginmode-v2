@@ -104,19 +104,22 @@ export default function Cart() {
   }, [isChangedCartQuantity]);
 
 
+  // check if the cart items still are the same
   const handleCheckCartItems = async () => {
     try {
       const res = await fetch(import.meta.env.VITE_BASE_API + 'order', {
-        "method": "GET",
+        "method": "POST",
         headers: {
-          authorization: `Bearer ${token}`
-        }
+          authorization: token ? `Bearer ${token}` : '',
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ guestId })
       })
       const data = await res.json()
-      if (data?.data?.change) {
-        setCart(data?.data?.cart)
+      if (data?.change) {
+        setCart(data?.data)
         notify('success', data?.message)
-        // handleChangedQuantity()
+        dispatch(setIsChangedCartQuantity())
       } else {
         navigate('/payment')
       }
@@ -124,7 +127,6 @@ export default function Cart() {
       console.log(error);
     }
   }
-
 
   return (
     ((guestId || token) && (cart?.items?.length > 0)) ?

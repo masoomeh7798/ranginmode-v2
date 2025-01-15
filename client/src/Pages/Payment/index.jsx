@@ -9,16 +9,14 @@ import { useNavigate } from 'react-router-dom'
 
 export default function Payment() {
     const { token, user } = useSelector(state => state.auth)
-    const { dynamicQunatityD,isRemoved } = useSelector(state => state.cart)
+    const { dynamicQunatityD } = useSelector(state => state.cart)
     const dispatch = useDispatch()
     const navigate=useNavigate()
 
     const handleChangedQuantity = () => {
         dispatch(changedQuantity(!dynamicQunatityD))
     };
-    const handleRemove = () => {
-        dispatch(setIsRemoved(isRemoved - 1));
-      };
+
 
 
     const [fields, handleChange] = useFormFields({

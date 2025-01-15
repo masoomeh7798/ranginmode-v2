@@ -78,7 +78,6 @@ export const getGuestUserCart = catchAsync(async (req, res, next) => {
   let cart;
   if (userId) {
     cart = await Cart.findOne({ userId }).populate({ path: 'items', populate: 'productId variantId' })
-      .populate({ path: 'items', populate: 'variantId' })
   } else {
     cart = await Cart.findOne({ guestId }).populate({ path: 'items', populate: 'productId variantId' })
 

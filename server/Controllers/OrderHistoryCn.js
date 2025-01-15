@@ -5,64 +5,84 @@ import Product from "../Models/ProductMd.js";
 import User from "../Models/UserMd.js";
 import OrderHistory from "../Models/OrderHistoryMd.js";
 import ApiFeatures from "../Utils/apiFeatures.js";
+import Cart from "../Models/CartMd.js";
+import ProductVariant from "../Models/ProductVariantMd.js";
 
 
- export const checkCartItems = catchAsync(async (req, res, next) => {
-   const { id: userId } = jwt.verify(req?.headers?.authorization?.split(" ")[1], process.env.JWT_SECRET);
-   const user = await User.findById(userId).populate('cart.items.productId');
-   if (!(user?.cart?.items?.length >= 0) || user?.cart?.totalPrice <= 0) {
-     return next(new HandleError("cart invalid", 400));
-   }
-   let change = false;
-   let items = user?.cart?.items;
-   let totalPrice = user?.cart?.totalPrice;
-   let newTotalPrice = 0;
-   let newItems = [];
-   for (let item of items) {
-     const product = await Product.findById(item.productId)
-     if (product.quantity == 0) {
-       change = true;
-       break;
-     } else if (product.quantity < item.quantity) {
-       item.quantity = product.quantity;
-       change = true;
-     }
-     newTotalPrice += product.finalPrice * item.quantity;
-     newItems.push(item);
-   }
-   if (totalPrice != newTotalPrice) {
-     change = true;
-   }
-   if (change) {
-     user.cart.items = newItems;
-     user.cart.totalPrice = newTotalPrice;
-     await user.save();
-     return res.status(200).json({
-       message:change && "سبد خريد به روز شد.",
-       success: false,
-       data: {
-         cart: user?.cart,
-         change
-       },
-     });
-    }else{
-     return res.status(200).json({
-        message: "no changes",
-        success: true,
-        data: {
-          change
-        },
-      });   
+export const checkCartItems = catchAsync(async (req, res, next) => {
+  let userId;
+  if (req.headers.authorization) {
+    userId = jwt.verify(
+      req.headers.authorization?.split(" ")[1],
+      process.env.JWT_SECRET
+    )?.id
+  }
+  const { guestId = '' } = req?.body;
+  if (!userId && !guestId) {
+    return next(
+      new HandleError(
+        "درخواست نامعتبر", 400
+      )
+    );
+  }
+
+  let cart;
+  if (userId) {
+    cart = await Cart.findOne({ userId }).populate({ path: 'items', populate: 'productId variantId' })
+  } else {
+    cart = await Cart.findOne({ guestId }).populate({ path: 'items', populate: 'productId variantId' })
+  }
+
+  if ((cart.items.length == 0) || cart.totalPrice <= 0) {
+    return next(new HandleError("كارت نامعتبر است.", 400));
+  }
+  let change = false;
+  let items = cart.items;
+  let totalPrice = cart?.totalPrice;
+  let newTotalPrice = 0;
+  let newItems = [];
+  for (let item of items) {
+    const variant = await ProductVariant.findById(item.variantId)
+    if (variant.quantity == 0) {
+      change = true;
+      break;
+    } else if (variant.quantity < item.quantity) {
+      item.quantity = variant.quantity;
+      change = true;
     }
-    
- }
+    newTotalPrice += variant.finalPrice * item.quantity;
+    newItems.push(item);
+  }
+  if (totalPrice != newTotalPrice) {
+    change = true;
+  }
+
+  if (change) {
+    cart.items = newItems;
+    cart.totalPrice = newTotalPrice;
+    await cart.save();
+    return res.status(200).json({
+      message: "سبد خريد به روز شد.",
+      success: false,
+      data: cart,
+      change
+    });
+  } else {
+    return res.status(200).json({
+      message: "سبد خريد تغيير نكرده است.",
+      success: true,
+      change
+    });
+  }
+
+}
 );
 
 
 export const payment = catchAsync(async (req, res, next) => {
-  const { address , trackingCode = null } = req.body;
+  const { address, trackingCode = null } = req.body;
   const { id: userId } = jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET);
-  if (address=={} || !trackingCode) {
+  if (address == {} || !trackingCode) {
     return next(new HandleError("آدرس و كد رهگيري را وارد كنيد.", 400));
   }
   const user = await User.findById(userId)
@@ -70,11 +90,11 @@ export const payment = catchAsync(async (req, res, next) => {
 
   for (let item of items) {
     await Product.findByIdAndUpdate(item.productId, { $inc: { quantity: -item?.quantity } });
-    if(!user.boughtProduct.includes(item.productId)){
-        user.boughtProduct.push(item.productId);
+    if (!user.boughtProduct.includes(item.productId)) {
+      user.boughtProduct.push(item.productId);
     }
   }
-if (items<=0 ) {
+  if (items <= 0) {
     return next(new HandleError("سبد خريد شما خالي است!", 400));
   }
   const order = await OrderHistory.create({
@@ -83,7 +103,7 @@ if (items<=0 ) {
     totalPrice: user.cart.totalPrice,
     items,
     trackingCode
-});
+  });
 
   user.cart = { totalPrice: 0, items: [] };
   await user.save();
@@ -137,7 +157,7 @@ export const getOne = catchAsync(async (req, res, next) => {
   } else {
     findQuery = { _id: id, userId }
   }
-  const order = await OrderHistory.findOne(findQuery).populate({path: 'items.productId'})
+  const order = await OrderHistory.findOne(findQuery).populate({ path: 'items.productId' })
 
   return res.status(200).json({
     success: true,
