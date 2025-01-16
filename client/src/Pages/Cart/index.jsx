@@ -8,7 +8,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { MdOutlineClose } from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import notify from '../../Utils/notify';
@@ -83,7 +82,6 @@ export default function Cart() {
       let guestId = localStorage.getItem('guestId')
       if (!token && !guestId) {
         guestId = uuidv4()
-        localStorage.setItem('guestId', guestId)
       }
       try {
         const res = await fetch(import.meta.env.VITE_BASE_API + `cart/guest-user-cart`, {
