@@ -221,7 +221,7 @@ export default function Cart() {
                       </Stack>
                     </Stack>
                   </StyledTableCell>
-                  <StyledTableCell align="center">{e?.variantId?.finalPrice}</StyledTableCell>
+                  <StyledTableCell align="center">{e?.variantId?.finalPrice?.toLocaleString()}</StyledTableCell>
                   <StyledTableCell
                     sx={{
                       '& .quantityChanger button': {
@@ -237,7 +237,7 @@ export default function Cart() {
                       variantId={e?.variantId?._id}
                     />
                   </StyledTableCell>
-                  <StyledTableCell align="center">{e?.variantId?.finalPrice * e?.quantity}</StyledTableCell>
+                  <StyledTableCell align="center">{(e?.variantId?.finalPrice * e?.quantity)?.toLocaleString()}</StyledTableCell>
                   <StyledTableCell align="center">
                     <Button
                       sx={{
@@ -336,7 +336,7 @@ export default function Cart() {
                   textAlign={'start'}
                   fontSize={{ xs: '12px', sm: '14px', md: '16px' }}
                 >قيمت واحد</Typography>
-                <Typography>{e?.variantId?.finalPrice}</Typography>
+                <Typography>{e?.variantId?.finalPrice?.toLocaleString()}</Typography>
               </Stack>
               <Stack
                 direction={'row'}
@@ -391,7 +391,7 @@ export default function Cart() {
                   textAlign={'start'}
                   fontSize={{ xs: '12px', sm: '14px', md: '16px' }}
                 >مجموع قيمت</Typography>
-                <Typography>{e?.variantId?.finalPrice * e?.quantity}</Typography>
+                <Typography>{(e?.variantId?.finalPrice * e?.quantity)?.toLocaleString()}</Typography>
               </Stack>
 
             </Stack>
@@ -440,7 +440,7 @@ export default function Cart() {
             mb={2}
           >
             <Typography>قيمت نهايي</Typography>
-            <Typography color='secondary'>{Number(cart?.totalPrice)+35000 || 0} تومان</Typography>
+            <Typography color='secondary'>{(Number(cart?.totalPrice)+35000 || 0)?.toLocaleString()} تومان</Typography>
           </Stack>
           <Button
             onClick={handleCheckCartItems}
