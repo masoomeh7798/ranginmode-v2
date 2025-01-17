@@ -13,18 +13,16 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
+import { setIsChangedCartQuantity } from '../../Store/Slices/CartSlice'
 
 
 export default function Payment() {
     const { token, user } = useSelector(state => state.auth)
-    const { dynamicQunatityD } = useSelector(state => state.cart)
+      const { isChangedCartQuantity} = useSelector(state => state.cart)
     const [cart, setCart] = useState([]);
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const handleChangedQuantity = () => {
-        dispatch(changedQuantity(!dynamicQunatityD))
-    };
 
     // set cart final state in table
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -55,7 +53,7 @@ export default function Payment() {
         (async () => {
             let guestId = localStorage.getItem('guestId')
             if (!token && !guestId) {
-                guestId = uuidv4()
+                return
             }
             try {
                 const res = await fetch(import.meta.env.VITE_BASE_API + `cart/guest-user-cart`, {
@@ -73,7 +71,7 @@ export default function Payment() {
             }
         })()
 
-    }, []);
+    }, [isChangedCartQuantity]);
 
     const [fields, handleChange] = useFormFields({
         name: 'نام',
@@ -84,7 +82,6 @@ export default function Payment() {
         postalCode: 'كدپستي',
         fullAddress: 'آدرس كامل',
     })
-    const [trackingCode, setTrackingCode] = useState();
     const [initialValues, setInitialValues] = useState({
         name: 'نام',
         lastName: 'نام خانوادگي',
@@ -95,24 +92,39 @@ export default function Payment() {
         fullAddress: 'آدرس كامل',
     });
 
-    const handleSetOrder = async () => {
+    const handlePayment = async () => {
+        let guestId = localStorage.getItem('guestId')
+        if (!token && !guestId) {
+            return
+        }
+        const address={...fields}
+        for(let value of Object.values(address)){
+            if(value.trim()==''){
+                notify('error','همه فيلد ها را پر كنيد.')
+                return
+            }
+        }
+        for(let value of Object.values(initialValues)){
+            if(Object.values(address).includes(value)){
+                notify('error','آدرس صحيح نيست.')
+                return
+            }
+        }
         try {
-            const res = await fetch(import.meta.env.VITE_BASE_API + 'order', {
+            const res = await fetch(import.meta.env.VITE_BASE_API + 'order/payment', {
                 method: 'POST',
                 headers: {
-                    authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
+                    authorization: token ? `Bearer ${token}` : '',
+                    "content-type": "application/json"
                 },
-                body: JSON.stringify({ address: { ...fields }, trackingCode })
+                body: JSON.stringify({ address, guestId })
             })
             const data = await res.json()
             if (data?.success) {
-                notify('success', data?.message)
-                handleChangedQuantity()
-                handleRemove()
-                setTimeout(() => {
-                    navigate('/')
-                }, 3000);
+                dispatch(setIsChangedCartQuantity())
+                navigate('/')
+                window.open(data?.data) 
+
             } else {
                 notify('error', data?.message)
             }
@@ -136,261 +148,288 @@ export default function Payment() {
             py={{ xs: 2, md: 3 }}
             display={'flex'}
             flexDirection={'column'}
-            gap={{ xs: 2, sm: 4 }}
+            gap={{ xs: 2, sm: 5 }}
         >
 
             {/* start table */}
             <Box>
-            <Typography
-                fontWeight={500}
-                fontSize={{ xs: '24px', md: '26px' }}
-                mb={{ xs: 1, md: 1.5 }}
-            >سبد خريد</Typography>
-            <TableContainer component={Paper}
-                sx={{
-                    '& th': {
-                        bgcolor: 'var(--secondary-clr) !important'
-                    },
-                    width: '100%',
-                    display: { xs: 'none', md: 'block' }
-                }}
-            >
-                <Table sx={{
-                    width: '100%',
-                    '& th,& td': {
-                        p: { xs: '8px', md: '16px' }
-                    }
-                }}
-                    aria-label="customized table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell align="center">محصول</StyledTableCell>
-                            <StyledTableCell align="center">قيمت واحد (ت)</StyledTableCell>
-                            <StyledTableCell align="center">تعداد</StyledTableCell>
-                            <StyledTableCell align="center">مجموع قيمت (ت)</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {cart && cart?.items?.length != 0 && cart?.items?.map((e, index) => (
-                            <StyledTableRow key={index}>
-                                <StyledTableCell align="center">
-                                    <Stack
-                                        direction={'row'}
-                                        alignItems={'center'}
-                                        gap={2}
-                                    >
-                                        <Box
-                                            sx={{
-                                                '& img': {
-                                                    width: '100%',
-                                                    height: '100%',
-                                                    objectFit: 'cover'
-                                                }
-                                            }}
-                                            width={{ xs: '60px', md: '80px' }}
-                                            height={{ xs: '65px', md: '80px' }}
-                                        >
-                                            <img src={import.meta.env.VITE_BASE_URL + e?.productId?.images[0]} alt={e?.productId?.name} />
-                                        </Box>
-                                        <Stack
-                                            gap={1}
-                                            width={{ md: '250px', lg: '220px', xl: '300px' }}
-                                            alignItems={'center'}
-                                            flexDirection={'row'}
-                                            height={'100%'}
-                                            sx={{
-                                                '& a': {
-                                                    color: 'var(--primary-clr)',
-                                                    transition: 'all .3s',
-                                                    '&:hover': {
-                                                        color: '#FAAF00'
-                                                    }
-                                                }
-                                            }}
-                                        >
-                                            <Link to={`/product-details/${e?.productId?._id}/${e?.productId?.name?.replaceAll(' ', '-')}`} target='_blank'>
-                                                <Typography
-                                                    textAlign={'start'}
-                                                    fontSize={{ xs: '12px', sm: '14px', md: '16px' }}
-                                                >{e?.productId?.name?.split(' ').slice(0, 8).join(' ')} - {e?.variantId?.name?.split(' ').slice(0, 8).join(' ')}</Typography></Link>
-                                        </Stack>
-                                    </Stack>
-                                </StyledTableCell>
-                                <StyledTableCell align="center">{e?.variantId?.finalPrice?.toLocaleString()}</StyledTableCell>
-                                <StyledTableCell
-                                    sx={{
-                                        '& .quantityChanger button': {
-                                            padding: { md: '8px' }
-                                        },
-                                        '& .quantityChanger': {
-                                            gap: { md: '8px' }
-                                        }
-                                    }}
-                                    align="center">
-                                    <Typography>{e?.quantity}</Typography>
-                                </StyledTableCell>
-                                <StyledTableCell align="center">{(e?.variantId?.finalPrice * e?.quantity).toLocaleString()}</StyledTableCell>
-                            </StyledTableRow>
-                        ))}
-                    </TableBody>
-                    <TableFooter>
-                        <TableRow
-                            sx={{
-                                borderTop: '1px solid rgba(0,0,0,.2)'
-                            }}
-                        >
-                            <StyledTableCell align="center"></StyledTableCell>
-                            <StyledTableCell align="center"></StyledTableCell>
-                            <StyledTableCell align="center">مبلغ نهايي:</StyledTableCell>
-                            <StyledTableCell align="center">{cart?.totalPrice?.toLocaleString()}  تومان</StyledTableCell>
-                        </TableRow>
-                    </TableFooter>
-                </Table>
-            </TableContainer>
-
-
-
-            {/* start table under md */}
-            <Box display={{ md: 'none' }}>
-                {cart?.items?.map((e, index) => (
-                    <Stack
-                        key={index}
-                        width={'100%'}
-                        display={{ md: 'none' }}
-                        overflow={'hidden'}
-                        direction={'row'}
-                        borderBottom={'1px solid rgba(0,0,0,.2)'}
-                        alignItems={'center'}
-                        p={'16px'}
-                        gap={2}
-                    >
-                        <Box
-                            sx={{
-                                '& img': {
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover'
-                                }
-                            }}
-                            width={{ xs: '100px', xxs: '150px', sm: '200px' }}
-                            height={{ xs: '100px', xxs: '150px', sm: '200px' }}
-                        >
-                            <img src={import.meta.env.VITE_BASE_URL + e?.productId?.images[0]} alt={e?.productId?.name} />
-                        </Box>
-                        <Stack
-                            width={'100%'}
-                        >
-                            <Stack
-                                direction={'row'}
-                                alignItems={'center'}
-                                justifyContent={'space-between'}
-                                py={1}
-                                sx={{
-                                    '& a': {
-                                        color: 'var(--primary-clr)',
-                                        transition: 'all .3s',
-                                        '&:hover': {
-                                            color: '#FAAF00'
-                                        }
-                                    }
-                                }}
-                            >
-                                <Link to={`/product-details/${e?.productId?._id}/${e?.productId?.name?.replaceAll(' ', '-')}`} target='_blank'>
-                                    <Typography
-
-                                        textAlign={'start'}
-                                        fontSize={{ xs: '14px', xxs: '16px' }}
-                                        width={{ xs: 80, xxs: 150, sm: 200 }}
-                                        textOverflow={'wrap'}
-                                        sx={{
-                                            width: '100%'
-                                        }}
-                                    >{e?.productId?.name?.split(' ').slice(0, 8).join(' ')} - {e?.variantId?.name?.split(' ').slice(0, 8).join(' ')}</Typography>
-                                    <Typography></Typography>
-                                </Link>
-                            </Stack>
-                            <Stack
-                                direction={'row'}
-                                alignItems={'center'}
-                                justifyContent={'space-between'}
-                                borderBottom={'1px dashed rgba(0,0,0,.2)'}
-                                py={1}
-                                sx={{
-                                    '& a': {
-                                        color: 'var(--primary-clr)',
-                                        transition: 'all .3s',
-                                        '&:hover': {
-                                            color: '#FAAF00'
-                                        }
-                                    }
-                                }}
-                            >
-                                <Typography
-                                    textAlign={'start'}
-                                    fontSize={{ xs: '12px', sm: '14px', md: '16px' }}
-                                >قيمت واحد</Typography>
-                                <Typography>{e?.variantId?.finalPrice?.toLocaleString()}</Typography>
-                            </Stack>
-                            <Stack
-                                direction={'row'}
-                                alignItems={'center'}
-                                justifyContent={'space-between'}
-                                borderBottom={'1px dashed rgba(0,0,0,.2)'}
-                                py={1}
-                            >
-                                <Typography
-                                    textAlign={'start'}
-                                    fontSize={{ xs: '12px', sm: '14px', md: '16px' }}
-                                >تعداد</Typography>
-                                <Typography>{e?.quantity}</Typography>
-                            </Stack>
-                            <Stack
-                                direction={'row'}
-                                alignItems={'center'}
-                                justifyContent={'space-between'}
-                                py={1}
-                                sx={{
-                                    '& a': {
-                                        color: 'var(--primary-clr)',
-                                        transition: 'all .3s',
-                                        '&:hover': {
-                                            color: '#FAAF00'
-                                        }
-                                    }
-                                }}
-                            >
-                                <Typography
-                                    textAlign={'start'}
-                                    fontSize={{ xs: '12px', sm: '14px', md: '16px' }}
-                                >مجموع قيمت</Typography>
-                                <Typography>{(e?.variantId?.finalPrice * e?.quantity)?.toLocaleString()}</Typography>
-                            </Stack>
-                        </Stack>
-                    </Stack>
-                ))}
-                <Box
-                    display={'flex'}
-                    justifyContent={'end'}
-                    gap={2}
-                    mt={2}
+                <Typography
+                    fontWeight={500}
+                    fontSize={{ xs: '24px', md: '26px' }}
+                    mb={{ xs: 1, md: 1.5 }}
+                >سبد خريد</Typography>
+                <TableContainer component={Paper}
                     sx={{
-                        '& p': {
-                            fontSize: '16px'
-                        }
+                        '& th': {
+                            bgcolor: 'var(--secondary-clr) !important'
+                        },
+                        width: '100%',
+                        display: { xs: 'none', md: 'block' }
                     }}
                 >
-                    <Typography align="center">مبلغ نهايي:</Typography>
-                    <Typography align="center">{cart?.totalPrice?.toLocaleString()}  تومان</Typography>
+                    <Table sx={{
+                        width: '100%',
+                        '& th,& td': {
+                            p: { xs: '8px', md: '16px' }
+                        }
+                    }}
+                        aria-label="customized table">
+                        <TableHead>
+                            <TableRow>
+                                <StyledTableCell align="center">محصول</StyledTableCell>
+                                <StyledTableCell align="center">قيمت واحد (ت)</StyledTableCell>
+                                <StyledTableCell align="center">تعداد</StyledTableCell>
+                                <StyledTableCell align="center">مجموع قيمت (ت)</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {cart && cart?.items?.length != 0 && cart?.items?.map((e, index) => (
+                                <StyledTableRow key={index}>
+                                    <StyledTableCell align="center">
+                                        <Stack
+                                            direction={'row'}
+                                            alignItems={'center'}
+                                            gap={2}
+                                        >
+                                            <Box
+                                                sx={{
+                                                    '& img': {
+                                                        width: '100%',
+                                                        height: '100%',
+                                                        objectFit: 'cover'
+                                                    }
+                                                }}
+                                                width={{ xs: '60px', md: '80px' }}
+                                                height={{ xs: '65px', md: '80px' }}
+                                            >
+                                                <img src={import.meta.env.VITE_BASE_URL + e?.productId?.images[0]} alt={e?.productId?.name} />
+                                            </Box>
+                                            <Stack
+                                                gap={1}
+                                                width={{ md: '250px', lg: '220px', xl: '300px' }}
+                                                alignItems={'center'}
+                                                flexDirection={'row'}
+                                                height={'100%'}
+                                                sx={{
+                                                    '& a': {
+                                                        color: 'var(--primary-clr)',
+                                                        transition: 'all .3s',
+                                                        '&:hover': {
+                                                            color: '#FAAF00'
+                                                        }
+                                                    }
+                                                }}
+                                            >
+                                                <Link to={`/product-details/${e?.productId?._id}/${e?.productId?.name?.replaceAll(' ', '-')}`} target='_blank'>
+                                                    <Typography
+                                                        textAlign={'start'}
+                                                        fontSize={{ xs: '12px', sm: '14px', md: '16px' }}
+                                                    >{e?.productId?.name?.split(' ').slice(0, 8).join(' ')} - {e?.variantId?.name?.split(' ').slice(0, 8).join(' ')}</Typography></Link>
+                                            </Stack>
+                                        </Stack>
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">{e?.variantId?.finalPrice?.toLocaleString()}</StyledTableCell>
+                                    <StyledTableCell
+                                        sx={{
+                                            '& .quantityChanger button': {
+                                                padding: { md: '8px' }
+                                            },
+                                            '& .quantityChanger': {
+                                                gap: { md: '8px' }
+                                            }
+                                        }}
+                                        align="center">
+                                        <Typography>{e?.quantity}</Typography>
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">{(e?.variantId?.finalPrice * e?.quantity).toLocaleString()}</StyledTableCell>
+                                </StyledTableRow>
+                            ))}
+                        </TableBody>
+                        <TableFooter>
+                            <TableRow
+                                sx={{
+                                    borderTop: '1px solid rgba(0,0,0,.2)'
+                                }}
+                            >
+                                <StyledTableCell align="center"></StyledTableCell>
+                                <StyledTableCell align="center"
+                                    sx={{
+                                        fontWeight: '400 !important'
+                                    }}
+                                >ارسال با پست پيشتاز:&nbsp;&nbsp; 35,000 تومان</StyledTableCell>
+                                <StyledTableCell align="center"></StyledTableCell>
+                                <StyledTableCell align="center">مبلغ نهايي: &nbsp;&nbsp;{(cart?.totalPrice + 35000)?.toLocaleString()}  تومان</StyledTableCell>
+                            </TableRow>
+                        </TableFooter>
+                    </Table>
+                </TableContainer>
+
+
+
+                {/* start table under md */}
+                <Box display={{ md: 'none' }}>
+                    {cart?.items?.map((e, index) => (
+                        <Stack
+                            key={index}
+                            width={'100%'}
+                            display={{ md: 'none' }}
+                            overflow={'hidden'}
+                            direction={'row'}
+                            borderBottom={'1px solid rgba(0,0,0,.2)'}
+                            alignItems={'center'}
+                            p={'16px'}
+                            gap={2}
+                        >
+                            <Box
+                                sx={{
+                                    '& img': {
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover'
+                                    }
+                                }}
+                                width={{ xs: '100px', xxs: '150px', sm: '200px' }}
+                                height={{ xs: '100px', xxs: '150px', sm: '200px' }}
+                            >
+                                <img src={import.meta.env.VITE_BASE_URL + e?.productId?.images[0]} alt={e?.productId?.name} />
+                            </Box>
+                            <Stack
+                                width={'100%'}
+                            >
+                                <Stack
+                                    direction={'row'}
+                                    alignItems={'center'}
+                                    justifyContent={'space-between'}
+                                    py={1}
+                                    sx={{
+                                        '& a': {
+                                            color: 'var(--primary-clr)',
+                                            transition: 'all .3s',
+                                            '&:hover': {
+                                                color: '#FAAF00'
+                                            }
+                                        }
+                                    }}
+                                >
+                                    <Link to={`/product-details/${e?.productId?._id}/${e?.productId?.name?.replaceAll(' ', '-')}`} target='_blank'>
+                                        <Typography
+
+                                            textAlign={'start'}
+                                            fontSize={{ xs: '12px', xxs: '14px' }}
+                                            width={{ xs: 80, xxs: 150, sm: 200 }}
+                                            textOverflow={'wrap'}
+                                            sx={{
+                                                width: '100%'
+                                            }}
+                                        >{e?.productId?.name?.split(' ').slice(0, 8).join(' ')} - {e?.variantId?.name?.split(' ').slice(0, 8).join(' ')}</Typography>
+                                        <Typography></Typography>
+                                    </Link>
+                                </Stack>
+                                <Stack
+                                    direction={'row'}
+                                    alignItems={'center'}
+                                    justifyContent={'space-between'}
+                                    borderBottom={'1px dashed rgba(0,0,0,.2)'}
+                                    py={1}
+                                    sx={{
+                                        '& a': {
+                                            color: 'var(--primary-clr)',
+                                            transition: 'all .3s',
+                                            '&:hover': {
+                                                color: '#FAAF00'
+                                            }
+                                        },
+                                        '& p': {
+                                            fontSize: { xs: '12px', sm: '14px', md: '16px' }
+                                        }
+                                    }}
+                                >
+                                    <Typography
+                                        textAlign={'start'}
+
+                                    >قيمت واحد</Typography>
+                                    <Typography>{e?.variantId?.finalPrice?.toLocaleString()}</Typography>
+                                </Stack>
+                                <Stack
+                                    direction={'row'}
+                                    alignItems={'center'}
+                                    justifyContent={'space-between'}
+                                    borderBottom={'1px dashed rgba(0,0,0,.2)'}
+                                    py={1}
+                                    sx={{
+                                        '& p': {
+                                            fontSize: { xs: '12px', sm: '14px', md: '16px' }
+                                        }
+                                    }}
+                                >
+                                    <Typography
+                                        textAlign={'start'}
+                                    >تعداد</Typography>
+                                    <Typography>{e?.quantity}</Typography>
+                                </Stack>
+                                <Stack
+                                    direction={'row'}
+                                    alignItems={'center'}
+                                    justifyContent={'space-between'}
+                                    py={1}
+                                    sx={{
+                                        '& a': {
+                                            color: 'var(--primary-clr)',
+                                            transition: 'all .3s',
+                                            '&:hover': {
+                                                color: '#FAAF00'
+                                            }
+                                        },
+                                        '& p': {
+                                            fontSize: { xs: '12px', sm: '14px', md: '16px' }
+                                        }
+                                    }}
+                                >
+                                    <Typography
+                                        textAlign={'start'}
+                                    >مجموع قيمت</Typography>
+                                    <Typography>{(e?.variantId?.finalPrice * e?.quantity)?.toLocaleString()}</Typography>
+                                </Stack>
+                            </Stack>
+                        </Stack>
+                    ))}
+                    <Box
+                        display={'flex'}
+                        justifyContent={'end'}
+                        gap={2}
+                        mt={2}
+                        sx={{
+                            '& p': {
+                                fontSize: '14px'
+                            }
+                        }}
+                    >
+                        <Typography align="center">ارسال با پست پيشتاز:</Typography>
+                        <Typography align="center">35,000  تومان</Typography>
+                    </Box>
+                    <Box
+                        display={'flex'}
+                        justifyContent={'end'}
+                        gap={2}
+                        mt={2}
+                        sx={{
+                            '& p': {
+                                fontSize: '16px',
+                                fontWeight: 500
+                            }
+                        }}
+                    >
+                        <Typography align="center">مبلغ نهايي:</Typography>
+                        <Typography align="center">{(cart?.totalPrice + 35000)?.toLocaleString()}  تومان</Typography>
+                    </Box>
                 </Box>
-            </Box>
-            {/* end table under md */}
+                {/* end table under md */}
             </Box>
             {/* end table */}
 
 
             {/* start address part */}
-            <Stack
-                pb={6}
+            <Stack height={'fit-content'}
             >
                 <Typography
                     fontWeight={500}
@@ -401,11 +440,11 @@ export default function Payment() {
                     direction={{ xs: 'column', md: 'row' }}
                     flexWrap={'wrap'}
                     justifyContent={'space-between'}
-                    gap={{ xs: '28px 0' }}
+                    gap={{ xs: '15px 0', md: '20px 0' }}
                     sx={{
                         '& > div': {
                             width: { xs: '100%', md: '49.25%' },
-                            height: '50px',
+                            // height: '50px',
                             '& input': {
                                 height: '100%'
                             }
@@ -417,7 +456,7 @@ export default function Payment() {
                             color: 'var(--secondary-clr)',
                             fontWeight: 500,
                             fontSize: '12px',
-                            top: '50%',
+                            top: '42%',
                             left: '20px',
                             transform: 'translateY(-25%)',
                             '& span': {
@@ -458,57 +497,45 @@ export default function Payment() {
             {/* end address part */}
 
             {/* start payment part */}
-            <Stack
-                mb={{ xs: 1, md: 2 }}
-            >
+            <Box >
                 <Typography
                     fontWeight={500}
                     fontSize={{ xs: '24px', md: '26px' }}
-                    mb={{ xs: 1, md: 2 }}
-                >پرداخت</Typography>
+                    mb={{ xs: 1, md: 1.5 }}
+                >درگاه پرداخت</Typography>
                 <Stack
-                    gap={2}
+                    alignItems={'start'}
                 >
-                    <Typography textAlign={'justify'} mb={2}>
-                        لطفا مبلغ اقلام خريداري شده را به شماره كارت زير واريز نماييد و كد رهگيري را در بخش ذكر شده وارد كنيد.
-                    </Typography>
-                    <Box>شماره كارت:   6037-6666-6666-6666</Box>
-                    <Stack
-                        direction={{ xs: 'column', md: 'row' }}
-                        justifyContent={'space-between'}
-                        gap={2}
-                        alignItems={{ xs: 'start', md: 'end' }}
+
+                    <Box
+                        sx={{
+                            '& img': {
+                                height: 150
+                            }
+                        }}
                     >
-                        <TextField
-                            onChange={(e) => setTrackingCode(e.target.value)}
-                            name='trackingCode'
-                            sx={{
-                                width: 'fit-content',
-                                '& input': {
-                                    height: '100%'
-                                },
-                                '& label': {
-                                    right: '15%',
-                                    top: '8%',
-                                    transformOrigin: 'top right'
-                                }
-                            }}
-                            id="filled-basic" label="كد رهگيري" variant="filled" />
-                        <Button
-                            onClick={handleSetOrder}
-                            sx={{
-                                bgcolor: 'var(--secondary-clr)',
-                                color: 'var(--text-clr)',
-                                px: '24px',
-                                fontSize: '16px',
-                                fontWeight: 500,
-                                maxHeight: '48px',
-                                width: 'fit-content'
-                            }}
-                        >ثبت سفارش</Button>
-                    </Stack>
+                        <img src="/zarin-palpng.parspng.com_.png" alt="zarinpal" />
+                    </Box>
+                    <Button
+                        onClick={handlePayment}
+                        sx={{
+                            borderRadius: '4px',
+                            height: 'fit-content',
+                            width: { xs: '100%', sm: '20%' },
+                            alignSelf: 'center',
+                            bgcolor: "var(--third-clr)",
+                            color: 'var(--primary-clr)',
+                            padding: '8px 5px 8px 16px ',
+                            my: '16px',
+                            transition: "all .5s",
+                            '&:hover': { bgcolor: "var(--secondary-clr)", color: 'var(--text-clr)' }
+                        }}
+
+                    >
+                        <Typography fontSize={{ xs: '12px', xxs: '14px', sm: '16px' }} fontWeight={500} mr={1}>پرداخت</Typography>
+                    </Button>
                 </Stack>
-            </Stack>
+            </Box>
             {/* end payment part */}
         </Box>
     )

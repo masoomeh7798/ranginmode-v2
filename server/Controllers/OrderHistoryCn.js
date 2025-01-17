@@ -7,6 +7,8 @@ import OrderHistory from "../Models/OrderHistoryMd.js";
 import ApiFeatures from "../Utils/apiFeatures.js";
 import Cart from "../Models/CartMd.js";
 import ProductVariant from "../Models/ProductVariantMd.js";
+import ZarinpalPayment from "zarinpal-pay";
+import { v4 as uuidv4 } from 'uuid';
 
 
 export const checkCartItems = catchAsync(async (req, res, next) => {
@@ -80,40 +82,102 @@ export const checkCartItems = catchAsync(async (req, res, next) => {
 
 
 export const payment = catchAsync(async (req, res, next) => {
-  const { address, trackingCode = null } = req.body;
-  const { id: userId } = jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET);
-  if (address == {} || !trackingCode) {
-    return next(new HandleError("آدرس و كد رهگيري را وارد كنيد.", 400));
+  let userId;
+  if (req.headers.authorization) {
+    userId = jwt.verify(
+      req.headers.authorization?.split(" ")[1],
+      process.env.JWT_SECRET
+    )?.id
   }
-  const user = await User.findById(userId)
-  const items = user.cart.items
+  const { guestId = '', address = null } = req?.body;
+  if (!userId && !guestId) {
+    return next(
+      new HandleError(
+        "درخواست نامعتبر", 400
+      )
+    );
+  }
+  let cart;
+  if (userId) {
+    cart = await Cart.findOne({ userId })
+  } else {
+    cart = await Cart.findOne({ guestId })
+  }
+  if (!address) {
+    return next(new HandleError("آدرس الزامي است.", 400));
+  }
+
+  if (cart.items.length == 0 || cart.totalPrice <= 0) {
+    return next(new HandleError("سبد خريد نامعتبر است.", 400));
+  }
+  let items = cart?.items;
+  let totalPrice = cart?.totalPrice + 35000;
 
   for (let item of items) {
-    await Product.findByIdAndUpdate(item.productId, { $inc: { quantity: -item?.quantity } });
-    if (!user.boughtProduct.includes(item.productId)) {
-      user.boughtProduct.push(item.productId);
-    }
+    await ProductVariant.findByIdAndUpdate(item.variantId, {
+      $inc: { quantity: -item?.quantity },
+    });
   }
-  if (items <= 0) {
-    return next(new HandleError("سبد خريد شما خالي است!", 400));
-  }
-  const order = await OrderHistory.create({
-    userId,
-    address,
-    totalPrice: user.cart.totalPrice,
-    items,
-    trackingCode
+  // payment return link and authority
+  const zarinpal = new ZarinpalPayment("eaa46b01-819e-42ef-8a67-ba2bb7f69a32", { isSandbox: true })
+  const order_id=uuidv4()
+  const createTransaction = await zarinpal.create({
+    amount: totalPrice * 10,
+    callback_url: "http://localhost:5173/payment",
+    mobile: "",
+    email: "",
+    description: "no description",
+    order_id,
   });
+  let link, authority;
+  if (createTransaction.data) {
+    authority = createTransaction.data.authority
+    link=createTransaction.data.link
+  }
+  const orderData = {
+    userId,
+    guestId,
+    address,
+    status: "pending",
+    totalPrice,
+    items,
+    authority,
+  };
 
-  user.cart = { totalPrice: 0, items: [] };
-  await user.save();
+  const order = await OrderHistory.create(orderData);
+  cart.totalPrice = 0
+  cart.items=[]
+  await cart.save();
   return res.status(201).json({
-    message: ".سفارش شما ثبت شد",
-    data: {
-      order,
-    },
+    message: "انتقال به صفحه پرداخت.",
+    data: link,
     success: true,
   });
+});
+
+export const verify = catchAsync(async (req, res, next) => {
+  const { authority = null } = req.body
+  if (!authority) {
+    return next(new HandleError('authority code not found', 400))
+  }
+  const order = await OrderHistory.findOne({ authority })
+  if (!order) {
+    return next(new HandleError('authority code incorrect', 400))
+  }
+  // 
+  // const verifypay = await zarinpal.verify({authority ,amount: order.totalAfterDiscount});
+  // if(verifypay.data.code==100 || verifypay.data.code==101){
+  //     order.status='success'
+  //     await order.save()
+
+  // }else{
+  //     order.status='failed'
+  //     await order.save()
+  // }
+  // return res.status(200).json({
+  //     data:verifypay.data
+  // })
+
 })
 
 

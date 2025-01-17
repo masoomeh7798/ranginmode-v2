@@ -455,7 +455,7 @@ export default function Cart() {
             }}
 
           >
-            <Typography fontSize={{ xs: '12px', xxs: '14px', sm: '16px' }} fontWeight={500} mr={1}>پرداخت</Typography>
+            <Typography fontSize={{ xs: '12px', xxs: '14px', sm: '16px' }} fontWeight={500} mr={1}>تاييد و ادامه</Typography>
           </Button>
         </Stack>
         {/* end final price */}

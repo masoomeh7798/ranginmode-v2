@@ -14,6 +14,9 @@ const orderHistorySchema=new mongoose.Schema({
         type:Object,
         default:{}
     },
+    authority:{
+        type:String
+    },
     trackingCode:{
         type:String
     },
@@ -24,6 +27,11 @@ const orderHistorySchema=new mongoose.Schema({
         type:String,
         enum:['success','pending','failed'],
         default:'pending'
+    },
+    process:{
+        type:String,
+        enum:['در حال بررسي','در حال انجام','تكميل شده','ارسال شده'],
+        default:'در حال بررسي'
     }
 },{timestamps:true})
 
