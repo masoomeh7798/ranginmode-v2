@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import NotFound from './Pages/NotFound';
 import { Toaster } from 'react-hot-toast';
 import Payment from './Pages/Payment';
+import Callback from './Pages/Callback';
 
 // start default theme 
 export default function App() {
@@ -202,6 +203,7 @@ export default function App() {
         <Route path='/Payment' element={<Payment/>} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/auth' element={token ? <Navigate to='/' /> : <Auth />} />
+        <Route path='/Callback' element={<Callback/>} />
         <Route path='*' element={<NotFound/>} />
       </Routes>
       {showNavAndFooter && <Footer />}

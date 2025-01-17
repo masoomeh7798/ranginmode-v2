@@ -122,7 +122,7 @@ export default function Payment() {
             const data = await res.json()
             if (data?.success) {
                 dispatch(setIsChangedCartQuantity())
-                navigate('/')
+                navigate('/callback')
                 window.open(data?.data) 
 
             } else {

@@ -120,10 +120,10 @@ export const payment = catchAsync(async (req, res, next) => {
   }
   // payment return link and authority
   const zarinpal = new ZarinpalPayment("eaa46b01-819e-42ef-8a67-ba2bb7f69a32", { isSandbox: true })
-  const order_id=uuidv4()
+  const order_id = uuidv4()
   const createTransaction = await zarinpal.create({
     amount: totalPrice * 10,
-    callback_url: "http://localhost:5173/payment",
+    callback_url: "http://localhost:5173/callback",
     mobile: "",
     email: "",
     description: "no description",
@@ -132,7 +132,7 @@ export const payment = catchAsync(async (req, res, next) => {
   let link, authority;
   if (createTransaction.data) {
     authority = createTransaction.data.authority
-    link=createTransaction.data.link
+    link = createTransaction.data.link
   }
   const orderData = {
     userId,
@@ -146,7 +146,7 @@ export const payment = catchAsync(async (req, res, next) => {
 
   const order = await OrderHistory.create(orderData);
   cart.totalPrice = 0
-  cart.items=[]
+  cart.items = []
   await cart.save();
   return res.status(201).json({
     message: "انتقال به صفحه پرداخت.",
@@ -164,19 +164,21 @@ export const verify = catchAsync(async (req, res, next) => {
   if (!order) {
     return next(new HandleError('authority code incorrect', 400))
   }
-  // 
-  // const verifypay = await zarinpal.verify({authority ,amount: order.totalAfterDiscount});
-  // if(verifypay.data.code==100 || verifypay.data.code==101){
-  //     order.status='success'
-  //     await order.save()
-
-  // }else{
-  //     order.status='failed'
-  //     await order.save()
-  // }
-  // return res.status(200).json({
-  //     data:verifypay.data
-  // })
+  
+  const verifypay = await zarinpal.verify({authority ,amount: order.totalPrice});
+  if(verifypay.data.code==100 || verifypay.data.code==101){
+      order.status='success'
+      await order.save()
+  }else{
+      order.status='failed'
+      for (let item of order.items) {
+        await ProductVariant.findByIdAndUpdate(item?.variantId, { quantity: { $inc: item?.quantity } })
+      }
+      await order.save()
+  }
+  return res.status(200).json({
+      data:verifypay.data
+  })
 
 })
 
@@ -240,3 +242,31 @@ export const update = catchAsync(async (req, res, next) => {
   })
 })
 
+export const checkOut = async () => {
+  try {
+    const passTime = new Date(Date.now() - 10 * 60 * 1000)
+  const orders = await OrderHistory.find({
+    status: 'pending',
+    createdAt: { $lt: passTime }
+  }).populate({
+    path: 'items.variantId',
+    model: 'ProductVariant',
+    refPath: 'items.variantId'
+  })
+  
+  if (orders.length == 0) {
+    return
+  }
+  for (let order of orders) {
+    order.status = 'failed'
+    console.log(order.items);
+    for (let item of order.items) {
+      await ProductVariant.findByIdAndUpdate(item?.variantId?._id, {$inc:{quantity:item.quantity}})
+    }
+    await order.save()
+  }
+  } catch (error) {
+    console.log('this',error);
+  }
+  
+}

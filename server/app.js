@@ -17,12 +17,14 @@ import cartRouter from "./Routes/Cart.js";
 import searchRouter from "./Routes/search.js";
 import orderRouter from "./Routes/OrderHistory.js";
 import productVariantRouter from "./Routes/ProductVariant.js";
+import { checkOut } from "./Controllers/OrderHistoryCn.js";
 
 
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
 const app = express();
 
+setInterval(checkOut, 10*60*1000);
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
