@@ -159,36 +159,42 @@ export const payment = catchAsync(async (req, res, next) => {
 
 
 export const verify = catchAsync(async (req, res, next) => {
-  const { Authority = null,Status=null } = req.body
+  const { Authority = null, Status = null } = req.body
   if (!Authority || !Status) {
     return next(new HandleError('درخواست نامعتبر', 400))
   }
-  const order = await OrderHistory.findOne({ authority:Authority })
+  const order = await OrderHistory.findOne({ authority: Authority })
   if (!order) {
     return next(new HandleError('authority code incorrect', 400))
   }
-  if (Status == "NOK") {
-    for (let item of order.items) {
-      await ProductVariant.findByIdAndUpdate(item?.variantId, { $inc: { quantity: item.quantity } })
-    }
-    return next(new HandleError('پرداخت ناموفق.', 400))
-  }
-  const verifypay = await zarinpal.verify({ authority:Authority, amount: order.totalPrice*10 });
-  if (verifypay.data.code == 100 || verifypay.data.code == 101) {
-    order.status = 'success'
-    await order.save()
-  } else {
-    order.status = 'failed'
-    for (let item of order.items) {
-      await ProductVariant.findByIdAndUpdate(item?.variantId, { $inc: { quantity: item.quantity } })
-    }
-    await order.save()
-    return next(new HandleError('پرداخت ناموفق', 400))
 
+  let isFailed = false;
+  let verifypay;
+  if (Status == "NOK") {
+    isFailed = true
+  } else {
+    verifypay = await zarinpal.verify({ authority: Authority, amount: order.totalPrice * 10 });
+    if (verifypay?.data?.code == 100 || verifypay?.data?.code == 101) {
+      order.status = 'success'
+    } else {
+      isFailed = true;
+    }
   }
+
+  if (isFailed && !order.isChecked) {
+    order.status = 'failed'
+    order.isChecked=true
+    for (let item of order.items) {
+      await ProductVariant.findByIdAndUpdate(item?.variantId, { $inc: { quantity: item.quantity } })
+    }
+  }
+  
+  await order.save()
+
   return res.status(200).json({
-    success: true,
-    data: verifypay.data
+    success: !isFailed && true,
+    message:isFailed ?"پرداخت ناموفق" : "پرداخت موفق",
+    data: verifypay,
   })
 })
 

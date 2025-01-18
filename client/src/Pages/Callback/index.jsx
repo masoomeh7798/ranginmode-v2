@@ -8,25 +8,28 @@ export default function Callback() {
 
     // verify
     useEffect(() => {
+        
         (async () => {
-            try {
-                const res = await fetch(import.meta.env.VITE_BASE_API + 'order/verify', {
-                    method: 'POST',
-                    headers: {
-                        "content-type": "application/json"
-                    },
-                    body: JSON.stringify({ Authority,Status })
-                })
-                const data = await res.json()
-                console.log(data);
-                if (data?.success) {
-                    setAfterPaymentData(data?.data)
+            if(Authority && Status){
+                try {
+                    const res = await fetch(import.meta.env.VITE_BASE_API + 'order/verify', {
+                        method: 'POST',
+                        headers: {
+                            "content-type": "application/json"
+                        },
+                        body: JSON.stringify({ Authority,Status})
+                    })
+                    const data = await res.json()
+                    console.log(data);
+                    if (data?.success) {
+                        setAfterPaymentData(data?.data)
+                    }
+                } catch (error) {
+                    console.log(error);
                 }
-            } catch (error) {
-                console.log(error);
             }
         })()
-    }, [Authority])
+    }, [ Authority, Status])
     return (
         <div>Callback</div>
     )
