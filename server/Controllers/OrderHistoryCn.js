@@ -10,6 +10,7 @@ import ProductVariant from "../Models/ProductVariantMd.js";
 import ZarinpalPayment from "zarinpal-pay";
 import { v4 as uuidv4 } from 'uuid';
 
+const zarinpal = new ZarinpalPayment('eaa46b01-819e-42ef-8a67-ba2bb7f69a32', { isSandbox: true });
 
 export const checkCartItems = catchAsync(async (req, res, next) => {
   let userId;
@@ -119,7 +120,7 @@ export const payment = catchAsync(async (req, res, next) => {
     });
   }
   // payment return link and authority
-  const zarinpal = new ZarinpalPayment("eaa46b01-819e-42ef-8a67-ba2bb7f69a32", { isSandbox: true })
+  // const zarinpal = new ZarinpalPayment("eaa46b01-819e-42ef-8a67-ba2bb7f69a32", { isSandbox: true })
   const order_id = uuidv4()
   const createTransaction = await zarinpal.create({
     amount: totalPrice * 10,
@@ -155,31 +156,40 @@ export const payment = catchAsync(async (req, res, next) => {
   });
 });
 
+
+
 export const verify = catchAsync(async (req, res, next) => {
-  const { authority = null } = req.body
-  if (!authority) {
-    return next(new HandleError('authority code not found', 400))
+  const { Authority = null,Status=null } = req.body
+  if (!Authority || !Status) {
+    return next(new HandleError('درخواست نامعتبر', 400))
   }
-  const order = await OrderHistory.findOne({ authority })
+  const order = await OrderHistory.findOne({ authority:Authority })
   if (!order) {
     return next(new HandleError('authority code incorrect', 400))
   }
-  
-  const verifypay = await zarinpal.verify({authority ,amount: order.totalPrice});
-  if(verifypay.data.code==100 || verifypay.data.code==101){
-      order.status='success'
-      await order.save()
-  }else{
-      order.status='failed'
-      for (let item of order.items) {
-        await ProductVariant.findByIdAndUpdate(item?.variantId, { quantity: { $inc: item?.quantity } })
-      }
-      await order.save()
+  if (Status == "NOK") {
+    for (let item of order.items) {
+      await ProductVariant.findByIdAndUpdate(item?.variantId, { $inc: { quantity: item.quantity } })
+    }
+    return next(new HandleError('پرداخت ناموفق.', 400))
+  }
+  const verifypay = await zarinpal.verify({ authority:Authority, amount: order.totalPrice*10 });
+  if (verifypay.data.code == 100 || verifypay.data.code == 101) {
+    order.status = 'success'
+    await order.save()
+  } else {
+    order.status = 'failed'
+    for (let item of order.items) {
+      await ProductVariant.findByIdAndUpdate(item?.variantId, { $inc: { quantity: item.quantity } })
+    }
+    await order.save()
+    return next(new HandleError('پرداخت ناموفق', 400))
+
   }
   return res.status(200).json({
-      data:verifypay.data
+    success: true,
+    data: verifypay.data
   })
-
 })
 
 
@@ -245,28 +255,28 @@ export const update = catchAsync(async (req, res, next) => {
 export const checkOut = async () => {
   try {
     const passTime = new Date(Date.now() - 10 * 60 * 1000)
-  const orders = await OrderHistory.find({
-    status: 'pending',
-    createdAt: { $lt: passTime }
-  }).populate({
-    path: 'items.variantId',
-    model: 'ProductVariant',
-    refPath: 'items.variantId'
-  })
-  
-  if (orders.length == 0) {
-    return
-  }
-  for (let order of orders) {
-    order.status = 'failed'
-    console.log(order.items);
-    for (let item of order.items) {
-      await ProductVariant.findByIdAndUpdate(item?.variantId?._id, {$inc:{quantity:item.quantity}})
+    const orders = await OrderHistory.find({
+      status: 'pending',
+      createdAt: { $lt: passTime }
+    }).populate({
+      path: 'items.variantId',
+      model: 'ProductVariant',
+      refPath: 'items.variantId'
+    })
+
+    if (orders.length == 0) {
+      return
     }
-    await order.save()
-  }
+    for (let order of orders) {
+      order.status = 'failed'
+      console.log(order.items);
+      for (let item of order.items) {
+        await ProductVariant.findByIdAndUpdate(item?.variantId?._id, { $inc: { quantity: item.quantity } })
+      }
+      await order.save()
+    }
   } catch (error) {
-    console.log('this',error);
+    console.log('this', error);
   }
-  
+
 }

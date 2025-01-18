@@ -22,6 +22,7 @@
     "nodemon": "^3.1.7",
     "path": "^0.12.7",
     "uuid": "^11.0.5",
+    "zarinpal-checkout": "^0.3.0",
     "zarinpal-pay": "^2.0.1"
   }
 }
