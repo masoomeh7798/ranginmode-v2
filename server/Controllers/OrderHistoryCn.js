@@ -183,18 +183,21 @@ export const verify = catchAsync(async (req, res, next) => {
 
   if (isFailed && !order.isChecked) {
     order.status = 'failed'
-    order.isChecked=true
+    order.isChecked = true
     for (let item of order.items) {
       await ProductVariant.findByIdAndUpdate(item?.variantId, { $inc: { quantity: item.quantity } })
     }
   }
-  
+
   await order.save()
 
   return res.status(200).json({
     success: !isFailed && true,
-    message:isFailed ?"پرداخت ناموفق" : "پرداخت موفق",
-    data: verifypay,
+    message: isFailed ? "پرداخت ناموفق" : "پرداخت موفق",
+    data: {
+      verifypay,
+      amount: order?.totalPrice
+    },
   })
 })
 
