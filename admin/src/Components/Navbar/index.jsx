@@ -13,10 +13,10 @@ import { OrderContext } from '../../Context/OrderContent.jsx';
 
 export default function Navbar() {
   const { dispatch } = useContext(DarkModeContext)
-  const { user ,token} = useContext(AuthContext)
+  const { user, token } = useContext(AuthContext)
   const { dispatch: sidebarDispatch, isOpenSidebar } = useContext(SidebarContext)
-  const {newOrder}=useContext(OrderContext)
-  const [numOfNewOrders, setNumOfNewOrders] = useState(0);
+  const { newOrder, dispatch: orderDispatch, numOfNewOrders } = useContext(OrderContext)
+
 
   // backdrop
   // Control body overflow based on sidebar state
@@ -39,25 +39,26 @@ export default function Navbar() {
 
   // get the number of new orders for notification icon
   useEffect(() => {
-    (async()=>{
-      try {
-      const res=await fetch(`${import.meta.env.VITE_BASE_API}order?filters[status][$eq]=success&filters[process][$eq]=review`,{
-        method:'GET',
-        headers:{
-          authorization:`Bearer ${token}`,
-          "content-type":'application/json'
+    (async () => {
+      if (token) {
+        try {
+          const res = await fetch(`${import.meta.env.VITE_BASE_API}order?filters[status][$eq]=success&filters[process][$eq]=review`, {
+            method: 'GET',
+            headers: {
+              authorization: `Bearer ${token}`,
+              "content-type": 'application/json'
+            }
+          })
+          const data = await res.json()
+          if (data?.success) {
+            orderDispatch({ type: 'NUM_OF_NEW_ORDERS', payload: data?.count })
+          }
+        } catch (error) {
+          console.log(error);
         }
-      })
-      const data=await res.json()
-      console.log(data);
-      if(data?.success){
-        setNumOfNewOrders(data?.count)
-      }
-      } catch (error) {
-        console.log(error);
       }
     })()
-  }, [newOrder]);
+  }, [newOrder,token]);
 
 
   return (
@@ -85,7 +86,7 @@ export default function Navbar() {
       <div>
         <Backdrop
           className='backdrop-mobile'
-          sx={(theme) => ({ color: '#fff', zIndex: 900,display:'none' })}
+          sx={(theme) => ({ color: '#fff', zIndex: 900, display: 'none' })}
           open={isOpenSidebar}
           onClick={handleClose}
         >

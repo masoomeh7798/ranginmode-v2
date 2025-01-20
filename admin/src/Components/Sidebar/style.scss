@@ -60,6 +60,19 @@
                 color: #888;
                 margin-right: 10px;
             }
+            .counter{
+                width: 15px;
+                height: 15px;
+                background: var(--secondary-clr);
+                color: white;
+                font-weight: bold;
+                border-radius: 50%;
+                font-size: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 10px;
+            }
         }
     }
 

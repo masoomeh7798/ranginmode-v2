@@ -18,6 +18,7 @@ import ViewCompactOutlinedIcon from '@mui/icons-material/ViewCompactOutlined';
 import ViewCarouselOutlinedIcon from '@mui/icons-material/ViewCarouselOutlined';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import { SidebarContext } from '../../Context/SidebarContext.jsx';
+import { OrderContext } from '../../Context/OrderContent.jsx';
 
 
 export default function Sidebar() {
@@ -25,6 +26,7 @@ export default function Sidebar() {
     const { dispatch: authDispatch } = useContext(AuthContext)
     const navigate = useNavigate()
     const {isOpenSidebar,dispatch:sidebarDispatch}=useContext(SidebarContext)
+    const {numOfNewOrders}=useContext(OrderContext)
 
     const handleLogout = () => {
         navigate('/login')
@@ -102,19 +104,13 @@ export default function Sidebar() {
                             </li>
                         </Link>
 
+                        <Link  to='/orders' onClick={()=>sidebarDispatch({type:'TOGGLE_SIDEBAR'})}>
                         <li>
                             <CreditCardOutlinedIcon className='icon' />
                             <span>سفارشات</span>
+                            <p className='counter'>{numOfNewOrders}</p>
                         </li>
-                        <li>
-                            <LocalShippingOutlinedIcon className='icon' />
-                            <span>ارسال</span>
-                        </li>
-                        <p className="title">مفيد</p>
-                        <li>
-                            <NotificationsNoneOutlinedIcon className='icon' />
-                            <span>اعلانات</span>
-                        </li>
+                        </Link>
 
                         <p className="title">مدير</p>
                         <li onClick={handleLogout}>

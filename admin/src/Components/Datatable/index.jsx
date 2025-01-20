@@ -9,7 +9,7 @@ import { Button, Typography } from '@mui/material';
 import { AuthContext } from '../../Context/AuthContext';
 import notify from '../../Utils/notify';
 
-const paginationModel = { page: 0, pageSize: 8 };
+const paginationModel = { page: 0, pageSize: 10 };
 
 export default function Datatable({ rows, columns, rowType }) {
     const { token } = useContext(AuthContext)
@@ -77,7 +77,9 @@ export default function Datatable({ rows, columns, rowType }) {
                     rowType == 'product' ? 'محصولات' :
                         rowType == 'product-variant' ? 'زيرشاخه ي محصولات' :
                             rowType == 'brand' ? 'برند ها' :
-                                rowType == 'category' ? 'دسته بندي ها' : rowType == 'comment' ? 'نظرات' : 'اسلايد ها'
+                                rowType == 'category' ? 'دسته بندي ها' : rowType == 'comment' ? 'نظرات':
+                                rowType == 'order' ? 'سفارشات' 
+                                : 'اسلايد ها'
                     }</Typography>
             </div>
             <div style={{ width: '100%', overflowX: 'scroll' }}>
@@ -85,7 +87,7 @@ export default function Datatable({ rows, columns, rowType }) {
                     className='datagrid'
                     rows={rowsData}
                     columns={columnsData.concat(actionColumn)}
-                    // initialState={{ pagination: { paginationModel } }}
+                    initialState={{ pagination: { paginationModel } }}
                     disableRowSelectionOnClick
                   
                 />

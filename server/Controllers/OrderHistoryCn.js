@@ -218,6 +218,8 @@ export const getAll = catchAsync(async (req, res, next) => {
     .sort()
     .paginate()
     .limitFields()
+    .populate()
+    .secondPopulate('userId')
 
   const orders = await features.model
   const count = await OrderHistory.countDocuments(queryString?.filters)
