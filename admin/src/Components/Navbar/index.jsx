@@ -41,7 +41,7 @@ export default function Navbar() {
   useEffect(() => {
     (async()=>{
       try {
-      const res=await fetch(`${import.meta.env.VITE_BASE_API}order?filters[status][$eq]=failed`,{
+      const res=await fetch(`${import.meta.env.VITE_BASE_API}order?filters[status][$eq]=success&filters[process][$eq]=review`,{
         method:'GET',
         headers:{
           authorization:`Bearer ${token}`,

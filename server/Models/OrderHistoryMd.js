@@ -30,8 +30,8 @@ const orderHistorySchema=new mongoose.Schema({
     },
     process:{
         type:String,
-        enum:['در حال بررسي','در حال انجام','تكميل شده','ارسال شده'],
-        default:'در حال بررسي'
+        enum:['review','progress','completed','sent','canceled'],
+        default:'review'
     },
     isChecked:{
         type:Boolean,
