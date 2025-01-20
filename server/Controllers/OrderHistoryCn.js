@@ -212,7 +212,6 @@ export const getAll = catchAsync(async (req, res, next) => {
     queryString = req?.query
   } else {
     queryString = { ...req.query, filters: { ...req?.query?.filters, userId } }
-
   }
   const features = new ApiFeatures(OrderHistory, queryString)
     .filters()
@@ -220,11 +219,11 @@ export const getAll = catchAsync(async (req, res, next) => {
     .paginate()
     .limitFields()
 
-  const order = await features.model
+  const orders = await features.model
   const count = await OrderHistory.countDocuments(queryString?.filters)
   return res.status(200).json({
     success: true,
-    data: { order },
+    data: orders ,
     count
   })
 })

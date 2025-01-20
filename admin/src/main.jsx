@@ -6,19 +6,22 @@ import { BrowserRouter } from 'react-router-dom'
 import { DarkModeContextProvider } from './Context/DarkModeContext.jsx'
 import { AuthContextProvider } from './Context/AuthContext.jsx'
 import { SidebarContextProvider } from './Context/SidebarContext.jsx'
+import { OrderContextProvider } from './Context/OrderContent.jsx'
 
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AuthContextProvider>
-      <DarkModeContextProvider>
-        <SidebarContextProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-        </SidebarContextProvider>
-      </DarkModeContextProvider>
-    </AuthContextProvider>
+    <OrderContextProvider>
+      <AuthContextProvider>
+        <DarkModeContextProvider>
+          <SidebarContextProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </SidebarContextProvider>
+        </DarkModeContextProvider>
+      </AuthContextProvider>
+    </OrderContextProvider>
   </StrictMode>,
 )

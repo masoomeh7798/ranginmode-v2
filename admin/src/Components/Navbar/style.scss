@@ -32,7 +32,7 @@
                 cursor: pointer;
 
                 .icon {
-                    font-size: 20px;
+                    font-size: 28px;
                 }
 
                 .avatar {
@@ -44,7 +44,7 @@
                 .counter {
                     position: absolute;
                     top: -5px;
-                    left: -5px;
+                    right: -5px;
                     width: 15px;
                     height: 15px;
                     background: var(--secondary-clr);

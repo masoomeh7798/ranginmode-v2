@@ -1,20 +1,22 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import "./style.scss"
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { ChatBubbleOutlineOutlined, DarkModeOutlined, FullscreenExitOutlined, ListOutlined, NotificationsNoneOutlined } from '@mui/icons-material';
 import { DarkModeContext } from '../../Context/DarkModeContext.jsx';
 import { AuthContext } from '../../Context/AuthContext.jsx';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import { SidebarContext } from '../../Context/SidebarContext.jsx';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
+import { OrderContext } from '../../Context/OrderContent.jsx';
 
 
 export default function Navbar() {
   const { dispatch } = useContext(DarkModeContext)
-  const { user } = useContext(AuthContext)
+  const { user ,token} = useContext(AuthContext)
   const { dispatch: sidebarDispatch, isOpenSidebar } = useContext(SidebarContext)
-
+  const {newOrder}=useContext(OrderContext)
+  const [numOfNewOrders, setNumOfNewOrders] = useState(0);
 
   // backdrop
   // Control body overflow based on sidebar state
@@ -35,6 +37,28 @@ export default function Navbar() {
     sidebarDispatch({ type: 'TOGGLE_SIDEBAR' })
   };
 
+  // get the number of new orders for notification icon
+  useEffect(() => {
+    (async()=>{
+      try {
+      const res=await fetch(`${import.meta.env.VITE_BASE_API}order?filters[status][$eq]=failed`,{
+        method:'GET',
+        headers:{
+          authorization:`Bearer ${token}`,
+          "content-type":'application/json'
+        }
+      })
+      const data=await res.json()
+      console.log(data);
+      if(data?.success){
+        setNumOfNewOrders(data?.count)
+      }
+      } catch (error) {
+        console.log(error);
+      }
+    })()
+  }, [newOrder]);
+
 
   return (
     <>
@@ -43,18 +67,13 @@ export default function Navbar() {
           <div onClick={() => { sidebarDispatch({ type: 'TOGGLE_SIDEBAR' }) }} className="hamburgerMenu">
             <MenuOutlinedIcon />
           </div>
-
-          {/* <div className="search">
-          <input type="text" placeholder='اينجا پيدا كن...' />
-          <SearchOutlinedIcon className='icon'/>
-        </div> */}
           <div className="items">
-            <div onClick={() => dispatch({ type: 'TOGGLE' })} className="item">
-              <DarkModeOutlined className='icon' />
-            </div>
             <div className="item">
-              <NotificationsNoneOutlined className='icon' />
-              <div className="counter">1</div>
+              <CircleNotificationsIcon className='icon' />
+              <div className="counter">{numOfNewOrders}</div>
+            </div>
+            <div onClick={() => dispatch({ type: 'TOGGLE' })} className="item">
+              <Brightness4Icon className='icon' />
             </div>
             <div className="item">
               <img src={import.meta.env.VITE_BASE_URL + user?.img} alt="avatar" className="avatar" />
